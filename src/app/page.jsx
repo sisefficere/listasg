@@ -1,7 +1,6 @@
 import prisma from "$/src/lib/prisma";
 
 export default async function Home() {
-  const classificacoes = await prisma.classificacoes.findMany();
   const categorias = await prisma.categorias.findMany({
     where: {
       OR: [
@@ -17,22 +16,6 @@ export default async function Home() {
     },
   });
 
-  // TODO: EXIBE SOMENTE CATEGORIAS QUE TIVEREM OU SUBCATEGORIA OU CLASSIFICADOS/ANUNCIANTES
-  /*async function consultaAnunciantes(id, prisma){
-    const resultado = await prisma.anunciantes.findMany({
-    where: { categoria: id }
-  })
-
-    return resultado
-  }
-  async function consultaSubcategorias(id,prisma){
-    const resultado = await prisma.subcategorias.findMany({
-    where: { categoria: slugInt },
-  });
-  return resultado
-  }
-  categorias.map((el) => (<></>))*/
-
   return (
     <div className="flex flex-col items-center justify-center gap-[25px]">
       <div className="flex flex-col w-full items-center">
@@ -41,7 +24,7 @@ export default async function Home() {
       </div>
       <ul className="flex flex-col gap-[10px] w-full ">
         {categorias.map((el) => (
-          <a href={`/categorias/${el.id}`}>
+          <a href={`/categoria/${el.id}`}>
             <li
               key={el.id}
               className="px-5 py-2 text-white transition-all duration-300 hover:bg-azul-2-principal hover:border-azul-1-escuro bg-azul-1-escuro border-azul-2-principal rounded-[5px] border-2 flex gap-[10px]"

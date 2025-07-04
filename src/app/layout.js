@@ -1,5 +1,5 @@
 import localFont from 'next/font/local'
-import Header from '$/src/lib/components/molecules/header.jsx'
+import Header from '$/src/lib/components/molecules/header/header.jsx'
 import "./globals.css";
 
 const lexend = localFont({
