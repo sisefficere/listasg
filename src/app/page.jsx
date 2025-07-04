@@ -2,7 +2,20 @@ import prisma from "$/src/lib/prisma";
 
 export default async function Home() {
   const classificacoes = await prisma.classificacoes.findMany();
-  const categorias = await prisma.categorias.findMany();
+  const categorias = await prisma.categorias.findMany({
+    where: {
+      OR: [
+        {
+          subcategorias: {
+            some: {},
+          },
+        },
+        {anunciantes: {
+          some: {},
+        },}
+      ],
+    },
+  });
 
   // TODO: EXIBE SOMENTE CATEGORIAS QUE TIVEREM OU SUBCATEGORIA OU CLASSIFICADOS/ANUNCIANTES
   /*async function consultaAnunciantes(id, prisma){
