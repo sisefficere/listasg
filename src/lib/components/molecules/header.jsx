@@ -2,7 +2,13 @@ export default async function Home() {
   return (
     <header className="flex flex-col w-full items-center h-full">
       <div className="flex flex-wrap w-full items-center h-full justify-between estrutura-padding bg-vermelho-1-escuro py-5">
-        <img src="/logo-listasg.webp" alt="" className="w-full max-w-[100px]" />
+        <a href="/">
+          <img
+            src="/logo-listasg.webp"
+            alt=""
+            className="w-full max-w-[100px]"
+          />
+        </a>
         <nav>
           <ul className="flex gap-2 tipo-enfase text-white">
             <li>Anúncios</li>

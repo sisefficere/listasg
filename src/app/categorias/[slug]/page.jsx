@@ -17,7 +17,7 @@ export default async function Page({ params }) {
     <div className="flex flex-col items-center justify-center gap-[50px] estrutura-padding">
       <div>
         <div className="flex flex-col w-full items-center">
-          <h1 className="tipo-titulo1">Classificados em "{categoria.nome}"</h1>
+          <h2 className="tipo-titulo2">Classificados em "{categoria.nome}"</h2>
         </div>
       </div>
       <div>
@@ -26,7 +26,7 @@ export default async function Page({ params }) {
             anunciantes.map((el) => (
               <div
                 key={el.id}
-                className="px-5 py-2 w-full max-w-[900px] transition-all items-center duration-300 border-vermelho-3 rounded-[5px] border-2 flex gap-5"
+                className="px-5 py-2 w-full max-w-[900px] transition-all items-center duration-300 border-vermelho-3 rounded-[5px] border-2 flex flex-wrap gap-5"
               >
                 <img
                   src={el.src_image}
