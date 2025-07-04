@@ -63,7 +63,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="pt-BR" className={lexend.variable}>
       <body
-        className='font-lexend flex flex-col items-center estrutura-container gap-[100px]'
+        className='font-lexend flex flex-col items-center estrutura-container gap-[50px]'
       >
         <Header/>
         {children}
