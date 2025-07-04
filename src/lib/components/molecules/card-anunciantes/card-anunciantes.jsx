@@ -7,14 +7,14 @@ export function CardAnunciantes({
 }) {
   return (
     <div
-      className="px-5 py-2 w-full max-w-[900px] transition-all items-center duration-300 border-vermelho-3 rounded-[5px] border-2 flex flex-wrap gap-5"
+      className="px-5 py-2 w-full max-w-[900px] items-center border-vermelho-3 rounded-[5px] border-2 flex flex-wrap gap-5"
     >
       <img
         src={srcImage}
         alt=""
         className="w-full max-w-[200px] rounded-[5px] shadow-md"
       />
-      <div className="flex flex-col gap-5 w-max max-w-[500px]">
+      <div className="flex flex-col gap-5 w-full break-words max-w-[500px]">
         <div className="flex flex-col w-full">
           <p className="tipo-enfase">{nome}</p>
           {descricao ? <p>{descricao}</p> : <></>}
