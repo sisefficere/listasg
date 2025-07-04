@@ -5,8 +5,13 @@ export default async function Home() {
     where: {
       OR: [
         {
+          //TODO: CONSIDERAR COMO VALIDAS SUBCATEGORIAS COM CLASSIFICADOS
           subcategorias: {
-            some: {},
+            some: {
+              anunciantes:{
+                some: {}
+              }
+            },
           },
         },
         {anunciantes: {

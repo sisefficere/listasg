@@ -10,9 +10,9 @@ export default async function Page({ params }) {
   const subcategorias = await prisma.subcategorias.findMany({
     where: {
       categoria: slugInt,
-        anunciantes: {
-          some: {},
-        },
+      anunciantes: {
+        some: {},
+      },
     },
   });
 
@@ -40,7 +40,10 @@ export default async function Page({ params }) {
                 contato={el.contato}
               />
             ))
-          ) : subcategorias.length != 0 ? (
+          ) : (
+            <></>
+          )}
+          {subcategorias.length != 0 ? (
             <div>
               <div className="flex flex-col gap-[10px] w-full ">
                 {subcategorias.map((el) => (
@@ -73,9 +76,14 @@ export default async function Page({ params }) {
               </div>
             </div>
           ) : (
+            <></>
+          )}
+          {subcategorias.length == 0 && anunciantes.length == 0 ? (
             <div className="flex flex-col items-center gap-[5px]">
               <p>Não encontramos classificados nesta categoria :/</p>
             </div>
+          ) : (
+            <></>
           )}
           <a href="/" className="underline">
             Volte para o início
