@@ -1,0 +1,45 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model anunciantes {
+  id            Int            @id(map: "inicial_pkey") @default(autoincrement())
+  nome_empresa  String         @unique
+  descricao     String?
+  endereco      String?
+  contato       String
+  src_image     String?
+  categoria     Int?
+  subcategoria  Int?
+  categorias    categorias?    @relation(fields: [categoria], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ref_categoria")
+  subcategorias subcategorias? @relation(fields: [subcategoria], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ref_subcategoria")
+}
+
+model categorias {
+  id             Int             @id @default(autoincrement())
+  nome           String?         @unique
+  classificacao  Int?
+  anunciantes    anunciantes[]
+  classificacoes classificacoes? @relation(fields: [classificacao], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "classificacao")
+  subcategorias  subcategorias[]
+}
+
+model classificacoes {
+  id         Int          @id @default(autoincrement())
+  nome       String?      @unique
+  categorias categorias[]
+}
+
+model subcategorias {
+  id          Int           @id @default(autoincrement())
+  nome        String?       @unique
+  categoria   Int?
+  anunciantes anunciantes[]
+  categorias  categorias?   @relation(fields: [categoria], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "categoria")
+}

@@ -1,15 +1,58 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from 'next/font/local'
+import Header from '$/src/lib/components/molecules/header.jsx'
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const lexend = localFont({
+  display:'swap',
+  variable:'--font-lexend',
+  src:[
+    {
+      path: '../../public/fonts/Lexend-Black.woff',
+      weight: '900',
+      style: 'normal'
+    },
+    {
+      path: '../../public/fonts/Lexend-Bold.woff',
+      weight: '700',
+      style: 'normal'
+    },
+    {
+      path: '../../public/fonts/Lexend-ExtraBold.woff',
+      weight: '800',
+      style: 'normal'
+    },
+    {
+      path: '../../public/fonts/Lexend-ExtraLight.woff',
+      weight: '200',
+      style: 'normal'
+    },
+    {
+      path: '../../public/fonts/Lexend-Light.woff',
+      weight: '300',
+      style: 'normal'
+    },
+    {
+      path: '../../public/fonts/Lexend-Medium.woff',
+      weight: '500',
+      style: 'normal'
+    },
+    {
+      path: '../../public/fonts/Lexend-Regular.woff',
+      weight: '400',
+      style: 'normal'
+    },
+    {
+      path: '../../public/fonts/Lexend-SemiBold.woff',
+      weight: '600',
+      style: 'normal'
+    },
+    {
+      path: '../../public/fonts/Lexend-Thin.woff',
+      weight: '100',
+      style: 'normal'
+    },
+  ],
+})
 
 export const metadata = {
   title: "Create Next App",
@@ -18,10 +61,11 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="pt-BR" className={lexend.variable}>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className='font-lexend flex flex-col items-center estrutura-container gap-[100px]'
       >
+        <Header/>
         {children}
       </body>
     </html>

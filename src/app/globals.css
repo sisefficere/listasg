@@ -1,26 +1,92 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --font-lexend: var(--font-lexend);
+
+  --color-laranja-1-escuro: #805300;
+  --color-laranja-2-principal: #FFA500;
+  --color-laranja-3: #FFDB99;
+  --color-laranja-4-claro: #FFF6E5;
+  --color-vermelho-1-escuro: #B20000;
+  --color-vermelho-2-principal: #FF0000;
+  --color-vermelho-3: #FF9999;
+  --color-vermelho-4-claro: #FFE5E5;
+  --color-azul-1-escuro: #000099;
+  --color-azul-2-principal: #0000FF;
+  --color-azul-3: #9999FF;
+  --color-azul-4-claro: #E5E5FF;
+  --color-verde-1-escuro: #008000;
+  --color-verde-2-principal: #00FF00;
+  --color-verde-3: #B2FFB2;
+  --color-verde-4-claro: #E5FFE5;
+  --color-amarelo-1-escuro: #B2B200;
+  --color-amarelo-2-principal: #FFFF00;
+  --color-amarelo-3: #FFFFB2;
+  --color-amarelo-4-claro: #FFFFE5;
+  --color-branco-1-escuro: #343434;
+  --color-branco-2: #D9D9D9;
+  --color-branco-3: #F2F2F2;
+  --color-branco-4-cçaro-principal: #FFFFFF;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.estrutura-container {
+  @apply w-full mx-auto max-w-[96rem];
+}
+.estrutura-padding {
+  @apply max-lg:px-5 lg:max-2xl:px-10;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/*
+  TIPOGRAFIA
+*/
+.tipo-titulo1 {
+  @apply text-[2.5rem] font-extrabold leading-none;
 }
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.tipo-titulo1--desktop {
+  @apply text-[3.125rem] font-extrabold leading-none;
+}
+.tipo-titulo2 {
+  @apply text-[2rem] font-bold leading-none;
+}
+.tipo-titulo2--desktop {
+  @apply text-[2.5rem] font-bold leading-none;
+}
+.tipo-titulo3 {
+  @apply text-[1.75rem] font-bold leading-none;
+}
+.tipo-titulo3--desktop {
+  @apply text-[35px] font-bold leading-none;
+}
+.tipo-titulo4 {
+  @apply text-[1.25rem] font-bold leading-none;
+}
+.tipo-titulo4--desktop {
+  @apply text-[1.5rem] font-bold leading-none;
+}
+.tipo-subtitulo {
+  @apply text-lg font-extralight leading-none;
+}
+.tipo-subtitulo--desktop {
+  @apply text-[1.25rem] font-light leading-[1.1];
+}
+.tipo-etiqueta {
+  @apply font-extralight leading-[1.1];
+}
+.tipo-label {
+  @apply font-medium text-[13px] leading-[1.1];
+}
+.tipo-paragrafo {
+  @apply text-[13px] leading-[1.5];
+}
+.tipo-paragrafo--desktop {
+  @apply leading-[1.5];
+}
+.tipo-rodape {
+  @apply text-[13px] leading-[1.1] font-light;
+}
+.tipo-enfase {
+  @apply text-lg font-semibold leading-[1.1];
+}
+.tipo-irrelevante {
+  @apply text-[10px] font-light leading-[1.1];
 }
