@@ -1,6 +1,7 @@
 import localFont from 'next/font/local'
 import Header from '$/src/lib/components/molecules/header/header.jsx'
 import "./globals.css";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const lexend = localFont({
   display:'swap',
@@ -65,6 +66,7 @@ export default function RootLayout({ children }) {
       <body
         className='font-lexend flex flex-col items-center estrutura-container gap-[50px] pb-[50px]'
       >
+        <SpeedInsights/>
         <Header/>
         {children}
       </body>
