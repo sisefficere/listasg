@@ -1,6 +1,11 @@
 import prisma from "$/src/lib/prisma";
 import { BulletItem } from "../lib/components/molecules/bullet-item/bullet-item";
 
+export const metadata = {
+  title: 'ListaSG Classificados',
+  description: 'Aqui você encontra o que precisa',
+}
+
 export default async function Home() {
   const categorias = await prisma.categorias.findMany({
     where: {
@@ -20,6 +25,9 @@ export default async function Home() {
         },}
       ],
     },
+    orderBy:{
+      nome: 'asc'
+    }
   });
 
   return (

@@ -2,7 +2,26 @@ import { BulletItem } from "$/src/lib/components/molecules/bullet-item/bullet-it
 import { CardAnunciantes } from "$/src/lib/components/molecules/card-anunciantes/card-anunciantes";
 import prisma from "$/src/lib/prisma";
 
+
+export async function generateMetadata({ params }) {
+  // read route params
+  const { slug } = await params;
+  const slugInt = parseInt(slug);
+
+  const categoria = await prisma.categorias.findUnique({
+    where: { id: slugInt },
+    select:{
+      nome: true
+    }
+  });
+ 
+  return {
+    title: `${categoria.nome} - ${process.env.TITULO}`
+  }
+}
+ 
 export default async function Page({ params }) {
+  
   const { slug } = await params;
   const slugInt = parseInt(slug);
   const categoria = await prisma.categorias.findUnique({
@@ -16,7 +35,7 @@ export default async function Page({ params }) {
       },
     },
   });
-
+  
   const anunciantes = await prisma.anunciantes.findMany({
     where: { categoria: slugInt },
   });
