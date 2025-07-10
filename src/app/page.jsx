@@ -33,7 +33,7 @@ export default async function Home() {
   return (
     <div className="flex flex-col items-center justify-center gap-[25px] estrutura-padding">
       <div className="flex flex-col w-full items-center">
-        <h1 className="tipo-titulo1">Seja bem vindo!</h1>
+        <h1 className="tipo-titulo1">Bem vindo(a)!</h1>
         <p className="tipo-subtitulo">Escolha uma categoria</p>
       </div>
       <ul className="flex flex-col gap-[10px] w-full ">
