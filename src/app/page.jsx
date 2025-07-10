@@ -31,7 +31,7 @@ export default async function Home() {
   });
 
   return (
-    <div className="flex flex-col items-center justify-center gap-[25px]">
+    <div className="flex flex-col items-center justify-center gap-[25px] estrutura-padding">
       <div className="flex flex-col w-full items-center">
         <h1 className="tipo-titulo1">Seja bem vindo!</h1>
         <p className="tipo-subtitulo">Escolha uma categoria</p>

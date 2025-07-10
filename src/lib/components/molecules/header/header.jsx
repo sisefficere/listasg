@@ -1,7 +1,7 @@
 export default async function Home() {
   return (
     <header className="flex flex-col w-full items-center h-full">
-      <div className="flex flex-wrap w-full items-center h-full justify-center estrutura-padding bg-vermelho-1-escuro py-5">
+      <div className="flex flex-wrap w-full items-center h-full justify-center estrutura-padding bg-vermelho-1-escuro pt-10 pb-5">
         <a href="/">
           <img
             src="/logo-listasg.webp"
