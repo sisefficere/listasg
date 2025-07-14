@@ -26,7 +26,11 @@
   --color-branco-1-escuro: #343434;
   --color-branco-2: #D9D9D9;
   --color-branco-3: #F2F2F2;
-  --color-branco-4-cçaro-principal: #FFFFFF;
+  --color-branco-4-claro-principal: #FFFFFF;
+}
+
+*{
+  box-sizing: border-box
 }
 
 .estrutura-container {

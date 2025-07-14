@@ -37,18 +37,18 @@ export default async function Home({searchParams}) {
   });
 
   return (
-    <div className="flex flex-col items-center justify-center gap-[25px] estrutura-padding">
+    <div className="flex flex-col items-center justify-center gap-[25px] estrutura-padding max-w-[56.25rem]">
       <div className="flex flex-col w-full items-center">
         <h1 className="tipo-titulo1">Bem vindo(a)!</h1>
       </div>
-      <div className="flex flex-col gap-2 w-full">
+      <div className="flex flex-col gap-2 justify-center h-full w-full">
         <Pesquisa/>
         <Suspense key={query + currentPage} fallback={<><p>Pesquisando ...</p></>}>
           <ResultadoPesquisa query={query} currentPage={currentPage}/>
         </Suspense>
       </div>
-      <p>Se desejar, escolha uma categoria abaixo:</p>
-      <ul className="flex flex-col gap-[10px] w-full ">
+      <p className="tipo-enfase">Ou escolha uma categoria abaixo:</p>
+      <ul className="flex flex-wrap justify-center gap-[10px] w-full ">
         {categorias.map((el) => (
           <BulletItem key={el.id} href={`/categoria/${el.id}`} nome={el.nome}/>
         ))}
