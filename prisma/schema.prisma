@@ -13,10 +13,14 @@ model anunciantes {
   nome_empresa  String         @unique
   descricao     String?
   endereco      String?
-  contato       String
+  telefone      String
   src_image     String?
   categoria     Int?
   subcategoria  Int?
+  email         String?
+  instagram     String?
+  facebook      String?
+  whatsapp      String?
   categorias    categorias?    @relation(fields: [categoria], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ref_categoria")
   subcategorias subcategorias? @relation(fields: [subcategoria], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ref_subcategoria")
 }

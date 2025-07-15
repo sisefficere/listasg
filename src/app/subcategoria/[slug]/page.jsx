@@ -57,7 +57,7 @@ export default async function Page({ params }) {
                 nome={el.nome_empresa}
                 descricao={el.descricao}
                 endereco={el.endereco}
-                contato={el.contato}
+                contato={el.telefone}
               />
             ))
           ) : (
