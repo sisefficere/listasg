@@ -4,6 +4,10 @@ export function CardAnunciantes({
   descricao,
   endereco,
   telefones,
+  facebook,
+  instagram,
+  whatsapp,
+  email,
 }) {
   return (
     <div className="px-5 py-2 w-full max-w-[900px] items-center border-vermelho-3 rounded-[5px] border-2 flex flex-wrap gap-5">
@@ -17,7 +21,7 @@ export function CardAnunciantes({
           <p className="tipo-enfase">{nome}</p>
           {descricao ? <p>{descricao}</p> : <></>}
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-5">
           {endereco ? (
             <p>
               <span className="font-bold">Endereço</span>: {endereco}
@@ -25,20 +29,99 @@ export function CardAnunciantes({
           ) : (
             <></>
           )}
-          {telefones?.length != 0 ? (
-            <p><span className="font-bold">Telefones: </span>
-              {
-                telefones.map((el, index) => (
+          <div className="flex flex-col gap-2">
+            <h3 className="tipo-titulo3">Contato</h3>
+            {telefones?.length != 0 ? (
+              <p>
+                <span className="font-bold">Telefones: </span>
+                {telefones.map((el, index) => (
                   <>
-                  <a href={`tel:${el}`} className="decoration-solid underline decoration-1">{el.trim()}
-                  </a>{index != telefones.length - 1 ? ", " : ""}
+                    <a
+                      href={`tel:${el}`}
+                      className="decoration-solid underline decoration-1"
+                    >
+                      {el.trim()}
+                    </a>
+                    {index != telefones.length - 1 ? ", " : ""}
                   </>
-                ))
-              }
-            </p>
-          ) : (
-            <></>
-          )}
+                ))}
+              </p>
+            ) : (
+              <></>
+            )}
+            {whatsapp?.length != 0 ? (
+              <p>
+                <span className="font-bold">Facebook: </span>
+                {telefones.map((el, index) => (
+                  <>
+                    <a
+                      href={`tel:${el}`}
+                      className="decoration-solid underline decoration-1"
+                    >
+                      {el.trim()}
+                    </a>
+                    {index != telefones.length - 1 ? ", " : ""}
+                  </>
+                ))}
+              </p>
+            ) : (
+              <></>
+            )}
+            {email?.length != 0 ? (
+              <p>
+                <span className="font-bold">Facebook: </span>
+                {telefones.map((el, index) => (
+                  <>
+                    <a
+                      href={`tel:${el}`}
+                      className="decoration-solid underline decoration-1"
+                    >
+                      {el.trim()}
+                    </a>
+                    {index != telefones.length - 1 ? ", " : ""}
+                  </>
+                ))}
+              </p>
+            ) : (
+              <></>
+            )}
+            {facebook?.length != 0 ? (
+              <p>
+                <span className="font-bold">Facebook: </span>
+                {telefones.map((el, index) => (
+                  <>
+                    <a
+                      href={`tel:${el}`}
+                      className="decoration-solid underline decoration-1"
+                    >
+                      {el.trim()}
+                    </a>
+                    {index != telefones.length - 1 ? ", " : ""}
+                  </>
+                ))}
+              </p>
+            ) : (
+              <></>
+            )}
+            {instagram?.length != 0 ? (
+              <p>
+                <span className="font-bold">Facebook: </span>
+                {telefones.map((el, index) => (
+                  <>
+                    <a
+                      href={`tel:${el}`}
+                      className="decoration-solid underline decoration-1"
+                    >
+                      {el.trim()}
+                    </a>
+                    {index != telefones.length - 1 ? ", " : ""}
+                  </>
+                ))}
+              </p>
+            ) : (
+              <></>
+            )}
+          </div>
         </div>
       </div>
     </div>
