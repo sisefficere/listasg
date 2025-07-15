@@ -3,12 +3,10 @@ export function CardAnunciantes({
   nome,
   descricao,
   endereco,
-  contato,
+  telefones,
 }) {
   return (
-    <div
-      className="px-5 py-2 w-full max-w-[900px] items-center border-vermelho-3 rounded-[5px] border-2 flex flex-wrap gap-5"
-    >
+    <div className="px-5 py-2 w-full max-w-[900px] items-center border-vermelho-3 rounded-[5px] border-2 flex flex-wrap gap-5">
       <img
         src={srcImage}
         alt=""
@@ -27,9 +25,16 @@ export function CardAnunciantes({
           ) : (
             <></>
           )}
-          {contato ? (
-            <p>
-              <span className="font-bold">Contato</span>: {contato}
+          {telefones?.length != 0 ? (
+            <p><span className="font-bold">Telefones: </span>
+              {
+                telefones.map((el, index) => (
+                  <>
+                  <a href={`tel:${el}`} className="decoration-solid underline decoration-1">{el.trim()}
+                  </a>{index != telefones.length - 1 ? ", " : ""}
+                  </>
+                ))
+              }
             </p>
           ) : (
             <></>

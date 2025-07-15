@@ -38,6 +38,12 @@ export default async function Page({ params }) {
     where: { subcategoria: slugInt },
   });
 
+  anunciantes.forEach((el)=>{
+    const telefones = el.telefone.split(",")
+
+    el.telefone = telefones
+  })
+
   return (
     <div className="flex flex-col items-center justify-center gap-[50px] estrutura-padding">
       <div>
@@ -57,7 +63,7 @@ export default async function Page({ params }) {
                 nome={el.nome_empresa}
                 descricao={el.descricao}
                 endereco={el.endereco}
-                contato={el.telefone}
+                telefones={el.telefone}
               />
             ))
           ) : (

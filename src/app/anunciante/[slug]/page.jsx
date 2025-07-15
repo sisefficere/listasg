@@ -28,6 +28,8 @@ export default async function Page({ params }) {
     where: { id: slugInt },
   });
 
+  const telefones = anunciante.telefone.split(",")
+
   return (
     <div className="flex flex-col items-center justify-center gap-[50px] estrutura-padding w-full">
       <div className="flex flex-col w-full items-center">
@@ -40,7 +42,7 @@ export default async function Page({ params }) {
               nome={anunciante.nome_empresa}
               descricao={anunciante.descricao}
               endereco={anunciante.endereco}
-              contato={anunciante.contato}
+              telefones={telefones}
             />
           <a href="/" className="underline">
             Volte para o início
