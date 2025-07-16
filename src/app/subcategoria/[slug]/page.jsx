@@ -10,7 +10,7 @@ export async function generateMetadata({ params }) {
     where: { id: slugInt },
     select: {
       nome: true,
-      categoria: true
+      categoria: true,
     },
   });
   const categoria = await prisma.categorias.findUnique({
@@ -38,14 +38,22 @@ export default async function Page({ params }) {
     where: { subcategoria: slugInt },
   });
 
-  anunciantes.forEach((el)=>{
-    const telefones = el.telefone.split(",")
+  anunciantes.forEach((el) => {
+    const telefones = el.telefone ? el.telefone.split(",") : [];
+    const usuariosFacebook = el.facebook ? el.facebook.split(",") : [];
+    const usuariosWpp = el.whatsapp ? el.whatsapp.split(",") : [];
+    const usuariosInstagram = el.instagram ? el.instagram.split(",") : [];
+    const emails = el.email ? el.email.split(",") : [];
 
-    el.telefone = telefones
-  })
+    el.telefone = telefones;
+    el.facebook = usuariosFacebook;
+    el.whatsapp = usuariosWpp;
+    el.instagram = usuariosInstagram;
+    el.email = emails;
+  });
 
   return (
-    <div className="flex flex-col items-center justify-center gap-[50px] estrutura-padding">
+    <div className="flex flex-col items-center justify-center gap-[50px] estrutura-padding w-full">
       <div>
         <div className="flex flex-col w-full items-center">
           <h2 className="tipo-titulo2">
@@ -53,27 +61,31 @@ export default async function Page({ params }) {
           </h2>
         </div>
       </div>
-      <div>
-        <div className="flex flex-col items-center gap-5 w-full ">
-          {anunciantes.length != 0 ? (
-            anunciantes.map((el) => (
-              <CardAnunciantes
-                key={el.id}
-                srcImage={el.src_image}
-                nome={el.nome_empresa}
-                descricao={el.descricao}
-                endereco={el.endereco}
-                telefones={el.telefone}
-              />
-            ))
-          ) : (
-            <></>
-          )}
-          <a href="/" className="underline">
-            Volte para o início
-          </a>
-        </div>
+      <div className="flex flex-col items-center gap-5 w-full ">
+        {anunciantes.length != 0 ? (
+          anunciantes.map((el) => (
+            <CardAnunciantes
+              key={el.id}
+              srcImage={el.src_image}
+              nome={el.nome_empresa}
+              descricao={el.descricao}
+              endereco={el.endereco}
+              contatos={{
+                telefones: el.telefone,
+                facebook: el.facebook,
+                whatsapp: el.whatsapp,
+                email: el.email,
+                instagram: el.instagram,
+              }}
+            />
+          ))
+        ) : (
+          <></>
+        )}
       </div>
+      <a href="/" className="underline">
+        Volte para o início
+      </a>
     </div>
   );
 }

@@ -4,7 +4,7 @@ export function BulletItem({ href, nome }) {
   return (
     <Link
       href={href}
-      className="px-5 py-2 text-white transition-all duration-300 hover:bg-azul-2-principal hover:border-azul-1-escuro bg-azul-1-escuro border-azul-2-principal rounded-[5px] border-2 flex items-center gap-[10px] w-full max-w-[300px]"
+      className="px-5 py-2 text-white transition-all duration-300 hover:bg-azul-2-principal hover:border-azul-1-escuro bg-azul-1-escuro border-azul-2-principal rounded-[5px] border-2 flex items-center gap-[10px] w-full md:max-w-[300px]"
     >
       <svg
         enableBackground="new 0 0 32 32"

@@ -63,9 +63,9 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="pt-BR" className={lexend.variable}>
+    <html lang="pt-BR" className={`overflow-x-hidden w-full ${lexend.variable}`}>
       <body
-        className='font-lexend flex flex-col items-center estrutura-container gap-[50px] pb-5'
+        className='font-lexend flex flex-col items-center w-full overflow-x-hidden estrutura-container gap-[50px] pb-5'
       >
         <SpeedInsights/>
         <Header/>
