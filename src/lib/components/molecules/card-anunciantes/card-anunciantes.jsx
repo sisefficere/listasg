@@ -80,7 +80,7 @@ export function CardAnunciantes({
                       target="_blank"
                       href={`https://wa.me/55${el
                         .replace(" ", "")
-                        .replace("-", "")}`}
+                        .replace("-", "")}?text=Ol%C3%A1%21%20Vim%20do%20aplicativo%20ListaSG.%20%5BN%C3%83O%20EXCLUA%5D`}
                       className="bg-verde-2-principal text-branco-4-claro-principal flex-col w-full max-w-[120px] px-2 py-2 rounded-md flex items-center justify-center gap-2"
                     >
                       <svg
