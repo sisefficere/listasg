@@ -2,6 +2,7 @@ import localFont from 'next/font/local'
 import Header from '$/src/lib/components/molecules/header/header.jsx'
 import "./globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import Rodape from '../lib/components/organisms/rodape/rodape';
 
 const lexend = localFont({
   display:'swap',
@@ -64,11 +65,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="pt-BR" className={lexend.variable}>
       <body
-        className='font-lexend flex flex-col items-center estrutura-container gap-[50px] pb-[50px]'
+        className='font-lexend flex flex-col items-center estrutura-container gap-[50px] pb-5'
       >
         <SpeedInsights/>
         <Header/>
         {children}
+        <Rodape/>
       </body>
     </html>
   );
