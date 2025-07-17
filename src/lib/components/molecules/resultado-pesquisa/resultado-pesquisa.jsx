@@ -13,6 +13,12 @@ export default async function ResultadoPesquisa({ query, currentPage }) {
               mode: "insensitive",
             },
           },
+          {
+            descricao: {
+              contains: query,
+              mode: "insensitive",
+            },
+          },
         ],
       },
       select: {
@@ -28,10 +34,9 @@ export default async function ResultadoPesquisa({ query, currentPage }) {
       {query != "" && anunciantes?.length != 0 ? (
         <div className="flex flex-col gap-5 h-full p-5 border-azul-2-principal rounded-[5px] border-2">
           {anunciantes?.map((el) => (
-            <div className="flex flex-wrap items-center gap-2">
+            <div className="flex flex-wrap items-center gap-[10px]">
               <p className="">
-                <span className="font-bold">{el.nome_empresa}</span> -{" "}
-                {el.endereco}
+                <span className="font-bold">{el.nome_empresa}</span> {el.endereco ? `- ${el.endereco}` : ""}
               </p>
               <a
                 href={`/anunciante/${el.id}`}

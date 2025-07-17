@@ -21,6 +21,7 @@ model anunciantes {
   instagram     String?
   facebook      String?
   whatsapp      String?
+  website       String?
   categorias    categorias?    @relation(fields: [categoria], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ref_categoria")
   subcategorias subcategorias? @relation(fields: [subcategoria], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ref_subcategoria")
 }

@@ -35,12 +35,14 @@ export default async function Page({ params }) {
     ? anunciante.instagram.split(",")
     : [];
   const emails = anunciante.email ? anunciante.email.split(",") : [];
+  const websites = anunciante.website ? anunciante.website.split(",") : [];
 
   anunciante.telefone = telefones;
   anunciante.facebook = usuariosFacebook;
   anunciante.whatsapp = usuariosWpp;
   anunciante.instagram = usuariosInstagram;
   anunciante.email = emails;
+  anunciante.website = websites;
 
   return (
     <div className="flex flex-col items-center justify-center gap-[50px] estrutura-padding w-full">
@@ -59,6 +61,7 @@ export default async function Page({ params }) {
             instagram: anunciante.instagram,
             whatsapp: anunciante.whatsapp,
             email: anunciante.email,
+            website: anunciante.website
           }}
         />
       </div>

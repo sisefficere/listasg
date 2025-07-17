@@ -44,12 +44,14 @@ export default async function Page({ params }) {
     const usuariosWpp = el.whatsapp ? el.whatsapp.split(",") : [];
     const usuariosInstagram = el.instagram ? el.instagram.split(",") : [];
     const emails = el.email ? el.email.split(",") : [];
+    const websites = el.website ? el.website.split(",") : [];
 
     el.telefone = telefones;
     el.facebook = usuariosFacebook;
     el.whatsapp = usuariosWpp;
     el.instagram = usuariosInstagram;
     el.email = emails;
+    el.website = websites;
   });
 
   return (
@@ -76,6 +78,7 @@ export default async function Page({ params }) {
                 whatsapp: el.whatsapp,
                 email: el.email,
                 instagram: el.instagram,
+                website: el.website
               }}
             />
           ))
