@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+@plugin "@tailwindcss/typography";
+
+
 @theme {
   --font-lexend: var(--font-lexend);
 
@@ -38,6 +41,10 @@
 }
 .estrutura-padding {
   @apply max-lg:px-5 lg:max-2xl:px-10;
+}
+
+.link{
+  @apply decoration-solid break-all underline decoration-1;
 }
 
 /*

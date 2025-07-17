@@ -56,12 +56,10 @@ export default async function Page({ params }) {
 
   return (
     <div className="flex flex-col items-center justify-center gap-[50px] estrutura-padding w-full">
-      <div>
-        <div className="flex flex-col w-full items-center">
+      <div className="flex flex-col w-full items-center">
           <h2 className="tipo-titulo2">
             Classificados em "{categoria.nome} {">"} {subcategoria.nome}"
           </h2>
-        </div>
       </div>
       <div className="flex flex-col items-center gap-5 w-full ">
         {anunciantes.length != 0 ? (

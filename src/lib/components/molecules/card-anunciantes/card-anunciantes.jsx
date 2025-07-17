@@ -49,7 +49,7 @@ export function CardAnunciantes({
                   {contatos.telefones.map((el, index) => (
                       <a
                         href={`tel:${el}`}
-                        className="decoration-solid break-all underline tipo-paragrafo decoration-1 flex gap-1 items-center justify-center"
+                        className="link tipo-paragrafo  flex gap-1 items-center justify-center"
                       >
                         <svg viewBox="0 0 256 256" className="w-[20px]">
                           <rect fill="none" height="256" width="256" />

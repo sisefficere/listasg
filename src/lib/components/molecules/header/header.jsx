@@ -19,15 +19,12 @@ export default async function Home() {
         </nav>
         */}
       </div>
-      {/*
       <nav className="flex w-full justify-end bg-vermelho-3 p-2">
         <ul className="flex gap-2 tipo-rodape">
-          <li>Anuncie</li>
-          <li>Contato</li>
-          <li>Sobre</li>
+          <li><a className="link" href="/anuncie">Anuncie</a></li>
+          <li><a className="link" href="/sobre">Sobre</a></li>
         </ul>
       </nav>
-      */}
     </header>
   );
 }
