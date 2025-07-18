@@ -26,9 +26,9 @@ export default async function Rodape() {
         </p>
       </footer>
       {/*
+      */}
       
         <CookiesConsent />
-      */}
     </>
   );
 }
