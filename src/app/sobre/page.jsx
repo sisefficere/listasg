@@ -12,10 +12,13 @@ export default function Sobre() {
       </div>
       <div className="flex flex-col gap-5">
         <p>
-          Idealizado por Leopoldo Rottman, hoje possuímos mais de 3 mil acessos mensais.
+          Tudo começou há 30 anos com a Lista Telefônica Municipal idealizada e mantida por Leopoldo Rottman.
         </p>
+        <p>Com a evolução da web e dos serviços digitais, tornou-se necessário entrar no mundo virtual.</p>
+        <p>Há 2 anos o projeto ListaSG está em vigor, promovendo na internet os empresários e profissionais liberais do município.</p>
+        <p>Mensalmente recebemos em torno de 3 mil acessos e chegamos a anunciar 89% das empresas e profissionais da cidade (somando o meio digital com o físico)</p>
         <div>
-          <p>Clique nos links para entrar em contato:</p>
+          <p>Não deixe sua empresa fora do mundo digital, entre em contato:</p>
           <ul className="pl-5 list-disc">
             <li>
               <a

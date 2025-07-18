@@ -1,6 +1,6 @@
 export async function generateMetadata({ params }) {
   return {
-    title: `Contato - ${process.env.TITULO}`,
+    title: `Anuncie - ${process.env.TITULO}`,
   };
 }
 
@@ -12,14 +12,16 @@ export default function Contato() {
       </div>
       <div className="flex flex-col gap-5 max-w-[40rem]">
         <p>
-          Somos uma empresa qualificada para divulgar e promover a sua empresa
+          Somos uma empresa qualificada para divulgar e promover a sua empresa ou profissão
           na web.
         </p>
         <p>
-          Mais de 3 mil acessos mensais somente na cidade de São Gabriel, RS! Não perca essa chance, anuncie agora mesmo!
+          São mais de 3 mil acessos mensais!
         </p>
+        <p>Chegamos a anunciar 89% das empresas e profissionais da cidade</p>
+        <p>Não perca essa chance, anuncie agora mesmo!</p>
         <div>
-          <p>Clique nos links para entrar em contato:</p>
+          <p>Entre em contato:</p>
           <ul className="pl-5 list-disc">
             <li>
               <a
