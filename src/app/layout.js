@@ -66,13 +66,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
   const projectId = "smzu0vvj7r"
   Clarity.init(projectId);
-  
+
   return (
     <html
       lang="pt-BR"
-      className={`overflow-x-hidden w-full ${lexend.variable}`}
+      className={`w-full ${lexend.variable}`}
     >
-      <body className="font-lexend flex flex-col items-center w-full overflow-x-hidden estrutura-container gap-[50px] pb-5">
+      <body className="font-lexend flex flex-col items-center w-full estrutura-container gap-[50px] pb-5">
         <SpeedInsights />
         <Header />
         {children}

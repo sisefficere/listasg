@@ -39,7 +39,7 @@ export default async function Home({ searchParams }) {
   });
 
   return (
-    <div className="flex flex-col items-center justify-center gap-[25px] estrutura-padding max-w-[75rem]">
+    <div className="flex flex-col items-center justify-center gap-[25px] estrutura-padding">
       <div className="flex flex-col w-full items-center">
         <h1 className="tipo-titulo1">Bem vindo(a)!</h1>
       </div>

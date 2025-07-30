@@ -56,7 +56,7 @@
 }
 
 .estrutura-container {
-  @apply w-full mx-auto max-w-[96rem];
+  @apply w-full mx-auto max-w-[75rem];
 }
 .estrutura-padding {
   @apply max-lg:px-5 lg:max-2xl:px-10;

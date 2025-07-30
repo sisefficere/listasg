@@ -6,8 +6,9 @@ export default async function Rodape() {
 
   return (
     <>
-      <footer className="flex flex-col tipo-rodape font-extralight w-full items-center justify-center">
-        <hr className="border-1 w-full border-branco-1-escuro/20 mb-5" />
+      <footer className="flex flex-col tipo-rodape font-extralight gap-5 w-full items-center justify-center">
+        <hr className="border-1 w-full border-branco-1-escuro/20" />
+        <div className="flex flex-col items-center gap-1">
         <p>v1.0.0</p>
         <p>
           CNPJ 39.463.752/0001-24 |{" "}
@@ -19,11 +20,13 @@ export default async function Rodape() {
           &copy; {ano}{" "}
           <a
             href="https://sisefficere.com.br"
-            className="decoration-solid underline "
+            className=""
+            target="_blank"
           >
-            Efficere
+            Efficere<span className="text-[5px]">ADTG</span>
           </a>{" "}
         </p>
+        </div>
       </footer>
       {/*
       */}
