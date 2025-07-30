@@ -36,7 +36,7 @@ export function CardAnunciantes({
         <div className="flex flex-col gap-5">
           {endereco ? (
             <p>
-              <span className="font-bold">Endereço</span>: {endereco}
+              <span className="font-bold">Endereço</span>: <a target="_blank" className="underline" href={`https://www.google.com/maps/search/${encodeURI(endereco)}`}>{endereco}</a>
             </p>
           ) : (
             <></>
