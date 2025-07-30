@@ -3,8 +3,8 @@ import Header from "$/src/lib/components/molecules/header/header.jsx";
 import "./globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import Rodape from "../lib/components/organisms/rodape/rodape";
-import Clarity from '@microsoft/clarity';
-
+import Clarity from "@microsoft/clarity";
+import ProgressBar from "../lib/components/molecules/progress-bar/progress-bar";
 
 const lexend = localFont({
   display: "swap",
@@ -64,19 +64,18 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  const projectId = "smzu0vvj7r"
+  const projectId = "smzu0vvj7r";
   Clarity.init(projectId);
 
   return (
-    <html
-      lang="pt-BR"
-      className={`w-full ${lexend.variable}`}
-    >
+    <html lang="pt-BR" className={`w-full ${lexend.variable}`}>
       <body className="font-lexend flex flex-col items-center w-full estrutura-container gap-[50px] pb-5">
-        <SpeedInsights />
-        <Header />
-        {children}
-        <Rodape />
+        <ProgressBar>
+          <SpeedInsights />
+          <Header />
+          {children}
+          <Rodape />
+        </ProgressBar>
       </body>
     </html>
   );

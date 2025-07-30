@@ -6,11 +6,11 @@ export async function generateMetadata({ params }) {
 
 export default function Sobre() {
   return (
-    <div className="flex flex-col items-center justify-center gap-[50px] estrutura-padding w-full">
+    <div className="flex flex-col items-center justify-center gap-[50px] estrutura-padding w-full ">
       <div className="flex flex-col w-full items-center">
         <h2 className="tipo-titulo2">Sobre nós</h2>
       </div>
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-5  max-w-[40rem]">
         <p>
           Tudo começou há 30 anos com a Lista Telefônica Municipal idealizada e mantida por Leopoldo Rottman.
         </p>
