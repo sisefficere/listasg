@@ -1,60 +1,62 @@
-import localFont from 'next/font/local'
-import Header from '$/src/lib/components/molecules/header/header.jsx'
+import localFont from "next/font/local";
+import Header from "$/src/lib/components/molecules/header/header.jsx";
 import "./globals.css";
-import { SpeedInsights } from "@vercel/speed-insights/next"
-import Rodape from '../lib/components/organisms/rodape/rodape';
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import Rodape from "../lib/components/organisms/rodape/rodape";
+import Clarity from '@microsoft/clarity';
+
 
 const lexend = localFont({
-  display:'swap',
-  variable:'--font-lexend',
-  src:[
+  display: "swap",
+  variable: "--font-lexend",
+  src: [
     {
-      path: '../../public/fonts/Lexend-Black.woff',
-      weight: '900',
-      style: 'normal'
+      path: "../../public/fonts/Lexend-Black.woff",
+      weight: "900",
+      style: "normal",
     },
     {
-      path: '../../public/fonts/Lexend-Bold.woff',
-      weight: '700',
-      style: 'normal'
+      path: "../../public/fonts/Lexend-Bold.woff",
+      weight: "700",
+      style: "normal",
     },
     {
-      path: '../../public/fonts/Lexend-ExtraBold.woff',
-      weight: '800',
-      style: 'normal'
+      path: "../../public/fonts/Lexend-ExtraBold.woff",
+      weight: "800",
+      style: "normal",
     },
     {
-      path: '../../public/fonts/Lexend-ExtraLight.woff',
-      weight: '200',
-      style: 'normal'
+      path: "../../public/fonts/Lexend-ExtraLight.woff",
+      weight: "200",
+      style: "normal",
     },
     {
-      path: '../../public/fonts/Lexend-Light.woff',
-      weight: '300',
-      style: 'normal'
+      path: "../../public/fonts/Lexend-Light.woff",
+      weight: "300",
+      style: "normal",
     },
     {
-      path: '../../public/fonts/Lexend-Medium.woff',
-      weight: '500',
-      style: 'normal'
+      path: "../../public/fonts/Lexend-Medium.woff",
+      weight: "500",
+      style: "normal",
     },
     {
-      path: '../../public/fonts/Lexend-Regular.woff',
-      weight: '400',
-      style: 'normal'
+      path: "../../public/fonts/Lexend-Regular.woff",
+      weight: "400",
+      style: "normal",
     },
     {
-      path: '../../public/fonts/Lexend-SemiBold.woff',
-      weight: '600',
-      style: 'normal'
+      path: "../../public/fonts/Lexend-SemiBold.woff",
+      weight: "600",
+      style: "normal",
     },
     {
-      path: '../../public/fonts/Lexend-Thin.woff',
-      weight: '100',
-      style: 'normal'
+      path: "../../public/fonts/Lexend-Thin.woff",
+      weight: "100",
+      style: "normal",
     },
   ],
-})
+});
 
 export const metadata = {
   title: "Create Next App",
@@ -62,15 +64,19 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  const projectId = "smzu0vvj7r"
+  Clarity.init(projectId);
+  
   return (
-    <html lang="pt-BR" className={`overflow-x-hidden w-full ${lexend.variable}`}>
-      <body
-        className='font-lexend flex flex-col items-center w-full overflow-x-hidden estrutura-container gap-[50px] pb-5'
-      >
-        <SpeedInsights/>
-        <Header/>
+    <html
+      lang="pt-BR"
+      className={`overflow-x-hidden w-full ${lexend.variable}`}
+    >
+      <body className="font-lexend flex flex-col items-center w-full overflow-x-hidden estrutura-container gap-[50px] pb-5">
+        <SpeedInsights />
+        <Header />
         {children}
-        <Rodape/>
+        <Rodape />
       </body>
     </html>
   );

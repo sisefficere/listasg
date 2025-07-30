@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
+    "@microsoft/clarity": "^1.0.0",
     "@prisma/client": "^6.10.1",
     "@vercel/speed-insights": "^1.2.0",
     "next": "15.3.4",
