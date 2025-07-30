@@ -102,3 +102,17 @@
 .tipo-irrelevante {
   @apply text-xs font-light leading-[1.1];
 }
+
+.shimmer {
+  @apply overflow-hidden relative before:content-[''] before:bg-[linear-gradient(90deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.8)_40%,rgba(255,255,255,0)_100%)] before:absolute before:h-full before:w-full before:z-50 before:animate-[shimmer_1.5s_infinite];
+}
+
+/* animações */
+@keyframes shimmer {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }

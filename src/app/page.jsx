@@ -3,6 +3,7 @@ import { BulletItem } from "$/src/lib/components/molecules/bullet-item/bullet-it
 import Pesquisa from "$/src/lib/components/molecules/pesquisa/pesquisa";
 import { Suspense } from "react";
 import ResultadoPesquisa from "../lib/components/molecules/resultado-pesquisa/resultado-pesquisa";
+import ResultadoPesquisaPlaceholder from "../lib/components/molecules/resultado-pesquisa/--placeholder/resultado-pesquisa--placeholder";
 
 export const metadata = {
   title: "ListaSG Classificados",
@@ -50,7 +51,7 @@ export default async function Home({ searchParams }) {
             key={query + currentPage}
             fallback={
               <>
-                <p>Pesquisando ...</p>
+                <ResultadoPesquisaPlaceholder />
               </>
             }
           >
