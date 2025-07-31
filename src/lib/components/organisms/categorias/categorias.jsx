@@ -2,23 +2,35 @@
 
 import { BulletItem } from "$/src/lib/components/molecules/bullet-item/bullet-item";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useDebouncedCallback } from "use-debounce";
 
-
-export default async function Categorias({ categorias }) {
-    const searchParams = useSearchParams();
+export default function Categorias({ categorias }) {
+  const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
+  const paramsPage = new URLSearchParams(searchParams);
   
-  const handleSearch = useDebouncedCallback((term) => {
-      const params = new URLSearchParams(searchParams);
-      if (term) {
-        params.set("cursor", term);
-      } else {
-        params.delete("cursor");
+  const handleSearch = (term, voltar) => {
+    const params = new URLSearchParams(searchParams);
+    if (term) {
+      params.set("cursor", term);
+      if (!paramsPage.has("catPage")) {
+        params.set("catPage", `1`);
+      }else if ( paramsPage.get("catPage") != 1 && !voltar){
+        params.set("catPage", `${Number(paramsPage.get("catPage")) + 1}`);
+
       }
-      replace(`${pathname}?${params.toString()}`);
-    }, 300);
+    } else {
+      params.delete("cursor");
+    }
+    if (voltar) {
+      params.set("voltar", voltar);
+      params.set("catPage", `${Number(paramsPage.get("catPage")) - 1}`);
+    } else {
+      params.delete("voltar");
+    }
+
+    replace(`${pathname}?${params.toString()}`);
+  };
 
   return (
     <>
@@ -27,13 +39,26 @@ export default async function Categorias({ categorias }) {
           <BulletItem key={el.id} href={`/categoria/${el.id}`} nome={el.nome} />
         ))}
       </ul>
+      {paramsPage.has("catPage") && paramsPage.get("catPage") > 0 ? (
+        <button
+          className="cursor-pointer"
+          onClick={() => {
+            handleSearch(categorias[9]?.id, true);
+          }}
+        >
+          Página anterior
+        </button>
+      ) : (
+        <></>
+      )}
+
       <button
         className="cursor-pointer"
         onClick={() => {
-          handleSearch(categorias[9]?.id)
+          handleSearch(categorias[9]?.id);
         }}
       >
-        Ver mais
+        Próxima página
       </button>
     </>
   );

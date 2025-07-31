@@ -5,8 +5,6 @@ import ResultadoPesquisa from "$/src/lib/components/molecules/resultado-pesquisa
 import ResultadoPesquisaPlaceholder from "$/src/lib/components/molecules/resultado-pesquisa/--placeholder/resultado-pesquisa--placeholder";
 import Categorias from "$/src/lib/components/organisms/categorias/categorias.jsx";
 import getCategorias from "$/src/lib/db/get-categorias";
-import { CursorContext } from "$/src/lib/components/contexts";
-import { useContext } from "react";
 
 export const metadata = {
   title: "ListaSG Classificados",
@@ -14,11 +12,10 @@ export const metadata = {
 };
 
 export default async function Home({ searchParams }) {
-  const pesquisa = await searchParams;
-  const query = pesquisa?.query || "";
-  const currentPage = Number(pesquisa?.page) || 1;
-  const cursor = useContext(CursorContext);
-  const categorias = await getCategorias(cursor);
+  const params = await searchParams;
+  const query = params?.query || "";
+  const currentPagePesquisa = Number(params?.page) || 1;
+  const categorias = await getCategorias(Number(params?.cursor), Boolean(params?.voltar));
 
   return (
     <div className="flex flex-col items-center justify-center gap-[25px] estrutura-padding">
@@ -29,14 +26,14 @@ export default async function Home({ searchParams }) {
         <div className="flex flex-col gap-2 justify-center h-full w-full">
           <Pesquisa />
           <Suspense
-            key={query + currentPage}
+            key={query + currentPagePesquisa}
             fallback={
               <>
                 <ResultadoPesquisaPlaceholder />
               </>
             }
           >
-            <ResultadoPesquisa query={query} currentPage={currentPage} />
+            <ResultadoPesquisa query={query} currentPage={currentPagePesquisa} />
           </Suspense>
         </div>
         <div className="flex flex-col gap-2">
