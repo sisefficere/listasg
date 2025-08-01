@@ -1,7 +1,7 @@
 "use server";
 import prisma from "$/src/lib/prisma";
 
-export default async function consultaCategorias(cursorId, voltar) {
+export default async function getCategorias(cursorId, voltar) {
   let categorias = [];
 
   if (cursorId) {

@@ -103,11 +103,24 @@
   @apply text-xs font-light leading-[1.1];
 }
 
+/* componentes */
+.lsg-botao{
+  @apply font-bold flex gap-2 cursor-pointer items-center  justify-center text-branco-4-claro-principal px-5 py-[10px] rounded-[10px] bg-vermelho-2-principal max-sm:w-full min-w-[150px];
+}
+.lsg-botao--desativado{
+  @apply font-bold flex gap-2 justify-center items-center text-branco-4-claro-principal px-5 py-[10px] rounded-[10px] bg-vermelho-3 max-sm:w-full min-w-[150px];
+}
+
+/* gradientes */
+@utility lsg-gradiente-azul{
+  @apply bg-linear-[90deg,#0000FF_0%,#0000CC_22%,#0000B3_46%,#0000A6_69%,#000099_100%]
+}
+
+/* animações */
 .shimmer {
   @apply overflow-hidden relative before:content-[''] before:bg-[linear-gradient(90deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.8)_40%,rgba(255,255,255,0)_100%)] before:absolute before:h-full before:w-full before:z-50 before:animate-[shimmer_1.5s_infinite];
 }
 
-/* animações */
 @keyframes shimmer {
     0% {
       transform: translateX(-100%);

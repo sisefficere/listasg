@@ -1,4 +1,4 @@
-export default function handleSearch(params, pathname, replace, cursor, voltar) {
+export default function handlePaginationCursorQParams(params, pathname, replace, cursor, voltar) {
   // recebe usePathname, useRouter (metodo 'replace'), useSearchParams de "next/navigation";
 
   // caso tenha cursor definido, lida com a paginação
@@ -13,7 +13,7 @@ export default function handleSearch(params, pathname, replace, cursor, voltar) 
       params.set("cursor", cursor);
       if (!params.has("catPage")) {
         params.set("catPage", `1`);
-      } else if (params.get("catPage") != 1 && !voltar) {
+      } else if (params.get("catPage") >= 1 && !voltar) {
         params.set("catPage", `${Number(params.get("catPage")) + 1}`);
       }
     }

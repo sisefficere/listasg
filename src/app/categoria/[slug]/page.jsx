@@ -1,5 +1,7 @@
 import { BulletItem } from "$/src/lib/components/molecules/bullet-item/bullet-item";
 import { CardAnunciantes } from "$/src/lib/components/molecules/card-anunciantes/card-anunciantes";
+import Subcategorias from "$/src/lib/components/organisms/subcategorias/subcategorias";
+import getSubcategorias from "$/src/lib/core/db/get-subcategorias";
 import prisma from "$/src/lib/prisma";
 
 export async function generateMetadata({ params }) {
@@ -19,20 +21,14 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default async function Page({ params }) {
+export default async function Page({ params, searchParams }) {
+  const paramsQuery = await searchParams;
   const { slug } = await params;
   const slugInt = parseInt(slug);
   const categoria = await prisma.categorias.findUnique({
     where: { id: slugInt },
   });
-  const subcategorias = await prisma.subcategorias.findMany({
-    where: {
-      categoria: slugInt,
-      anunciantes: {
-        some: {},
-      },
-    },
-  });
+  const subcategorias = await getSubcategorias(slugInt, Number(paramsQuery?.cursor), Boolean(paramsQuery?.voltar))
 
   const anunciantes = await prisma.anunciantes.findMany({
     where: { categoria: slugInt },
@@ -82,17 +78,7 @@ export default async function Page({ params }) {
           <></>
         )}
         {subcategorias.length != 0 ? (
-          <div>
-            <div className="flex flex-col gap-[10px] w-full ">
-              {subcategorias.map((el) => (
-                <BulletItem
-                  key={el.id}
-                  href={`/subcategoria/${el.id}`}
-                  nome={el.nome}
-                />
-              ))}
-            </div>
-          </div>
+            <Subcategorias subcategorias={subcategorias} />
         ) : (
           <></>
         )}

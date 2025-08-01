@@ -13,9 +13,9 @@ export const metadata = {
 
 export default async function Home({ searchParams }) {
   const params = await searchParams;
+  const categorias = await getCategorias(Number(params?.cursor), Boolean(params?.voltar));
   const query = params?.query || "";
   const currentPagePesquisa = Number(params?.page) || 1;
-  const categorias = await getCategorias(Number(params?.cursor), Boolean(params?.voltar));
 
   return (
     <div className="flex flex-col items-center justify-center gap-[25px] estrutura-padding">
