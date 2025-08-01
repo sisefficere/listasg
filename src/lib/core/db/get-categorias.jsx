@@ -8,7 +8,6 @@ export default async function consultaCategorias(cursorId, voltar) {
     if (voltar) {
       categorias = await prisma.categorias.findMany({
         take: -10,
-        skip: 1,
         cursor: {
           id: cursorId,
         },
