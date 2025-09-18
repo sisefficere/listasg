@@ -54,6 +54,7 @@ export default async function Page({ params }) {
           srcImage={anunciante.src_image}
           descricao={anunciante.descricao}
           endereco={anunciante.endereco}
+          endRef={anunciante.end_ref}
           comBorda={false}
           contatos={{
             telefones: anunciante.telefone,

@@ -3,6 +3,7 @@ export function CardAnunciantes({
   nome = "",
   descricao,
   endereco,
+  endRef = null,
   comBorda = true,
   contatos = {
     telefones: [],
@@ -98,7 +99,7 @@ export function CardAnunciantes({
                   endereco
                 )}`}
               >
-                {endereco}
+                {endRef ? endereco + ', ' + endRef : endereco}
               </a>
             </div>
           ) : (
@@ -111,6 +112,7 @@ export function CardAnunciantes({
                 <div className="flex flex-col gap-1 items-start">
                   {contatos.telefones.map((el, index) => (
                     <a
+                      key={el.id}
                       href={`tel:${el}`}
                       className="link tipo-paragrafo  flex gap-1 items-center justify-center"
                     >
@@ -134,6 +136,7 @@ export function CardAnunciantes({
                     <div className="flex flex-col gap-1 items-start">
                       {contatos.email.map((el, index) => (
                         <a
+                          key={el.id}
                           href={`mailto:${el.trim()}`}
                           className="decoration-solid underline tipo-paragrafo decoration-1 break-all flex gap-1 items-center justify-center"
                         >
@@ -162,6 +165,7 @@ export function CardAnunciantes({
                     <div className="flex flex-col gap-1 items-start">
                       {contatos.website.map((el, index) => (
                         <a
+                          key={el.id}
                           target="_blank"
                           href={
                             el.includes("http") || el.includes("https")
@@ -207,6 +211,7 @@ export function CardAnunciantes({
               <div className="flex flex-wrap gap-2 w-full">
                 {contatos.whatsapp.map((el) => (
                   <a
+                    key={el.id}
                     target="_blank"
                     href={`https://wa.me/55${el
                       .replace(" ", "")
@@ -240,6 +245,7 @@ export function CardAnunciantes({
                   <>
                     {contatos.instagram.map((el, index) => (
                       <a
+                        key={el.id}
                         target="_blank"
                         href={`https://instagram.com/${el.trim()}`}
                         className="px-5 py-2 flex flex-col gap-2 text-xs font-bold text-branco-4-claro-principal bg-gradient-to-tr from-[#833ab4] via-[#fd1d1d] to-[#fcb045] rounded-md w-full max-w-[120px] items-center justify-center text-center"
@@ -269,6 +275,7 @@ export function CardAnunciantes({
                 )}
                 {contatos.facebook.map((el, index) => (
                   <a
+                    key={el.id}
                     target="_blank"
                     href={`https://facebook.com/${el.trim()}`}
                     className="text-branco-4-claro-principal text-xs font-bold break-all flex flex-col gap-2 px-5 py-2 rounded-md items-center justify-center bg-[#0866ffff] w-full max-w-[120px] text-center"

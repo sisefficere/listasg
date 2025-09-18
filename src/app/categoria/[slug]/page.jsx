@@ -64,6 +64,7 @@ export default async function Page({ params, searchParams }) {
               nome={el.nome_empresa}
               descricao={el.descricao}
               endereco={el.endereco}
+              endRef={el.end_ref}
               contatos={{
                 telefones: el.telefone,
                 facebook: el.facebook,

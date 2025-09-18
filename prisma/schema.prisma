@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -22,29 +21,40 @@ model anunciantes {
   facebook      String?
   whatsapp      String?
   website       String?
+  end_ref       String?
   categorias    categorias?    @relation(fields: [categoria], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ref_categoria")
   subcategorias subcategorias? @relation(fields: [subcategoria], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ref_subcategoria")
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
 }
 
 model categorias {
   id             Int             @id @default(autoincrement())
   nome           String?         @unique
   classificacao  Int?
+  descricao      String?
   anunciantes    anunciantes[]
   classificacoes classificacoes? @relation(fields: [classificacao], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "classificacao")
   subcategorias  subcategorias[]
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
 }
 
 model classificacoes {
   id         Int          @id @default(autoincrement())
   nome       String?      @unique
   categorias categorias[]
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
 }
 
 model subcategorias {
   id          Int           @id @default(autoincrement())
   nome        String?       @unique
   categoria   Int?
+  descricao   String?
   anunciantes anunciantes[]
   categorias  categorias?   @relation(fields: [categoria], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "categoria")
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
 }

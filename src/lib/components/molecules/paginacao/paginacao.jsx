@@ -1,5 +1,6 @@
 "use client";
 import handlePaginationCursorQParams from "$/src/lib/core/utils/handle-pagination-cursor-qparams";
+import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export default function Paginacao({ cursor }) {
@@ -11,7 +12,7 @@ export default function Paginacao({ cursor }) {
   return (
     <div className={`${cursor || paramsPage.has("catPage") ? "flex" : "hidden"} flex-wrap gap-2 justify-between`}>
       {paramsPage.has("catPage") && paramsPage.get("catPage") > 0 ? (
-        <button
+        <Link
           className="lsg-botao"
           onClick={() => {
             handlePaginationCursorQParams(
@@ -30,7 +31,7 @@ export default function Paginacao({ cursor }) {
             />
           </svg>
           <span>Anterior</span>
-        </button>
+        </Link>
       ) : (
         <button className="lsg-botao--desativado">
           <svg viewBox="0 0 21 32" fill="none" className="rotate-180 w-[15px]">
