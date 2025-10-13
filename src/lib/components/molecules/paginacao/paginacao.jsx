@@ -4,8 +4,8 @@ import { useSearchParams } from "next/navigation";
 
 export default function Paginacao({ perPage, totalItems }) {
   const searchParams = useSearchParams();
-  const totalPages= Math.ceil(totalItems / perPage);
   const paramsPage = new URLSearchParams(searchParams);
+  const totalPages= Math.ceil(totalItems / perPage);
   const catPage = paramsPage.has("catPage") ? Number(paramsPage.get("catPage")) : 1
 
   return (

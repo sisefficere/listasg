@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import ResultadoPesquisa from "$/src/lib/components/molecules/resultado-pesquisa/resultado-pesquisa";
 import ResultadoPesquisaPlaceholder from "$/src/lib/components/molecules/resultado-pesquisa/--placeholder/resultado-pesquisa--placeholder";
 import Categorias from "$/src/lib/components/organisms/categorias/categorias.jsx";
-import getCategoriasOffset from "../lib/core/db/get-categorias-offset";
+import getCategoriasOffset from "../actions/get-categorias-offset";
 
 export const metadata = {
   title: "ListaSG Classificados",

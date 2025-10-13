@@ -1,7 +1,7 @@
 import { BulletItem } from "$/src/lib/components/molecules/bullet-item/bullet-item";
 import { CardAnunciantes } from "$/src/lib/components/molecules/card-anunciantes/card-anunciantes";
 import Subcategorias from "$/src/lib/components/organisms/subcategorias/subcategorias";
-import getSubcategorias from "$/src/lib/core/db/get-subcategorias";
+import getSubcategorias from "$/src/actions/get-subcategorias";
 import prisma from "$/src/lib/prisma";
 
 export async function generateMetadata({ params }) {
