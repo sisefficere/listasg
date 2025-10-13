@@ -8,6 +8,7 @@ export default async function getCategorias(cursorId, voltar) {
     if (voltar) {
       categorias = await prisma.categorias.findMany({
         take: -10,
+        skip: 1,
         cursor: {
           id: cursorId,
         },
@@ -30,7 +31,7 @@ export default async function getCategorias(cursorId, voltar) {
           ],
         },
         orderBy: {
-          nome: "asc",
+          id: "asc",
         },
       });
     } else {
@@ -59,7 +60,7 @@ export default async function getCategorias(cursorId, voltar) {
           ],
         },
         orderBy: {
-          nome: "asc",
+          id: "asc",
         },
       });
     }
@@ -85,10 +86,17 @@ export default async function getCategorias(cursorId, voltar) {
         ],
       },
       orderBy: {
-        nome: "asc",
+        id: "asc",
       },
     });
   }
 
-  return categorias;
+  return {
+    categorias,
+    cursor: {
+      anterior: cursorId,
+      proximo: categorias[categorias.length - 1]?.id,
+    },
+  };
 }
+

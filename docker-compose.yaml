@@ -1,0 +1,8 @@
+services:
+  db_postgres:
+    image: postgres:18-alpine
+    ports:
+      - 5200:5432
+    environment:
+      POSTGRES_DB: lsg_anunciantes
+      POSTGRES_HOST_AUTH_METHOD: trust
