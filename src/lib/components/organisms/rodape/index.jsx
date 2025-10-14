@@ -1,4 +1,4 @@
-import CookiesConsent from "../../molecules/cookies-consent.jsx/cookies-consent";
+import CookiesConsent from "@components/molecules/cookies-consent.jsx";
 
 export default async function Rodape() {
   const now = new Date();

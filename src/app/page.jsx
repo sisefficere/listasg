@@ -1,10 +1,10 @@
 
-import Pesquisa from "$/src/lib/components/molecules/pesquisa/pesquisa";
+import Pesquisa from "@components/molecules/pesquisa";
 import { Suspense } from "react";
-import ResultadoPesquisa from "$/src/lib/components/molecules/resultado-pesquisa/resultado-pesquisa";
-import ResultadoPesquisaPlaceholder from "$/src/lib/components/molecules/resultado-pesquisa/--placeholder/resultado-pesquisa--placeholder";
-import Categorias from "$/src/lib/components/organisms/categorias/categorias.jsx";
-import getCategoriasOffset from "../actions/get-categorias-offset";
+import ResultadoPesquisa from "@components/molecules/resultado-pesquisa";
+import ResultadoPesquisaPlaceholder from "@components/molecules/resultado-pesquisa/--placeholder";
+import Categorias from "@components/organisms/categorias/index.jsx";
+import getCategoriasOffset from "@actions/get-categorias-offset";
 
 export const metadata = {
   title: "ListaSG Classificados",

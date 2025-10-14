@@ -1,10 +1,10 @@
 import localFont from "next/font/local";
-import Header from "$/src/lib/components/molecules/header/header.jsx";
-import "./globals.css";
+import Header from "@components/molecules/header/index.jsx";
+import "@app/globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import Rodape from "../lib/components/organisms/rodape/rodape";
+import Rodape from "@components/organisms/rodape";
 import Clarity from "@microsoft/clarity";
-import ProgressBar from "../lib/components/molecules/progress-bar/progress-bar";
+import ProgressBar from "@components/molecules/progress-bar";
 
 const lexend = localFont({
   display: "swap",

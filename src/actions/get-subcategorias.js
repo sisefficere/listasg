@@ -1,5 +1,5 @@
 "use server";
-import prisma from "$/src/lib/prisma";
+import prisma from "@utils/prisma";
 
 export default async function getSubcategorias(slugInt, cursorId, voltar) {
   let subCategorias = [];

@@ -1,5 +1,5 @@
 "use server";
-import prisma from "$/src/lib/prisma";
+import prisma from "@utils/prisma";
 
 export default async function getCategoriasOffset(page, perPage) {
   let categorias = [];

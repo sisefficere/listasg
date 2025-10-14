@@ -1,7 +1,7 @@
 "use client";
 
-import { BulletItem } from "$/src/lib/components/molecules/bullet-item/bullet-item";
-import Paginacao from "../../molecules/paginacao/paginacao";
+import { BulletItem } from "@components/molecules/bullet-item";
+import Paginacao from "@components/molecules/paginacao";
 
 export default function Subcategorias({ subcategorias }) {
   

@@ -1,4 +1,4 @@
-import prisma from "$/src/lib/prisma";
+import prisma from "@utils/prisma";
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
 
 export default async function ResultadoPesquisa({ query, currentPage }) {

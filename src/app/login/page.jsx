@@ -1,4 +1,4 @@
-import FormLogin from "$/src/lib/components/molecules/form-login/form-login";
+import FormLogin from "@components/molecules/form-login";
 
 export default async function Login(){
 

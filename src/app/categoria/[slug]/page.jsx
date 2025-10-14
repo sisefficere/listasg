@@ -1,8 +1,7 @@
-import { BulletItem } from "$/src/lib/components/molecules/bullet-item/bullet-item";
-import { CardAnunciantes } from "$/src/lib/components/molecules/card-anunciantes/card-anunciantes";
-import Subcategorias from "$/src/lib/components/organisms/subcategorias/subcategorias";
-import getSubcategorias from "$/src/actions/get-subcategorias";
-import prisma from "$/src/lib/prisma";
+import { CardAnunciantes } from "@components/molecules/card-anunciantes";
+import Subcategorias from "@components/organisms/subcategorias";
+import getSubcategorias from "@actions/get-subcategorias";
+import prisma from "@utils/prisma";
 
 export async function generateMetadata({ params }) {
   // read route params

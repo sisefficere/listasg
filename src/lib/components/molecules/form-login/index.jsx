@@ -1,11 +1,15 @@
-import { signIn } from "$/auth"
+import { signIn } from "@utils/auth"
+import bcrypt from 'bcrypt'
+import { redirect } from "next/navigation"
+
  
 export default function FormLogin() {
   return (
     <form
       action={async (formData) => {
         "use server"
-        await signIn("credentials", formData, { redirectTo: "/" })
+        const res = await signIn("credentials", formData, {redirectTo: '/'});
+        console.log(res)
       }}
     >
       <label>
