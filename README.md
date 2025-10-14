@@ -15,18 +15,18 @@ Utilizando um arquivo docker compose é subido um container postgres que torna m
 
 Se necessário conectar outro BD:
 1. acessa o BD remoto, realiza um `pg_dump`
-2. no BD local, realiza um `pg_restore` (pega os dados do remoto)
-3. acessa BD remoto e se houver alguma tabela `_prisma_migrations` exclua.
-4. conectar o BD remoto
-5. realizar um `npx prisma db pull`
-6. conectar novamente o BD local
-7. realizar um `npx prisma migrate reset` (dados estão a salvo no remoto)
-8. realizar um `npx prisma migrate dev --name init` (cria a migration inicial)
-9. conecta no BD remoto
-10. realizar um `npx prisma migrate resolve --applied nome_arquivo_migration` (pois não há tabela `_prisma_migrations` no remoto).
-11. realiza um `npx prisma migrate deploy` para aplicar as migrations pendentes
-12. conecta o BD local
-13. Realiza um `npx prisma generate`
+2. acessa BD remoto e se houver alguma tabela `_prisma_migrations` exclua.
+3. conectar o BD remoto
+4. realizar um `npx prisma db pull`
+5. conectar novamente o BD local
+6. realizar um `npx prisma migrate reset` (dados estão a salvo no remoto)
+7. realizar um `npx prisma migrate dev --name init` (cria a migration inicial)
+8. conecta no BD remoto
+9. realizar um `npx prisma migrate resolve --applied nome_arquivo_migration` (pois não há tabela `_prisma_migrations` no remoto).
+10. realiza um `npx prisma migrate deploy` para aplicar as migrations pendentes
+11. conecta o BD local
+12. Realiza um `npx prisma generate`
+13. Realiza um `pg_restore` (pega os dados do remoto)
 14. sempre que realizada alteração no schema, repetir passos 8, 9, 11, 12 e 13
 
 Fontes: [1](https://www.youtube.com/watch?v=BIfvmEhbtBE), [2](https://www.prisma.io/docs/getting-started/setup-prisma/add-to-existing-project/relational-databases/introspection-typescript-postgresql).
