@@ -68,7 +68,7 @@ export default function RootLayout({ children }) {
   Clarity.init(projectId);
 
   return (
-    <html lang="pt-BR" className={`w-full ${lexend.variable}`}>
+    <html lang="pt-BR" className={`w-full ${lexend.variable} relative`}>
       <body className="font-lexend flex flex-col items-center w-full estrutura-container gap-[50px] pb-5">
         <ProgressBar>
           <SpeedInsights />

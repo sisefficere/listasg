@@ -1,4 +1,4 @@
-import { CardAnunciantes } from "@components/molecules/card-anunciantes";
+import CardAnunciantes from "@components/molecules/card-anunciantes";
 import Subcategorias from "@components/organisms/subcategorias";
 import getSubcategorias from "@actions/get-subcategorias";
 import prisma from "@utils/prisma";
@@ -59,6 +59,7 @@ export default async function Page({ params, searchParams }) {
           anunciantes.map((el) => (
             <CardAnunciantes
               key={el.id}
+              id={el.id}
               srcImage={el.src_image}
               nome={el.nome_empresa}
               descricao={el.descricao}

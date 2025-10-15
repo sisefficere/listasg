@@ -1,6 +1,40 @@
-# Stack
+# Definição
 
-Next.JS + Prisma + TailwindCSS + Vercel + NeonPostgres
+Projeto que visa expor anunciantes, como em uma moderna lista telefônica, desenvolvida pensando em dispositivos móveis mas adaptável a outros tamanhos de tela.
+
+## Padrão de projeto
+
+### Estrutura
+
+- /prisma: esquemas/tabelas do BD e migrations do ORM Prisma.
+- /public: arquivos estáticos e públicos (imagens, fontes, etc)
+- /src:
+    - /actions: actions que compõem as regras de negócio e consumo de dados do BD, normalmente acionados via formulário.
+    - /app: rotas do sistema, páginas e estilos das páginas.
+    - /lib: biblioteca local de códigos
+        - /components: componentes organizados de acordo com o ATOMIC Design em pastas e com código em arquivos `index.jsx`.
+        - /utils: código utilitário e singletons (`auth.js`, `prisma.js`, etc).
+
+### Arquivos
+
+- Componentes são organizados de acordo com o ATOMIC Design: pastas atoms, molecules, organisms, pages e templates (as duas últimas se necessário).
+- Importar componentes e códigos locais por meio dos paths definidos no `jsconfig.json`: @utils, @components, @actions, @app ou @public.
+- Dentro da pasta do componente o arquivo a ser criado é sempre com o nome `index.jsx`, deixa a importação mais legível. Exemplo: `/components/molecules/form-login/index.jsx`.
+- Arquivos de componentes e páginas são no formato `jsx`.
+- Arquivos de `actions` e JS puro serão sempre no formato `js`.
+
+### Nomenclaturas
+
+- Sempre em inglês.
+- camelCase no nome de variáveis e funções.
+- PascalCase no nome de componentes e páginas.
+- SNAKE_CASE em caps lock para variáveis de ambientes e constantes.
+- underline inicial para parâmetros não utilizados mas passados na função para possibilitar a passagem de outro parâmetro (exemplo: `function tal(_parametroNaoUtilizado, parametroUtilizado)`).
+
+
+## Stack
+
+React + Next.JS + TailwindCSS + Auth.JS + Vercel + Prisma + NeonPostgres.
 
 # Funcionalidades
 
@@ -49,9 +83,52 @@ Renderiza as categorias passando o array com os dados, o total de categorias e a
 - inicializa a página: se houver página no parâmetro, a define, senão inicializa com 1.
 - renderiza os links/botões com o componente nativo `Link` do Next que lida nativamente com a navegação e query params.
 
-## Actions
+## Autenticação
 
-### `getCategoriasOffset()`
+Implementada com Auth.JS (antigo NextAuth). Utiliza `bcrypt` para realizar o salt e o hash das senhas, comparando a senha bruta com o hash armazenado no BD. O método de autenticação é por credenciais simples de e-mail e senha, estes armazenados na tabela `usuario` no BD.
+
+Fontes: [1](https://authjs.dev/getting-started/authentication/credentials), [2](https://authjs.dev/reference/core/providers/credentials#credentialsconfigcredentialsinputs:~:text=Properties-,authorize(),-authorize%3A%20(credentials)
+
+### `@utils/auth.js`
+
+TODO
+
+### `@utils/middleware.js`
+
+TODO
+
+### `@actions/check-credentials.js`
+
+TODO
+
+### Rotas
+
+Rotas envolvidas na funcionalidade.
+
+#### `/api/auth/[...nextauth]`
+
+Utilizado internamente pela lib `auth`.
+
+#### `/login`
+
+Contém o formulário de login.
+
+### Componentes
+
+Componentes envolvidos na funcionalidade.
+
+#### `@components/atoms/button-logout`
+
+TODO
+
+#### `@components/molecules/form-login`
+
+TODO
+
+
+# Actions
+
+## `getCategoriasOffset()`
 
 Retorna os dados das categorias em array e também o total de categorias para ser utilizado no componente `/molecules/paginacao`:
 
