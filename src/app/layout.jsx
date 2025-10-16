@@ -66,7 +66,6 @@ export const metadata = {
 export default function RootLayout({ children }) {
   const projectId = "smzu0vvj7r";
   Clarity.init(projectId);
-
   return (
     <html lang="pt-BR" className={`w-full ${lexend.variable} relative`}>
       <body className="font-lexend flex flex-col items-center w-full estrutura-container gap-[50px] pb-5">

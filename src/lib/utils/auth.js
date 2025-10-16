@@ -5,9 +5,6 @@ import { ZodError } from "zod";
 import { signInSchema } from "@utils/zod";
 import { redirect } from "next/navigation";
 
-// Credenciais (em 12 rounds):
-// listatelefonicamunicipal@gmail.com listasg2023@!
-// $2a$12$yCjjVJdrFg02nxeBgfBZAewUeO37PGHE1gIL3AHSzo/j7SnVhTVbu hash para a senha listasg2023@!
 // https://medium.com/@arunchaitanya/salting-and-hashing-passwords-with-bcrypt-js-a-comprehensive-guide-f5e31de3c40c, basicamente utiliza await bcrypt.compare(password, storedHashedPassword) onde o storedHashed é a has no BD
 
 export const { handlers, signIn, signOut, auth } = NextAuth({

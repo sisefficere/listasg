@@ -104,8 +104,21 @@
 }
 
 /* componentes */
+
+.lsg-input-text{
+  @apply w-full px-[10px] py-[12px] bg-verde-4-claro focus-visible:bg-verde-3 rounded-lg focus-visible:outline-verde-2-principal  placeholder:text-black/50;
+}
 .lsg-botao{
-  @apply font-bold flex gap-2 cursor-pointer items-center  justify-center text-branco-4-claro-principal px-5 py-[10px] rounded-[10px] bg-vermelho-2-principal max-sm:w-full min-w-[150px];
+  @apply font-bold flex gap-2 hover:lsg-grow cursor-pointer items-center  justify-center text-branco-4-claro-principal px-5 py-[10px] rounded-[10px] bg-vermelho-2-principal max-sm:w-full min-w-[150px];
+}
+.lsg-botao--login{
+  @apply font-bold flex gap-2 hover:lsg-grow cursor-pointer items-center justify-center text-branco-1-escuro px-5 py-[10px] rounded-[10px] bg-verde-2-principal min-w-[150px] max-w-[200px];
+}
+.lsg-botao--feature{
+  @apply font-bold flex gap-2 hover:lsg-grow cursor-pointer items-center justify-center text-branco-1-escuro px-5 py-[10px] rounded-[10px] bg-verde-3 min-w-[150px];
+}
+.lsg-botao--logout{
+  @apply font-bold flex gap-2 hover:lsg-grow cursor-pointer items-center justify-center text-branco-1-escuro px-5 py-[10px] rounded-[10px] bg-vermelho-4-claro min-w-[150px];
 }
 .lsg-botao--desativado{
   @apply font-bold flex gap-2 justify-center items-center text-branco-4-claro-principal px-5 py-[10px] rounded-[10px] bg-vermelho-3 max-sm:w-full min-w-[150px];
@@ -114,6 +127,10 @@
 /* gradientes */
 @utility lsg-gradiente-azul{
   @apply bg-linear-[90deg,#0000FF_0%,#0000CC_22%,#0000B3_46%,#0000A6_69%,#000099_100%]
+}
+@utility lsg-grow {
+  transition: transform 0.4s ease-in-out;
+  @apply hover:scale-[1.05] transition-all duration-500;
 }
 
 /* animações */

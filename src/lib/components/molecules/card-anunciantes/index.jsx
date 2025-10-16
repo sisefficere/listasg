@@ -22,21 +22,17 @@ export default function CardAnunciantes({
     <div
       id={id}
       className={`w-full max-w-[800px] items-center relative ${
-        comBorda ? "border-vermelho-3 p-5 rounded-[5px] border-2" : ""
+        comBorda && "border-vermelho-3 p-5 rounded-[5px] border-2"
       } flex flex-wrap justify-center gap-10`}
     >
       <ImageHandle srcImage={srcImage} id={id}/>
       <div className="flex flex-col gap-5 w-full break-words max-w-[500px]">
         <div className="flex flex-col w-full">
-          {nome != "" ? (
-            <h3 className="tipo-titulo3 break-words">{nome}</h3>
-          ) : (
-            <></>
-          )}
-          {descricao ? <p className="break-words">{descricao}</p> : <></>}
+          {nome != "" && <h3 className="tipo-titulo3 break-words">{nome}</h3>}
+          {descricao && <p className="break-words">{descricao}</p>}
         </div>
         <div className="flex flex-col gap-5">
-          {endereco ? (
+          {endereco && (
             <div className="flex gap-2 items-center">
               <svg
                 id="Layer_1"
@@ -103,17 +99,15 @@ export default function CardAnunciantes({
                 {endRef ? endereco + ", " + endRef : endereco}
               </a>
             </div>
-          ) : (
-            <></>
           )}
           <div className="flex flex-col gap-[15px]">
             <h4 className="tipo-titulo4">Contatos</h4>
             <div className="flex flex-wrap gap-3">
-              {contatos.telefones?.length != 0 ? (
+              {contatos.telefones?.length != 0 && (
                 <div className="flex flex-col gap-1 items-start">
                   {contatos.telefones.map((el, index) => (
                     <a
-                      key={el.id}
+                      key={index}
                       href={`tel:${el}`}
                       className="link tipo-paragrafo  flex gap-1 items-center justify-center"
                     >
@@ -128,12 +122,10 @@ export default function CardAnunciantes({
                     </a>
                   ))}
                 </div>
-              ) : (
-                <></>
               )}
-              {contatos.email?.length != 0 || contatos.website?.length != 0 ? (
+              {contatos.email?.length != 0 || contatos.website?.length != 0 && (
                 <div className="flex flex-col gap-2">
-                  {contatos.email?.length != 0 ? (
+                  {contatos.email?.length != 0 && (
                     <div className="flex flex-col gap-1 items-start">
                       {contatos.email.map((el, index) => (
                         <a
@@ -159,10 +151,8 @@ export default function CardAnunciantes({
                         </a>
                       ))}
                     </div>
-                  ) : (
-                    <></>
                   )}
-                  {contatos.website?.length != 0 ? (
+                  {contatos.website?.length != 0 && (
                     <div className="flex flex-col gap-1 items-start">
                       {contatos.website.map((el, index) => (
                         <a
@@ -198,21 +188,17 @@ export default function CardAnunciantes({
                         </a>
                       ))}
                     </div>
-                  ) : (
-                    <></>
                   )}
                 </div>
-              ) : (
-                <></>
               )}
             </div>
-            {contatos.whatsapp?.length != 0 ||
+            {(contatos.whatsapp?.length != 0 ||
             contatos.facebook?.length != 0 ||
-            contatos.instagram?.length ? (
+            contatos.instagram?.length) && (
               <div className="flex flex-wrap gap-2 w-full">
-                {contatos.whatsapp.map((el) => (
+                {contatos.whatsapp.map((el, index) => (
                   <a
-                    key={el.id}
+                    key={index}
                     target="_blank"
                     href={`https://wa.me/55${el
                       .replace(" ", "")
@@ -242,7 +228,7 @@ export default function CardAnunciantes({
                     <span className="font-bold text-xs">{el.trim()}</span>
                   </a>
                 ))}
-                {contatos.instagram?.length != 0 ? (
+                {contatos.instagram?.length != 0 && (
                   <>
                     {contatos.instagram.map((el, index) => (
                       <a
@@ -271,8 +257,6 @@ export default function CardAnunciantes({
                       </a>
                     ))}
                   </>
-                ) : (
-                  <></>
                 )}
                 {contatos.facebook.map((el, index) => (
                   <a
@@ -291,8 +275,6 @@ export default function CardAnunciantes({
                   </a>
                 ))}
               </div>
-            ) : (
-              <></>
             )}
           </div>
         </div>

@@ -1,26 +1,22 @@
-import { signIn } from "@utils/auth"
-import bcrypt from 'bcrypt'
-import { redirect } from "next/navigation"
+import { login } from "@actions/handle-session";
+import { signIn } from "@utils/auth";
+import bcrypt from "bcrypt";
+import { redirect } from "next/navigation";
 
- 
 export default function FormLogin() {
   return (
-    <form
-      action={async (formData) => {
-        "use server"
-        const res = await signIn("credentials", formData, {redirectTo: '/'});
-        console.log(res)
-      }}
-    >
-      <label>
-        Email
-        <input name="email" type="email" />
-      </label>
-      <label>
-        Password
-        <input name="password" type="password" />
-      </label>
-      <button>Sign In</button>
+    <form action={login} className="flex flex-col items-center gap-10 w-full max-w-[500px] px-5 py-10   rounded-2xl">
+      <div className="flex flex-col gap-5 w-full">
+        <label className="flex flex-col justify-center gap-2 cursor-pointer">
+          <span className="tipo-enfase">E-mail</span>
+          <input name="email" type="email" className="lsg-input-text" placeholder="Exemplo: fulano@email.com"/>
+        </label>
+        <label className="flex flex-col justify-center gap-2 cursor-pointer">
+          <span className="tipo-enfase">Senha</span>
+          <input name="password" type="password" className="lsg-input-text" placeholder="Digite sua senha" />
+        </label>
+      </div>
+      <button className="lsg-botao--login">Entrar</button>
     </form>
-  )
+  );
 }

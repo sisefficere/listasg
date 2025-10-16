@@ -1,4 +1,4 @@
-import { CardAnunciantes } from "@components/molecules/card-anunciantes";
+import CardAnunciantes  from "@components/molecules/card-anunciantes";
 import prisma from "@utils/prisma";
 
 export async function generateMetadata({ params }) {
