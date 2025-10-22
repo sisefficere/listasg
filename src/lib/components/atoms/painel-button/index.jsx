@@ -5,6 +5,8 @@ import Link from "next/link";
 
 export default function PainelButton() {
   const pathname = usePathname();
+
+  console.log(pathname)
   return (
     <>
       {!pathname.includes("admin") && (

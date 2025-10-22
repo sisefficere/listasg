@@ -1,8 +1,15 @@
 "use client";
 
-import { MoreHorizontal, ArrowUpDown, SquarePen, Trash, Pin } from "lucide-react";
+import {
+  MoreHorizontal,
+  ArrowUpDown,
+  SquarePen,
+  Trash,
+  Pin,
+} from "lucide-react";
 import { Checkbox } from "@components/ui/checkbox";
 import { Button } from "@components/ui/button";
+import Link from "next/link";
 /*
 DADOS NECESSÁRIOS:
 
@@ -187,31 +194,39 @@ export const columns = [
   {
     id: "acoes",
     header: ({ column }) => {
-
-      function togglePin(column, direcao){
-        console.log(column.getIsPinned())
-        if(column.getIsPinned()){
-          column.pin(false)
-        }else{
-          column.pin(direcao)
+      function togglePin(column, direcao) {
+        console.log(column.getIsPinned());
+        if (column.getIsPinned()) {
+          column.pin(false);
+        } else {
+          column.pin(direcao);
         }
       }
       return (
-        <div
-         className="flex gap-2 py-1 justify-center items-center"
-        >
+        <div className="flex gap-2 py-1 justify-center items-center">
           Ações
-          <Button size="icon" variant="outline" onClick={() => togglePin(column, "right")}>
-            <Pin/>
+          <Button
+            size="icon"
+            variant="outline"
+            onClick={() => togglePin(column, "right")}
+          >
+            <Pin />
           </Button>
         </div>
-      )
+      );
     },
     cell: ({ row }) => {
+      const idAnunciante = row.getValue("id");
       return (
         <div className="flex gap-2 px-5 justify-center items-center">
-          <Button size="sm" variant="secondary" href=''><SquarePen/> Editar</Button>
-          <Button size="sm" variant="destructive"><Trash/> Excluir</Button>
+          <Link href={`/admin/${idAnunciante}`}>
+            <Button size="sm" variant="secondary">
+              <SquarePen /> Editar
+            </Button>
+          </Link>
+          <Button size="sm" variant="destructive">
+            <Trash /> Excluir
+          </Button>
         </div>
       );
     },
