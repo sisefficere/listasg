@@ -69,7 +69,7 @@ export function DataTable({ columns, data }) {
         />
         <DropdownMenu className="flex-1/3">
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
+            <Button variant="outline" className="ml-auto cursor-pointer">
               Colunas
             </Button>
           </DropdownMenuTrigger>

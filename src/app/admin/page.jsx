@@ -5,6 +5,13 @@ import { redirect } from "next/navigation";
 import getAnunciantes from "@actions/get-anunciantes";
 
 export default async function Admin() {
+  const session = await auth();
+  // se o usuário não estiver logado, não renderiza o componente (retorna null)
+  if (!session?.user) {
+    redirect("/login");
+  }
+
+  
   const select = {
     id: true,
     nome_empresa: true,
@@ -12,13 +19,10 @@ export default async function Admin() {
     end_ref: true,
     telefone: true,
     updatedAt: true,
+    slug: true
   };
   const data = await getAnunciantes(select);
-  const session = await auth();
-  // se o usuário não estiver logado, não renderiza o componente (retorna null)
-  if (!session?.user) {
-    redirect("/login");
-  }
+  
 
   return (
     <div className="container mx-auto py-10">

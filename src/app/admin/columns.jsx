@@ -1,10 +1,11 @@
 "use client";
 
 import { MoreHorizontal, ArrowUpDown } from "lucide-react";
-import { Checkbox } from "@components/ui/checkbox"
-
-
+import { Checkbox } from "@components/ui/checkbox";
 import { Button } from "@components/ui/button";
+/*
+DADOS NECESSÁRIOS:
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,32 +13,27 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-  
 } from "@components/ui/dropdown-menu";
+{
+      id: "728ed52f",
+      nomeEmpresa: '100',
+descricao: "m@example.com",
+      endereco: "m@example.com",
+      endRef: "m@example.com",
+      telefone: "m@example.com",
+      updatedAt: ""
+      // slug: "pending",
+      // srcImage: "m@example.com",
+      // categoria: "m@example.com",
+      // subcategoria: "m@example.com",
+      // email: "m@example.com",
+      // instagram: "m@example.com",
+      // facebook: "m@example.com",
+      // whatsapp: "m@example.com",
+      // website: "m@example.com",
+      // createdAt: "",
+    },
 
-// DADOS NECESSÁRIOS:
-// {
-//       id: "728ed52f",
-//       nomeEmpresa: '100',
-// descricao: "m@example.com",
-//       endereco: "m@example.com",
-//       endRef: "m@example.com",
-//       telefone: "m@example.com",
-//       updatedAt: ""
-//       // slug: "pending",
-//       // srcImage: "m@example.com",
-//       // categoria: "m@example.com",
-//       // subcategoria: "m@example.com",
-//       // email: "m@example.com",
-//       // instagram: "m@example.com",
-//       // facebook: "m@example.com",
-//       // whatsapp: "m@example.com",
-//       // website: "m@example.com",
-//       // createdAt: "",
-//     },
-
-
-/*
  {
     accessorKey: "email",
     header: ({ column }) => {
@@ -115,7 +111,9 @@ import {
     enableSorting: false,
     enableHiding: false,
   },
+
 */
+
 export const columns = [
   {
     id: "select",
@@ -151,51 +149,47 @@ export const columns = [
           ID
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
-      )
+      );
     },
   },
- {
+  {
     accessorKey: "nome_empresa",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="cursor-pointer"
-        >
-          Nome
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      )
-    },
-    sortingFn: 'text'
+    header: "Nome",
   },
   {
     accessorKey: "endereco",
     header: "Endereço",
     cell: (row) => {
-      const endereco = row.getValue("endereco")
-      const endReferencia = row.getValue("end_ref") && row.getValue("end_ref")
+      const endereco = row.getValue("endereco");
+      const endReferencia = row.getValue("end_ref") && row.getValue("end_ref");
 
-      let endComReferencia = "Não cadastrado"
+      let endComReferencia = "Não cadastrado";
 
-      if(endereco){
-        if(endReferencia){
-          endComReferencia =  endereco + ', ' + endReferencia
-        }else{
-          return endereco
+      if (endereco) {
+        if (endReferencia) {
+          endComReferencia = endereco + ", " + endReferencia;
+        } else {
+          return endereco;
         }
       }
 
-      return endComReferencia
+      return endComReferencia;
     },
   },
-   {
+  {
     accessorKey: "telefone",
     header: "Telefone(s)",
   },
-   {
+  {
     accessorKey: "updatedAt",
     header: "Atualizado em",
+  },
+  {
+    id: "acessar",
+    cell: ({ row }) => {
+      const payment = row.original;
+
+      return <Button></Button>;
+    },
   },
 ];
