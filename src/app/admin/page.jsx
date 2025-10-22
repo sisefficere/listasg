@@ -11,7 +11,7 @@ export default async function Admin() {
     redirect("/login");
   }
 
-  
+
   const select = {
     id: true,
     nome_empresa: true,
@@ -25,7 +25,7 @@ export default async function Admin() {
   
 
   return (
-    <div className="container mx-auto py-10">
+    <div className="container max-md:px-5">
       <DataTable columns={columns} data={data} />
     </div>
   );

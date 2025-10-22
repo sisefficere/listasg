@@ -1,6 +1,6 @@
 "use client";
 
-import { MoreHorizontal, ArrowUpDown } from "lucide-react";
+import { MoreHorizontal, ArrowUpDown, SquarePen, Trash, Pin } from "lucide-react";
 import { Checkbox } from "@components/ui/checkbox";
 import { Button } from "@components/ui/button";
 /*
@@ -185,11 +185,35 @@ export const columns = [
     header: "Atualizado em",
   },
   {
-    id: "acessar",
-    cell: ({ row }) => {
-      const payment = row.original;
+    id: "acoes",
+    header: ({ column }) => {
 
-      return <Button></Button>;
+      function togglePin(column, direcao){
+        console.log(column.getIsPinned())
+        if(column.getIsPinned()){
+          column.pin(false)
+        }else{
+          column.pin(direcao)
+        }
+      }
+      return (
+        <div
+         className="flex gap-2 py-1 justify-center items-center"
+        >
+          Ações
+          <Button size="icon" variant="outline" onClick={() => togglePin(column, "right")}>
+            <Pin/>
+          </Button>
+        </div>
+      )
+    },
+    cell: ({ row }) => {
+      return (
+        <div className="flex gap-2 px-5 justify-center items-center">
+          <Button size="sm" variant="secondary" href=''><SquarePen/> Editar</Button>
+          <Button size="sm" variant="destructive"><Trash/> Excluir</Button>
+        </div>
+      );
     },
   },
 ];

@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
-import { useState } from 'react';
+import { useState } from "react";
 
 import {
   flexRender,
@@ -28,13 +28,43 @@ import {
   DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
 
+const getCommonPinningStyles = (column) => {
+  const isPinned = column.getIsPinned();
+  const isLastLeftPinnedColumn =
+    isPinned === "left" && column.getIsLastColumn("left");
+  const isFirstRightPinnedColumn =
+    isPinned === "right" && column.getIsFirstColumn("right");
+
+  return {
+    boxShadow: isLastLeftPinnedColumn
+      ? "-4px 0 4px -4px #E5E5FF inset"
+      : isFirstRightPinnedColumn
+      ? "4px 0 4px -4px #E5E5FF inset"
+      : undefined,
+    backgroundColor: isLastLeftPinnedColumn || isFirstRightPinnedColumn
+    ? "white"
+    : undefined,
+    opacity: isLastLeftPinnedColumn || isFirstRightPinnedColumn
+    ? 1
+    : undefined,
+    left: isPinned === "left" ? `${column.getStart("left")}px` : undefined,
+    right: isPinned === "right" ? `${column.getAfter("right")}px` : undefined,
+    opacity: isPinned ? 0.95 : 1,
+    position: isPinned ? "sticky" : "relative",
+    width: column.getSize(),
+    zIndex: isPinned ? 1 : 0,
+  };
+};
+
 export function DataTable({ columns, data }) {
   const [sorting, setSorting] = useState([]);
-  const [columnFilters, setColumnFilters] =
-    useState([]);
-  const [columnVisibility, setColumnVisibility] =
-    useState({});
+  const [columnFilters, setColumnFilters] = useState([]);
+  const [columnVisibility, setColumnVisibility] = useState({});
   const [rowSelection, setRowSelection] = useState({});
+  const [columnPinning, setColumnPinning] = useState({
+    left: [],
+    right: ["acoes"],
+  });
 
   const table = useReactTable({
     data,
@@ -47,12 +77,13 @@ export function DataTable({ columns, data }) {
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
-
+    onColumnPinningChange: setColumnPinning,
     state: {
       sorting,
       columnFilters,
       columnVisibility,
       rowSelection,
+      columnPinning,
     },
   });
 
@@ -101,7 +132,7 @@ export function DataTable({ columns, data }) {
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead key={header.id} style={{ ...getCommonPinningStyles(header.column) }}>
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -122,7 +153,7 @@ export function DataTable({ columns, data }) {
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell key={cell.id} style={{ ...getCommonPinningStyles(cell.column) }}>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
