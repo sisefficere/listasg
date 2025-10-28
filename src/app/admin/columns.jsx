@@ -220,13 +220,13 @@ export const columns = [
       return (
         <div className="flex gap-2 px-5 justify-center items-center">
           <Link href={`/admin/${idAnunciante}`}>
-            <Button size="sm" variant="secondary">
+            <Button size="sm" variant="secondary" className="cursor-pointer">
               <SquarePen /> Editar
             </Button>
           </Link>
-          <Button size="sm" variant="destructive">
+          {/* <Button size="sm" variant="destructive">
             <Trash /> Excluir
-          </Button>
+          </Button> */}
         </div>
       );
     },

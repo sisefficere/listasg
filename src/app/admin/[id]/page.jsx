@@ -1,10 +1,21 @@
+import getAnunciantesId from "@actions/get-anunciantes-id";
+import Form from "@components/molecules/form";
 import { auth } from "@utils/auth";
 
-export default async function AnuncianteId() {
+export default async function AnuncianteId({ params }) {
   const session = await auth();
-  // se o usuário não estiver logado, não renderiza o componente (retorna null)
   if (!session?.user) {
     redirect("/login");
   }
-  return <></>;
+
+  const { id } = await params;
+
+  const idInt = Number.parseInt(id);
+
+  const dadosAnunciante = await getAnunciantesId(idInt);
+  return (
+    <>
+      <Form dados={dadosAnunciante} />
+    </>
+  );
 }

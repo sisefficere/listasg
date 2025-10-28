@@ -34,7 +34,10 @@ Projeto que visa expor anunciantes, como em uma moderna lista telefônica, desen
 
 ## Stack
 
-React + Next.JS + TailwindCSS + Auth.JS + Vercel + Prisma + NeonPostgres.
+- Infra: Vercel + NeonPostgres
+- Back: Next.JS + Auth.JS + Prisma + Zod.
+- Front: React + TailwindCSS + Tanstack UI + Shadcn UI
+- Design: Figma
 
 # Funcionalidades
 
@@ -124,6 +127,8 @@ TODO
 #### `@components/molecules/form-login`
 
 TODO
+
+### Validações
 
 
 # Actions
