@@ -63,7 +63,7 @@
   @apply w-full mx-auto max-w-[75rem];
 }
 .estrutura-padding {
-  @apply max-lg:px-5 lg:max-2xl:px-10;
+  @apply max-lg:px-5 lg:max-3xl:px-10;
 }
 
 .link{

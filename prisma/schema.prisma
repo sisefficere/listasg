@@ -11,13 +11,14 @@ datasource db {
 model anunciantes {
   id            Int            @id(map: "inicial_pkey") @default(autoincrement())
   nome_empresa  String         @unique
-  slug          String?         @unique
+  slug          String?        @unique
   descricao     String?
   endereco      String?
   telefone      String
   src_image     String?
   categoria     Int?
   subcategoria  Int?
+  taxonomia     Int?
   email         String?
   instagram     String?
   facebook      String?
@@ -26,6 +27,7 @@ model anunciantes {
   end_ref       String?
   categorias    categorias?    @relation(fields: [categoria], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ref_categoria")
   subcategorias subcategorias? @relation(fields: [subcategoria], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ref_subcategoria")
+  taxonomias    taxonomia?     @relation(fields: [taxonomia], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ref_taxonomia")
   createdAt     DateTime       @default(now())
   updatedAt     DateTime?      @updatedAt
 }
@@ -33,7 +35,7 @@ model anunciantes {
 model categorias {
   id             Int             @id @default(autoincrement())
   nome           String          @unique
-  slug           String?          @unique
+  slug           String?         @unique
   descricao      String?
   anunciantes    anunciantes[]
   classificacao  Int?
@@ -44,31 +46,34 @@ model categorias {
 }
 
 model taxonomia {
-  id            Int          @id @default(autoincrement())
-  nome          String       @unique
-  slug          String?      @unique
-  classificacao Int?
-  descricao     String?
-  parentId      Int?
-  parent        taxonomia?  @relation("Comment Children", fields: [parentId], references: [id]) // categoria pai
-  children      taxonomia[] @relation("Comment Children") // subcategorias
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime?    @updatedAt
+  id             Int             @id @default(autoincrement())
+  nome           String          @unique
+  slug           String?         @unique
+  classificacao  Int?
+  descricao      String?
+  parentId       Int?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime?       @updatedAt
+  parent         taxonomia?      @relation("Comment Children", fields: [parentId], references: [id]) // categoria pai
+  children       taxonomia[]     @relation("Comment Children") // subcategorias
+  classificacoes classificacoes? @relation(fields: [classificacao], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "classificacao")
+  anunciantes    anunciantes[]
 }
 
 model classificacoes {
   id         Int          @id @default(autoincrement())
   nome       String       @unique
-  slug       String?       @unique
-  categorias categorias[]
+  slug       String?      @unique
   createdAt  DateTime     @default(now())
   updatedAt  DateTime?    @updatedAt
+  categorias categorias[]
+  taxonomia  taxonomia[]
 }
 
 model subcategorias {
   id          Int           @id @default(autoincrement())
   nome        String        @unique
-  slug        String?        @unique
+  slug        String?       @unique
   categoria   Int?
   descricao   String?
   anunciantes anunciantes[]
@@ -78,8 +83,8 @@ model subcategorias {
 }
 
 model usuario {
-  id   Int     @id @default(autoincrement())
-  nome String?
-  email String @unique
+  id    Int     @id @default(autoincrement())
+  nome  String?
+  email String  @unique
   senha String
 }

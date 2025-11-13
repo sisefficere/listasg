@@ -10,7 +10,8 @@ export default async function getAnunciantesId(id) {
     },
     include:{
       categorias: true,
-      subcategorias: true
+      subcategorias: true,
+      taxonomias: true
     }
   });
   // if (select) {
