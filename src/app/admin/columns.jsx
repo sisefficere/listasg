@@ -164,6 +164,10 @@ export const columns = [
     header: "Nome",
   },
   {
+    accessorKey: "telefone",
+    header: "Telefone(s)",
+  },
+  {
     accessorKey: "endereco",
     header: "Endereço",
     cell: (row) => {
@@ -182,10 +186,6 @@ export const columns = [
 
       return endComReferencia;
     },
-  },
-  {
-    accessorKey: "telefone",
-    header: "Telefone(s)",
   },
   {
     accessorKey: "updatedAt",

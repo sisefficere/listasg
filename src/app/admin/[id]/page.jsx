@@ -15,6 +15,7 @@ export default async function AnuncianteId({ params }) {
   const dadosAnunciante = await getAnunciantesId(idInt);
   return (
     <>
+    <h1 className="tipo-titulo1">Edição de cadastros</h1>
       <Form dados={dadosAnunciante} />
     </>
   );

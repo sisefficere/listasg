@@ -34,7 +34,7 @@ Projeto que visa expor anunciantes, como em uma moderna lista telefônica, desen
 
 ## Stack
 
-- Infra: Vercel + NeonPostgres
+- Infra: Vercel + NeonPostgres + Cloudinary (para imagens - https://next.cloudinary.dev)
 - Back: Next.JS + Auth.JS + Prisma + Zod.
 - Front: React + TailwindCSS + Tanstack UI + Shadcn UI
 - Design: Figma

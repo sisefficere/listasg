@@ -55,7 +55,7 @@ export default async function Page({ params }) {
   });
 
   return (
-    <div className="flex flex-col items-center justify-center gap-[50px] estrutura-padding w-full">
+    <div className="flex flex-col items-center justify-center gap-[50px] w-full">
       <div className="flex flex-col w-full items-center">
           <h2 className="tipo-titulo2">
             Classificados em "{categoria.nome} {">"} {subcategoria.nome}"

@@ -10,6 +10,8 @@ import { FieldApi } from "@tanstack/react-form";
 import { useStore } from "@tanstack/react-form";
 import { CldUploadWidget } from "next-cloudinary";
 import { useState } from "react";
+import ImageHandle from "../image-handle";
+import upsertAnunciantes from "@actions/upsert-anunciantes";
 
 export default function Form({ dados }) {
   /*
@@ -40,7 +42,9 @@ export default function Form({ dados }) {
       website: dados.website,
     },
     onSubmit: async ({ value }) => {
-      // Do something with form data
+      upsertAnunciantes(value.id, value);
+
+      alert("Cadastro salvo com sucesso");
     },
   });
 
@@ -53,26 +57,22 @@ export default function Form({ dados }) {
   const [imageUploaded, setImageUploaded] = useState(false);
 
   return (
-    <div className="flex flex-col items-center gap-5 w-full">
-      <p className="w-full md:text-end">
-        {/* Criado em: {dados.createdAt} | Atualizado em: {dados.updatedAt} */}
-      </p>
+    <div className="flex flex-col items-center gap-2 w-full max-w-[900px]">
       {/* bloco para exibir o ID */}
+
       <form
-        action=""
         onSubmit={(e) => {
           e.preventDefault();
-          form.handleSubmit();
+          e.stopPropagation();
         }}
-        className="w-full flex max-w-[900px] flex-col gap-[30px]"
+        className="w-full flex flex-col gap-[30px]"
       >
         <fieldset className="flex flex-col gap-[20px]">
-          <p className="tipo-subtitulo">Cadastro do anunciante</p>
           <div className="flex flex-col gap-[10px]">
-            <div className="w-full flex gap-[10px]">
+            <div className="w-full flex flex-wrap gap-[10px]">
               <form.Field name="nome_empresa">
                 {(field) => (
-                  <div className="flex flex-col gap-2 flex-1/2">
+                  <div className="flex flex-col gap-2 w-full">
                     <Label htmlFor={field.name}>Nome do anunciante</Label>
                     <Input
                       id={field.name}
@@ -88,11 +88,8 @@ export default function Form({ dados }) {
               </form.Field>
               <form.Field name="slug">
                 {(field) => (
-                  <div className="flex flex-col gap-2">
-                    <Label htmlFor={field.name}>Slug</Label>
                     <Input
-                      disabled
-                      type="text"
+                      type="hidden"
                       id={field.name}
                       name={field.name}
                       value={
@@ -106,14 +103,13 @@ export default function Form({ dados }) {
                       onBlur={field.handleBlur}
                       onChange={(e) => field.handleChange(e.target.value)}
                     />
-                  </div>
                 )}
               </form.Field>
             </div>
-            <div className="w-full flex gap-[10px]">
+            <div className="w-full flex gap-[10px] max-sm:flex-col">
               <form.Field name="endereco" className="">
                 {(field) => (
-                  <div className="flex flex-col gap-2 flex-3/5">
+                  <div className="flex flex-col gap-2 max-sm:w-full sm:flex-3/5">
                     <Label htmlFor={field.name}>Endereço</Label>
                     <Input
                       value={field.state.value}
@@ -126,7 +122,7 @@ export default function Form({ dados }) {
               </form.Field>
               <form.Field name="end_ref">
                 {(field) => (
-                  <div className="flex flex-col gap-2 flex-2/5">
+                  <div className="flex flex-col gap-2 max-sm:w-full sm:flex-2/5">
                     <Label htmlFor={field.name}>Referência</Label>
                     <Input
                       value={field.state.value}
@@ -141,7 +137,7 @@ export default function Form({ dados }) {
           </div>
           <div className="flex flex-col gap-[10px]">
             <p className="tipo-etiqueta">Canais de contato</p>
-            <div className="flex gap-[10px] w-full">
+            <div className="flex gap-[10px] w-full max-sm:flex-col">
               <form.Field name="whatsapp">
                 {(field) => (
                   <div className="flex flex-col gap-2 flex-6/12">
@@ -183,7 +179,7 @@ export default function Form({ dados }) {
                 )}
               </form.Field>
             </div>
-            <div className="flex gap-[10px] w-full">
+            <div className="flex gap-[10px] w-full max-sm:flex-col">
               <form.Field name="instagram">
                 {(field) => (
                   <div className="flex flex-col gap-2 flex-1/3">
@@ -231,14 +227,13 @@ export default function Form({ dados }) {
           <div className="flex flex-col gap-[15px]">
             <div className="flex flex-col gap-[10px]">
               <p className="tipo-etiqueta">Taxonomia</p>
-              <div className="flex gap-[10px]">
-                <div className="flex-1/2 flex gap-[5px]">
+              <div className="flex gap-[10px] max-sm:flex-col">
+                <div className="flex-1/2 flex gap-[5px] max-sm:flex-col">
                   <form.Field name="idCategoria">
                     {(field) => (
                       <div className="flex flex-col gap-2 flex-1/3">
-                        <Label htmlFor={field.name}>ID da categoria</Label>
+                        <Label htmlFor={field.name}>Categoria</Label>
                         <Input
-                          disabled
                           value={field.state.value}
                           onBlur={field.handleBlur}
                           onChange={(e) => field.handleChange(e.target.value)}
@@ -249,8 +244,8 @@ export default function Form({ dados }) {
                   <form.Field name="categorias">
                     {(field) => (
                       <div className="flex flex-col gap-2 flex-2/3">
-                        <Label htmlFor={field.name}>Categoria(s)</Label>
                         <Input
+                          disabled
                           value={field.state.value}
                           onBlur={field.handleBlur}
                           placeholder="Escolha uma categoria"
@@ -260,13 +255,12 @@ export default function Form({ dados }) {
                     )}
                   </form.Field>
                 </div>
-                <div className="flex-1/2 flex gap-[5px]">
+                <div className="flex-1/2 flex gap-[5px] max-sm:flex-col">
                   <form.Field name="idSubcategoria">
                     {(field) => (
                       <div className="flex flex-col gap-2 flex-1/3">
-                        <Label htmlFor={field.name}>ID da Subcategoria</Label>
+                        <Label htmlFor={field.name}>Subcategoria</Label>
                         <Input
-                          disabled
                           value={field.state.value}
                           onBlur={field.handleBlur}
                           onChange={(e) => field.handleChange(e.target.value)}
@@ -277,8 +271,8 @@ export default function Form({ dados }) {
                   <form.Field name="subcategoria">
                     {(field) => (
                       <div className="flex flex-col gap-2 flex-2/3">
-                        <Label htmlFor={field.name}>Subcategoria(s)</Label>
                         <Input
+                          disabled
                           value={field.state.value}
                           onBlur={field.handleBlur}
                           placeholder="Escolha uma subcategoria"
@@ -292,54 +286,56 @@ export default function Form({ dados }) {
             </div>
             <div className="flex flex-col gap-[10px]">
               <p className="tipo-etiqueta">Detalhes</p>
-              <div className="flex gap-[10px]">
-                <div>
-                  <div className="flex flex-col gap-2 flex-1/3">
-                    <img src="" alt="" />
-                  </div>
-                  <form.Field name="src_image">
-                    {(field) => (
-                      <div className="flex flex-col items-center justify-center gap-2 flex-1/3">
-                        {imageUploaded && (
-                          <button
-                            className={`text-xl font-black w-full text-end cursor-pointer`}
-                            onClick={() => {setImagemUrl(field.state.value); setImageUploaded(false)}}
-                          >
-                            X
-                          </button>
-                        )}
-                        <img src={imagemUrl} alt="" className="max-w-[200px]" />
-                        <Input
-                          type="hidden"
-                          value={imagemUrl}
-                          onBlur={field.handleBlur}
-                          onChange={(e) => field.handleChange(e.target.value)}
-                        />
-                        <CldUploadWidget
-                          uploadPreset="pasta-anunciantes"
-                          onSuccess={(results) => {
-                            setImagemUrl(results?.info.url);
-                            setImageUploaded(true);
+              <div className="flex gap-[10px] max-sm:flex-col">
+                <form.Field name="src_image">
+                  {(field) => (
+                    <div className="flex flex-col items-center justify-center max-sm:order-2 gap-2 flex-1/6">
+                      {imageUploaded && (
+                        <button
+                          className={`text-xl font-black w-full text-end cursor-pointer`}
+                          onClick={() => {
+                            setImagemUrl(field.state.value);
+                            setImageUploaded(false);
                           }}
                         >
-                          {({ open }) => {
-                            return (
-                              <button
-                                onClick={() => open()}
-                                className="cursor-pointer lsg-botao--feature"
-                              >
-                                Escolha uma imagem
-                              </button>
-                            );
-                          }}
-                        </CldUploadWidget>
-                      </div>
-                    )}
-                  </form.Field>
-                </div>
+                          X
+                        </button>
+                      )}
+                      <ImageHandle
+                        srcImage={imagemUrl}
+                        id={field.form.getFieldValue("id") + "-" + field.name}
+                        imgWidthClass="w-full max-w-[100px]"
+                      />
+                      <Input
+                        type="hidden"
+                        value={imagemUrl}
+                        onBlur={field.handleBlur}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                      />
+                      <CldUploadWidget
+                        uploadPreset="pasta-anunciantes"
+                        onSuccess={(results) => {
+                          setImagemUrl(results?.info.url);
+                          setImageUploaded(true);
+                        }}
+                      >
+                        {({ open }) => {
+                          return (
+                            <button
+                              onClick={() => open()}
+                              className="lsg-botao-action--small"
+                            >
+                              Escolha uma imagem
+                            </button>
+                          );
+                        }}
+                      </CldUploadWidget>
+                    </div>
+                  )}
+                </form.Field>
                 <form.Field name="descricao">
                   {(field) => (
-                    <div className="flex flex-col gap-2 flex-2/3">
+                    <div className="flex flex-col gap-2 flex-5/6 max-sm:order-1">
                       <Label htmlFor={field.name}>Descrição do anúncio</Label>
                       <Textarea
                         value={field.state.value}
@@ -354,6 +350,26 @@ export default function Form({ dados }) {
             </div>
           </div>
         </fieldset>
+        <div className="w-full flex gap-5 justify-end items-center">
+          <button
+            type="submit"
+            className="lsg-botao-action--negativa-small"
+            onClick={() => form.reset()}
+          >
+            Redefinir
+          </button>
+          <button
+            type="submit"
+            className="lsg-botao--login"
+            onClick={() => form.handleSubmit({ submitAction: "continue" })}
+          >
+            Salvar
+          </button>
+        </div>
+        <p className="w-full tipo-irrelevante flex flex-col gap-1 text-end">
+          <span>{"Criado em: " + dados.createdAt}</span>
+          <span>{"Atualizado em: " + dados.updatedAt}</span>
+        </p>
       </form>
     </div>
   );

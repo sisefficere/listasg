@@ -25,7 +25,7 @@ export default async function Admin() {
   
 
   return (
-    <div className="container max-md:px-5">
+    <div className="container max-w-[900px]">
       <DataTable columns={columns} data={data} />
     </div>
   );

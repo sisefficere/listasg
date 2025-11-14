@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 
 // fonte: https://medium.com/@thomasaugot/adding-zoom-functionality-to-an-image-viewer-in-react-next-js-4621be8eb770
 
-export default function ImageHandle({ srcImage, id }) {
+export default function ImageHandle({ srcImage, id, imgWidthClass }) {
 
     // state para lidar com o display do modal (flex quando true e fechado quando false/null)
   const [zoomedImage, setZoomedImage] = useState(null);
@@ -35,7 +35,7 @@ export default function ImageHandle({ srcImage, id }) {
       <img
         src={srcImage}
         alt=""
-        className="cursor-pointer w-full max-w-[200px] rounded-[5px] shadow-[0_0_10px_5px_rgba(0,0,0,0.1)]"
+        className={`cursor-pointer ${imgWidthClass ? imgWidthClass : 'w-full max-w-[200px]'}  rounded-[5px] shadow-[0_0_10px_5px_rgba(0,0,0,0.1)]`}
         onClick={() => openZoomedImage(srcImage, idModal)}
       />
       <dialog

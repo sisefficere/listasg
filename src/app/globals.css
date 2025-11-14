@@ -115,11 +115,24 @@
 .lsg-botao{
   @apply font-bold flex gap-2 hover:lsg-grow cursor-pointer items-center  justify-center text-branco-4-claro-principal px-5 py-[10px] rounded-[10px] bg-vermelho-2-principal max-sm:w-full min-w-[150px];
 }
+
 .lsg-botao--login{
   @apply font-bold flex gap-2 hover:lsg-grow cursor-pointer items-center justify-center text-branco-1-escuro px-5 py-[10px] rounded-[10px] bg-verde-2-principal min-w-[150px] max-w-[200px];
 }
 .lsg-botao--feature{
   @apply font-bold flex gap-2 hover:lsg-grow cursor-pointer items-center justify-center text-branco-1-escuro px-5 py-[10px] rounded-[10px] bg-verde-3 min-w-[150px];
+}
+.lsg-botao-action{
+  @apply font-bold flex gap-2 hover:lsg-grow cursor-pointer items-center justify-center text-branco-1-escuro px-5 py-[10px] rounded-[10px] border-verde-3 border-2 min-w-[150px];
+}
+.lsg-botao-action--small{
+  @apply text-sm font-bold flex gap-2 hover:lsg-grow cursor-pointer items-center justify-center text-branco-1-escuro px-2 py-[10px] rounded-[10px] border-verde-3 border-2 min-w-[150px];
+}
+.lsg-botao-action--negativa{
+  @apply font-bold flex gap-2 hover:lsg-grow cursor-pointer items-center  justify-center px-5 py-[10px] rounded-[10px] border-vermelho-2-principal border-2 max-sm:w-full min-w-[150px];
+}
+.lsg-botao-action--negativa-small{
+  @apply text-sm text-branco-1-escuro font-bold flex gap-2 hover:lsg-grow cursor-pointer items-center  justify-center px-2 py-[10px] rounded-[10px] border-vermelho-2-principal border-2 max-sm:w-full min-w-[100px];
 }
 .lsg-botao--logout{
   @apply font-bold flex gap-2 hover:lsg-grow cursor-pointer items-center justify-center text-branco-1-escuro px-5 py-[10px] rounded-[10px] bg-vermelho-4-claro min-w-[150px];

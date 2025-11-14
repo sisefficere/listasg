@@ -88,7 +88,7 @@ export function DataTable({ columns, data }) {
   });
 
   return (
-    <div>
+    <div className="w-full">
       <div className="flex items-center py-4 gap-2">
         <Input
           placeholder="Filtrar anunciantes"
@@ -98,7 +98,8 @@ export function DataTable({ columns, data }) {
           }
           className="flex-2/3"
         />
-        <DropdownMenu className="flex-1/3">
+        {/* TOGGLE da coluna em telas maiores adiciona espaço em branco na lateral: TODO consertar */}
+        {/* <DropdownMenu className="flex-1/3">
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto cursor-pointer">
               Colunas
@@ -123,7 +124,7 @@ export function DataTable({ columns, data }) {
                 );
               })}
           </DropdownMenuContent>
-        </DropdownMenu>
+        </DropdownMenu> */}
       </div>
       <div className="overflow-hidden rounded-md border">
         <Table>
