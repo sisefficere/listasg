@@ -219,7 +219,7 @@ export const columns = [
       const idAnunciante = row.getValue("id");
       return (
         <div className="flex gap-2 px-5 justify-center items-center">
-          <Link href={`/admin/${idAnunciante}`}>
+          <Link href={`/admin/anunciantes/${idAnunciante}`}>
             <Button size="sm" variant="secondary" className="cursor-pointer">
               <SquarePen /> Editar
             </Button>

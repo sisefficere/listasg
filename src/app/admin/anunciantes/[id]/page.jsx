@@ -1,22 +1,20 @@
 import getAnunciantesId from "@actions/get-anunciantes-id";
+import getTaxonomia from "@actions/get-taxonomia";
 import Form from "@components/molecules/form";
 import { auth } from "@utils/auth";
 
 export default async function AnuncianteId({ params }) {
-  const session = await auth();
-  if (!session?.user) {
-    redirect("/login");
-  }
-
   const { id } = await params;
 
   const idInt = Number.parseInt(id);
 
   const dadosAnunciante = await getAnunciantesId(idInt);
+    const categorias = await getTaxonomia(null, true)
+
   return (
-    <>
-    <h1 className="tipo-titulo1">Edição de cadastros</h1>
-      <Form dados={dadosAnunciante} />
-    </>
+    <div className="flex flex-col gap-5 items-center max-w-[900px]">
+      <h3 className="tipo-titulo3">Edição de cadastro</h3>
+      <Form dados={dadosAnunciante} taxonomia={categorias} />
+    </div>
   );
 }

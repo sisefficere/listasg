@@ -1,6 +1,6 @@
 "use client";
 
-import { div, legend, fieldset } from "@components/ui/field";
+import { div, legend, fieldset, FieldLabel } from "@components/ui/field";
 import { Input } from "@components/ui/input";
 import { Label } from "@components/ui/label";
 import { Textarea } from "@components/ui/textarea";
@@ -12,8 +12,16 @@ import { CldUploadWidget } from "next-cloudinary";
 import { useState } from "react";
 import ImageHandle from "../image-handle";
 import upsertAnunciantes from "@actions/upsert-anunciantes";
+import getTaxonomia from "@actions/get-taxonomia";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@components/ui/select";
 
-export default function Form({ dados }) {
+export default function Form({ dados, taxonomia }) {
   /*
         TO-DO
         - Criar uma nova tabela com autorrelação chamada taxonomia
@@ -31,10 +39,7 @@ export default function Form({ dados }) {
       end_ref: dados.end_ref,
       telefone: dados.telefone,
       src_image: dados.src_image,
-      idCategoria: dados.categoria,
-      idSubcategoria: dados.subcategoria,
-      categorias: dados.categorias?.nome || "Não definida",
-      subcategoria: dados.subcategoria?.nome || "Não definida",
+      taxonomia: dados.taxonomia,
       email: dados.email,
       instagram: dados.instagram,
       facebook: dados.facebook,
@@ -88,21 +93,21 @@ export default function Form({ dados }) {
               </form.Field>
               <form.Field name="slug">
                 {(field) => (
-                    <Input
-                      type="hidden"
-                      id={field.name}
-                      name={field.name}
-                      value={
-                        field.state.value
-                          ? field.state.value
-                          : slugify(`${nomeEmpresa}`, {
-                              remove: /[*+~.()'"!:@]/g, // remove characters that match regex, defaults to `undefined`
-                              lower: true, // convert to lower case, defaults to `false`
-                            })
-                      }
-                      onBlur={field.handleBlur}
-                      onChange={(e) => field.handleChange(e.target.value)}
-                    />
+                  <Input
+                    type="hidden"
+                    id={field.name}
+                    name={field.name}
+                    value={
+                      field.state.value
+                        ? field.state.value
+                        : slugify(`${nomeEmpresa}`, {
+                            remove: /[*+~.()'"!:@]/g, // remove characters that match regex, defaults to `undefined`
+                            lower: true, // convert to lower case, defaults to `false`
+                          })
+                    }
+                    onBlur={field.handleBlur}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                  />
                 )}
               </form.Field>
             </div>
@@ -225,64 +230,33 @@ export default function Form({ dados }) {
         <fieldset className="flex flex-col gap-[20px]">
           <p className="tipo-subtitulo">Cadastro do anúncio</p>
           <div className="flex flex-col gap-[15px]">
-            <div className="flex flex-col gap-[10px]">
-              <p className="tipo-etiqueta">Taxonomia</p>
-              <div className="flex gap-[10px] max-sm:flex-col">
-                <div className="flex-1/2 flex gap-[5px] max-sm:flex-col">
-                  <form.Field name="idCategoria">
-                    {(field) => (
-                      <div className="flex flex-col gap-2 flex-1/3">
-                        <Label htmlFor={field.name}>Categoria</Label>
-                        <Input
-                          value={field.state.value}
-                          onBlur={field.handleBlur}
-                          onChange={(e) => field.handleChange(e.target.value)}
-                        />
-                      </div>
-                    )}
-                  </form.Field>
-                  <form.Field name="categorias">
-                    {(field) => (
-                      <div className="flex flex-col gap-2 flex-2/3">
-                        <Input
-                          disabled
-                          value={field.state.value}
-                          onBlur={field.handleBlur}
-                          placeholder="Escolha uma categoria"
-                          onChange={(e) => field.handleChange(e.target.value)}
-                        />
-                      </div>
-                    )}
-                  </form.Field>
-                </div>
-                <div className="flex-1/2 flex gap-[5px] max-sm:flex-col">
-                  <form.Field name="idSubcategoria">
-                    {(field) => (
-                      <div className="flex flex-col gap-2 flex-1/3">
-                        <Label htmlFor={field.name}>Subcategoria</Label>
-                        <Input
-                          value={field.state.value}
-                          onBlur={field.handleBlur}
-                          onChange={(e) => field.handleChange(e.target.value)}
-                        />
-                      </div>
-                    )}
-                  </form.Field>
-                  <form.Field name="subcategoria">
-                    {(field) => (
-                      <div className="flex flex-col gap-2 flex-2/3">
-                        <Input
-                          disabled
-                          value={field.state.value}
-                          onBlur={field.handleBlur}
-                          placeholder="Escolha uma subcategoria"
-                          onChange={(e) => field.handleChange(e.target.value)}
-                        />
-                      </div>
-                    )}
-                  </form.Field>
-                </div>
-              </div>
+            <div className="flex-1/2 flex gap-[5px] max-sm:flex-col">
+              <form.Field name="taxonomia">
+                {(field) => (
+                  <div className="flex flex-col gap-2 flex-4/5">
+                    <Label htmlFor={field.name}>Categoria</Label>
+                    {/* TODO combobox */}
+                    <Select className="w-max">
+                      <SelectTrigger className="w-[180px]">
+                        <SelectValue placeholder="Selecione" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {taxonomia.map((el) => {
+                            <SelectItem value={el.id}>{el.nome}</SelectItem>;
+
+                          // if (el.id === field.state.value) {
+                          //   <SelectItem selected value={el.id}>
+                          //     {el.nome}
+                          //   </SelectItem>;
+                          // } else {
+                          //   <SelectItem value={el.id}>{el.nome}</SelectItem>;
+                          // }
+                        })}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                )}
+              </form.Field>
             </div>
             <div className="flex flex-col gap-[10px]">
               <p className="tipo-etiqueta">Detalhes</p>

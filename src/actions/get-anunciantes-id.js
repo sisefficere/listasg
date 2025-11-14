@@ -9,8 +9,6 @@ export default async function getAnunciantesId(id) {
       id
     },
     include:{
-      categorias: true,
-      subcategorias: true,
       taxonomias: true
     }
   });

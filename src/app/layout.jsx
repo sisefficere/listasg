@@ -73,7 +73,7 @@ export default function RootLayout({ children }) {
           <SpeedInsights />
           <Header />
           <div className="estrutura-padding flex flex-col items-center w-full gap-[50px]">
-          {children}
+            {children}
           </div>
           <Rodape />
         </ProgressBar>

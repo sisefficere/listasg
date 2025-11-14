@@ -1,32 +1,17 @@
-import { auth } from "@utils/auth";
-import { columns, payments } from "./columns";
-import { DataTable } from "./data-table";
-import { redirect } from "next/navigation";
-import getAnunciantes from "@actions/get-anunciantes";
+import Link from "next/link";
 
 export default async function Admin() {
-  const session = await auth();
-  // se o usuário não estiver logado, não renderiza o componente (retorna null)
-  if (!session?.user) {
-    redirect("/login");
-  }
-
-
-  const select = {
-    id: true,
-    nome_empresa: true,
-    endereco: true,
-    end_ref: true,
-    telefone: true,
-    updatedAt: true,
-    slug: true
-  };
-  const data = await getAnunciantes(select);
-  
-
   return (
-    <div className="container max-w-[900px]">
-      <DataTable columns={columns} data={data} />
+    <div className="container w-full flex flex-col gap-10">
+      <h1 className="tipo-titulo1">Área de administração</h1>
+      <div className="flex flex-col gap-2">
+        <h2 className="tipo-enfase">Navegue pelas configurações:</h2>
+        <div className="flex flex-col gap-1">
+          <Link href="/admin/anunciantes" className="link">Anunciantes</Link>
+          {/* <Link href="/admin/anuncios">Anúncios</Link> */}
+          <Link href="/admin/taxonomia" className="link">Categorias</Link>
+        </div>
+      </div>
     </div>
   );
 }

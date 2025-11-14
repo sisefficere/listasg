@@ -27,6 +27,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
+import { Label } from "@components/ui/label";
 
 const getCommonPinningStyles = (column) => {
   const isPinned = column.getIsPinned();
@@ -89,42 +90,17 @@ export function DataTable({ columns, data }) {
 
   return (
     <div className="w-full">
-      <div className="flex items-center py-4 gap-2">
+      <div className="flex sm:items-center max-sm:flex-col py-4 gap-2">
+        <Label>Pesquise:</Label>
         <Input
-          placeholder="Filtrar anunciantes"
+          placeholder="Digite qualquer termo"
           value={table.getColumn("nome_empresa")?.getFilterValue() ?? ""}
           onChange={(event) =>
             table.getColumn("nome_empresa")?.setFilterValue(event.target.value)
           }
           className="flex-2/3"
         />
-        {/* TOGGLE da coluna em telas maiores adiciona espaço em branco na lateral: TODO consertar */}
-        {/* <DropdownMenu className="flex-1/3">
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto cursor-pointer">
-              Colunas
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu> */}
+        
       </div>
       <div className="overflow-hidden rounded-md border">
         <Table>
