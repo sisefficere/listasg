@@ -20,6 +20,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@components/ui/select";
+import { Combobox } from "../combobox";
+import * as React from "react";
+import { Check, ChevronsUpDown } from "lucide-react";
+
+import { cn } from "@public/lib/utils";
+import { Button } from "@components/ui/button";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@components/ui/popover";
 
 export default function Form({ dados, taxonomia }) {
   /*
@@ -60,6 +79,11 @@ export default function Form({ dados, taxonomia }) {
   );
   const [imagemUrl, setImagemUrl] = useState(dados.src_image);
   const [imageUploaded, setImageUploaded] = useState(false);
+
+  const [open, setOpen] = useState(false);
+  const [valueTaxonomia, setValueTaxonomia] = useState(
+    form.state.values.taxonomia
+  );
 
   return (
     <div className="flex flex-col items-center gap-2 w-full max-w-[900px]">
@@ -229,98 +253,141 @@ export default function Form({ dados, taxonomia }) {
         </fieldset>
         <fieldset className="flex flex-col gap-[20px]">
           <p className="tipo-subtitulo">Cadastro do anúncio</p>
-          <div className="flex flex-col gap-[15px]">
-            <div className="flex-1/2 flex gap-[5px] max-sm:flex-col">
+          <div className="flex max-sm:flex-col gap-[15px] w-full">
+            <div className="max-sm:w-full sm:flex-1/6 flex flex-col gap-[10px]">
               <form.Field name="taxonomia">
                 {(field) => (
-                  <div className="flex flex-col gap-2 flex-4/5">
+                  <div className="flex flex-col gap-2">
                     <Label htmlFor={field.name}>Categoria</Label>
-                    {/* TODO combobox */}
-                    <Select className="w-max">
-                      <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Selecione" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {taxonomia.map((el) => {
-                            <SelectItem value={el.id}>{el.nome}</SelectItem>;
-
-                          // if (el.id === field.state.value) {
-                          //   <SelectItem selected value={el.id}>
-                          //     {el.nome}
-                          //   </SelectItem>;
-                          // } else {
-                          //   <SelectItem value={el.id}>{el.nome}</SelectItem>;
-                          // }
-                        })}
-                      </SelectContent>
-                    </Select>
+                    <input
+                      type="hidden"
+                      name="taxonomia"
+                      value={valueTaxonomia}
+                    />
+                    <Popover open={open} onOpenChange={setOpen}>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          role="combobox"
+                          aria-expanded={open}
+                          className="max-sm:w-full sm:w-[200px] justify-between"
+                        >
+                          {valueTaxonomia
+                            ? taxonomia.find(
+                                (item) => item.id === valueTaxonomia
+                              )?.nome
+                            : "Selecione uma categoria..."}
+                          <ChevronsUpDown className="opacity-50" />
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-[200px] p-0">
+                        <Command>
+                          <CommandInput
+                            placeholder="Filtre..."
+                            className="h-9"
+                          />
+                          <CommandList>
+                            <CommandEmpty>
+                              Nenhuma categoria encontrada.
+                            </CommandEmpty>
+                            <CommandGroup>
+                              {taxonomia.map((item) => {
+                                return (
+                                  <CommandItem
+                                    key={item.id}
+                                    value={item.id}
+                                    onSelect={() => {
+                                      setValueTaxonomia(
+                                        item.id === valueTaxonomia
+                                          ? value
+                                          : item.id
+                                      );
+                                      setOpen(false);
+                                    }}
+                                  >
+                                    {item.nome}
+                                    <Check
+                                      className={cn(
+                                        "ml-auto",
+                                        valueTaxonomia === item.id
+                                          ? "opacity-100"
+                                          : "opacity-0"
+                                      )}
+                                    />
+                                  </CommandItem>
+                                );
+                              })}
+                            </CommandGroup>
+                          </CommandList>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                )}
+              </form.Field>
+              <form.Field name="src_image">
+                {(field) => (
+                  <div className="flex flex-col items-center justify-center max-sm:order-2 gap-2">
+                    {imageUploaded && (
+                      <button
+                        className={`text-xl font-black w-full text-end cursor-pointer`}
+                        onClick={() => {
+                          setImagemUrl(field.state.value);
+                          setImageUploaded(false);
+                        }}
+                      >
+                        X
+                      </button>
+                    )}
+                    <ImageHandle
+                      srcImage={imagemUrl}
+                      id={field.form.getFieldValue("id") + "-" + field.name}
+                      imgWidthClass="w-full max-sm:max-w-[100px] sm:max-w-[150px]"
+                      boxShadow="shadow-md"
+                    />
+                    <Input
+                      type="hidden"
+                      value={imagemUrl}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                    />
+                    <CldUploadWidget
+                      uploadPreset="pasta-anunciantes"
+                      onSuccess={(results) => {
+                        setImagemUrl(results?.info.url);
+                        setImageUploaded(true);
+                      }}
+                    >
+                      {({ open }) => {
+                        return (
+                          <button
+                            onClick={() => open()}
+                            className="lsg-botao-action--small"
+                          >
+                            Escolha uma imagem
+                          </button>
+                        );
+                      }}
+                    </CldUploadWidget>
                   </div>
                 )}
               </form.Field>
             </div>
-            <div className="flex flex-col gap-[10px]">
-              <p className="tipo-etiqueta">Detalhes</p>
-              <div className="flex gap-[10px] max-sm:flex-col">
-                <form.Field name="src_image">
-                  {(field) => (
-                    <div className="flex flex-col items-center justify-center max-sm:order-2 gap-2 flex-1/6">
-                      {imageUploaded && (
-                        <button
-                          className={`text-xl font-black w-full text-end cursor-pointer`}
-                          onClick={() => {
-                            setImagemUrl(field.state.value);
-                            setImageUploaded(false);
-                          }}
-                        >
-                          X
-                        </button>
-                      )}
-                      <ImageHandle
-                        srcImage={imagemUrl}
-                        id={field.form.getFieldValue("id") + "-" + field.name}
-                        imgWidthClass="w-full max-w-[100px]"
-                      />
-                      <Input
-                        type="hidden"
-                        value={imagemUrl}
-                        onBlur={field.handleBlur}
-                        onChange={(e) => field.handleChange(e.target.value)}
-                      />
-                      <CldUploadWidget
-                        uploadPreset="pasta-anunciantes"
-                        onSuccess={(results) => {
-                          setImagemUrl(results?.info.url);
-                          setImageUploaded(true);
-                        }}
-                      >
-                        {({ open }) => {
-                          return (
-                            <button
-                              onClick={() => open()}
-                              className="lsg-botao-action--small"
-                            >
-                              Escolha uma imagem
-                            </button>
-                          );
-                        }}
-                      </CldUploadWidget>
-                    </div>
-                  )}
-                </form.Field>
-                <form.Field name="descricao">
-                  {(field) => (
-                    <div className="flex flex-col gap-2 flex-5/6 max-sm:order-1">
-                      <Label htmlFor={field.name}>Descrição do anúncio</Label>
-                      <Textarea
-                        value={field.state.value}
-                        onBlur={field.handleBlur}
-                        onChange={(e) => field.handleChange(e.target.value)}
-                        placeholder="Descreva o anúncio."
-                      />
-                    </div>
-                  )}
-                </form.Field>
-              </div>
+            <div className="flex flex-5/6">
+              <form.Field name="descricao">
+                {(field) => (
+                  <div className="flex flex-col gap-2 flex-5/6 max-sm:order-1">
+                    <Label htmlFor={field.name}>Descrição do anúncio</Label>
+                    <Textarea
+                      className="h-[200px]"
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                      placeholder="Descreva o anúncio."
+                    />
+                  </div>
+                )}
+              </form.Field>
             </div>
           </div>
         </fieldset>
@@ -328,7 +395,10 @@ export default function Form({ dados, taxonomia }) {
           <button
             type="submit"
             className="lsg-botao-action--negativa-small"
-            onClick={() => form.reset()}
+            onClick={() => {
+              form.reset();
+              setValueTaxonomia(form.state.values.taxonomia);
+            }}
           >
             Redefinir
           </button>
@@ -342,7 +412,7 @@ export default function Form({ dados, taxonomia }) {
         </div>
         <p className="w-full tipo-irrelevante flex flex-col gap-1 text-end">
           <span>{"Criado em: " + dados.createdAt}</span>
-          <span>{"Atualizado em: " + dados.updatedAt}</span>
+          <span>{dados.updatedAt && "Atualizado em: " + dados.updatedAt}</span>
         </p>
       </form>
     </div>
