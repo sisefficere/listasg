@@ -21,12 +21,6 @@ import {
   TableRow,
 } from "@components/ui/table";
 
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@components/ui/dropdown-menu";
 import { Label } from "@components/ui/label";
 
 const getCommonPinningStyles = (column) => {
@@ -94,9 +88,9 @@ export function DataTable({ columns, data }) {
         <Label>Pesquise:</Label>
         <Input
           placeholder="Digite qualquer termo"
-          value={table.getColumn("nome_empresa")?.getFilterValue() ?? ""}
+          value={table.getColumn("nome")?.getFilterValue() ?? ""}
           onChange={(event) =>
-            table.getColumn("nome_empresa")?.setFilterValue(event.target.value)
+            table.getColumn("nome")?.setFilterValue(event.target.value)
           }
           className="flex-2/3"
         />

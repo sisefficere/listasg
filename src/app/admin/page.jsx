@@ -1,16 +1,33 @@
 import Link from "next/link";
+import { BriefcaseBusiness } from "lucide-react";
+import { Button } from "@components/ui/button";
+import { ChartBarStacked } from "lucide-react";
 
 export default async function Admin() {
   return (
-    <div className="container w-full flex flex-col gap-10">
-      <h1 className="tipo-titulo1">Área de administração</h1>
-      <div className="flex flex-col gap-2">
-        <h2 className="tipo-enfase">Navegue pelas configurações:</h2>
-        <div className="flex flex-col gap-1">
-          <Link href="/admin/anunciantes" className="link">Anunciantes</Link>
-          {/* <Link href="/admin/anuncios">Anúncios</Link> */}
-          <Link href="/admin/taxonomia" className="link">Categorias</Link>
-        </div>
+    <div className="container w-full flex flex-col items-center gap-10">
+      <h2 className="tipo-titulo2">Gestão</h2>
+      <div className="flex justify-center gap-10">
+        <Button
+          asChild
+          variant="outline"
+          size="lg"
+          className="cursor-pointer w-full max-w-[150px]"
+        >
+          <Link href="/admin/anunciantes">
+            <BriefcaseBusiness /> Anunciantes
+          </Link>
+        </Button>
+        <Button
+          asChild
+          variant="outline"
+          size="lg"
+          className="cursor-pointer w-full max-w-[150px]"
+        >
+          <Link href="/admin/taxonomia">
+            <ChartBarStacked /> Categorias
+          </Link>
+        </Button>
       </div>
     </div>
   );

@@ -140,6 +140,9 @@
 .lsg-botao--desativado{
   @apply font-bold flex gap-2 justify-center items-center text-branco-4-claro-principal px-5 py-[10px] rounded-[10px] bg-vermelho-3 max-sm:w-full min-w-[150px];
 }
+.lsg-botao--desativado-verde{
+  @apply font-bold flex gap-2 justify-center items-center text-branco-4-claro-principal px-5 py-[10px] rounded-[10px] bg-verde-3 max-sm:w-full min-w-[150px];
+}
 
 /* gradientes */
 @utility lsg-gradiente-azul{

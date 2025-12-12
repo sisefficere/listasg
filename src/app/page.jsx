@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import ResultadoPesquisa from "@components/molecules/resultado-pesquisa";
 import ResultadoPesquisaPlaceholder from "@components/molecules/resultado-pesquisa/--placeholder";
 import Categorias from "@components/organisms/categorias/index.jsx";
-import getCategoriasOffset from "@actions/get-categorias-offset";
+import getTaxonomiasOffset from "@actions/get-taxonomias-offset";
 
 export const metadata = {
   title: "ListaSG Classificados",
@@ -19,7 +19,7 @@ export default async function Home({ searchParams }) {
   // 1.2 Pagina a categoria
   const catPerPage = 10
   const currentCatPage = Number(params?.catPage) || 1;
-  const {categorias, totalCategorias} = await getCategoriasOffset(currentCatPage, catPerPage);
+  const {taxonomia, totalCategorias} = await getTaxonomiasOffset(currentCatPage, catPerPage);
 
   return (
     <div className="flex flex-col items-center justify-center gap-[25px]">
@@ -42,7 +42,7 @@ export default async function Home({ searchParams }) {
         </div>
         <div className="flex flex-col gap-2">
           <p className="tipo-enfase">Ou escolha uma categoria:</p>
-          <Categorias categorias={categorias} totalItems={totalCategorias} perPage={catPerPage}/>
+          <Categorias categorias={taxonomia} totalItems={totalCategorias} perPage={catPerPage}/>
         </div>
       </div>
     </div>

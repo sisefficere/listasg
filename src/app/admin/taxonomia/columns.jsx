@@ -60,10 +60,9 @@ export const columns = [
   {
     accessorKey: "parent",
     header: "Categoria pai",
-  },
-  {
-    accessorKey: "updatedAt",
-    header: "Atualizado em",
+    cell: (row)=>{
+      return row.getValue("parent")?.nome
+    }
   },
   {
     id: "acoes",

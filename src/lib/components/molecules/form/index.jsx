@@ -1,26 +1,15 @@
 "use client";
 
-import { div, legend, fieldset, FieldLabel } from "@components/ui/field";
 import { Input } from "@components/ui/input";
 import { Label } from "@components/ui/label";
 import { Textarea } from "@components/ui/textarea";
-import { formOptions, useForm } from "@tanstack/react-form";
+import {  useForm } from "@tanstack/react-form";
 import slugify from "slugify";
-import { FieldApi } from "@tanstack/react-form";
 import { useStore } from "@tanstack/react-form";
 import { CldUploadWidget } from "next-cloudinary";
 import { useState } from "react";
 import ImageHandle from "../image-handle";
 import upsertAnunciantes from "@actions/upsert-anunciantes";
-import getTaxonomia from "@actions/get-taxonomia";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@components/ui/select";
-import { Combobox } from "../combobox";
 import * as React from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
 
@@ -40,44 +29,76 @@ import {
   PopoverTrigger,
 } from "@components/ui/popover";
 
-export default function Form({ dados, taxonomia }) {
-  /*
-        TO-DO
-        - Criar uma nova tabela com autorrelação chamada taxonomia
-        - Action para pegar todas as subcategorias e categorias (somente nome e ID)
-        - Field com dropdown para escolher o ID da categoria e subcategoria escolhida
-        - 
-    */
-  const form = useForm({
-    defaultValues: {
-      id: dados.id,
-      nome_empresa: dados.nome_empresa,
-      slug: dados.slug,
-      descricao: dados.descricao,
-      endereco: dados.endereco,
-      end_ref: dados.end_ref,
-      telefone: dados.telefone,
-      src_image: dados.src_image,
-      taxonomia: dados.taxonomia,
-      email: dados.email,
-      instagram: dados.instagram,
-      facebook: dados.facebook,
-      whatsapp: dados.whatsapp,
-      website: dados.website,
-    },
-    onSubmit: async ({ value }) => {
-      upsertAnunciantes(value.id, value);
+export default function Form({ dados, taxonomia, adicionar = false }) {
+  let form;
 
-      alert("Cadastro salvo com sucesso");
-    },
-  });
+  const [formChanged, setFormChanged] = useState(false);
+
+  if (adicionar) {
+    form = useForm({
+      defaultValues: {
+        nome_empresa: null,
+        slug: null,
+        descricao: null,
+        endereco: null,
+        end_ref: null,
+        telefone: null,
+        src_image: null,
+        taxonomia: null,
+        email: null,
+        instagram: null,
+        facebook: null,
+        whatsapp: null,
+        website: null,
+      },
+      onSubmit: async ({ value }) => {
+        upsertAnunciantes(null, value);
+        setFormChanged(false)
+        alert("Novo anunciante criado!");
+      },
+      listeners: {
+        onChange: ({ formApi }) => {
+          setFormChanged(!formApi.state.isDefaultValue);
+        },
+      },
+    });
+  } else {
+    form = useForm({
+      defaultValues: {
+        id: dados.id,
+        nome_empresa: dados.nome_empresa,
+        slug: dados.slug,
+        descricao: dados.descricao,
+        endereco: dados.endereco,
+        end_ref: dados.end_ref,
+        telefone: dados.telefone,
+        src_image: dados.src_image,
+        taxonomia: dados.taxonomia,
+        email: dados.email,
+        instagram: dados.instagram,
+        facebook: dados.facebook,
+        whatsapp: dados.whatsapp,
+        website: dados.website,
+      },
+      onSubmit: async ({ value }) => {
+        upsertAnunciantes(value.id, value);
+
+        alert("Cadastro salvo com sucesso");
+      },
+      listeners: {
+        onChange: ({ formApi }) => {
+          setFormChanged(!formApi.state.isDefaultValue);
+        },
+      },
+    });
+  }
 
   // reatividade
   const nomeEmpresa = useStore(
     form.store,
     (state) => state.values.nome_empresa
   );
-  const [imagemUrl, setImagemUrl] = useState(dados.src_image);
+  const [imagemUrl, setImagemUrl] = useState(dados?.src_image);
   const [imageUploaded, setImageUploaded] = useState(false);
 
   const [open, setOpen] = useState(false);
@@ -85,10 +106,16 @@ export default function Form({ dados, taxonomia }) {
     form.state.values.taxonomia
   );
 
+  if (valueTaxonomia !== form.state.values.taxonomia) {
+    form.state.values.taxonomia = Number.parseInt(valueTaxonomia);
+  }
+  form.state.values.slug = slugify(`${nomeEmpresa}`, {
+    remove: /[*+~.()'"!:@]/g, // remove characters that match regex, defaults to `undefined`
+    lower: true, // convert to lower case, defaults to `false`
+  });
+
   return (
     <div className="flex flex-col items-center gap-2 w-full max-w-[900px]">
-      {/* bloco para exibir o ID */}
-
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -113,25 +140,6 @@ export default function Form({ dados, taxonomia }) {
                       onChange={(e) => field.handleChange(e.target.value)}
                     />
                   </div>
-                )}
-              </form.Field>
-              <form.Field name="slug">
-                {(field) => (
-                  <Input
-                    type="hidden"
-                    id={field.name}
-                    name={field.name}
-                    value={
-                      field.state.value
-                        ? field.state.value
-                        : slugify(`${nomeEmpresa}`, {
-                            remove: /[*+~.()'"!:@]/g, // remove characters that match regex, defaults to `undefined`
-                            lower: true, // convert to lower case, defaults to `false`
-                          })
-                    }
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                  />
                 )}
               </form.Field>
             </div>
@@ -255,76 +263,59 @@ export default function Form({ dados, taxonomia }) {
           <p className="tipo-subtitulo">Cadastro do anúncio</p>
           <div className="flex max-sm:flex-col gap-[15px] w-full">
             <div className="max-sm:w-full sm:flex-1/6 flex flex-col gap-[10px]">
-              <form.Field name="taxonomia">
-                {(field) => (
-                  <div className="flex flex-col gap-2">
-                    <Label htmlFor={field.name}>Categoria</Label>
-                    <input
-                      type="hidden"
-                      name="taxonomia"
-                      value={valueTaxonomia}
-                    />
-                    <Popover open={open} onOpenChange={setOpen}>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant="outline"
-                          role="combobox"
-                          aria-expanded={open}
-                          className="max-sm:w-full sm:w-[200px] justify-between"
-                        >
-                          {valueTaxonomia
-                            ? taxonomia.find(
-                                (item) => item.id === valueTaxonomia
-                              )?.nome
-                            : "Selecione uma categoria..."}
-                          <ChevronsUpDown className="opacity-50" />
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-[200px] p-0">
-                        <Command>
-                          <CommandInput
-                            placeholder="Filtre..."
-                            className="h-9"
-                          />
-                          <CommandList>
-                            <CommandEmpty>
-                              Nenhuma categoria encontrada.
-                            </CommandEmpty>
-                            <CommandGroup>
-                              {taxonomia.map((item) => {
-                                return (
-                                  <CommandItem
-                                    key={item.id}
-                                    value={item.id}
-                                    onSelect={() => {
-                                      setValueTaxonomia(
-                                        item.id === valueTaxonomia
-                                          ? value
-                                          : item.id
-                                      );
-                                      setOpen(false);
-                                    }}
-                                  >
-                                    {item.nome}
-                                    <Check
-                                      className={cn(
-                                        "ml-auto",
-                                        valueTaxonomia === item.id
-                                          ? "opacity-100"
-                                          : "opacity-0"
-                                      )}
-                                    />
-                                  </CommandItem>
-                                );
-                              })}
-                            </CommandGroup>
-                          </CommandList>
-                        </Command>
-                      </PopoverContent>
-                    </Popover>
-                  </div>
-                )}
-              </form.Field>
+              <div className="flex flex-col gap-2">
+                <Label>Categoria</Label>
+                <Popover open={open} onOpenChange={setOpen}>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      aria-expanded={open}
+                      className="max-sm:w-full sm:w-[200px] justify-between cursor-pointer"
+                    >
+                      {valueTaxonomia
+                        ? taxonomia.find((item) => item.id === valueTaxonomia)
+                            ?.nome
+                        : "Selecione uma categoria..."}
+                      <ChevronsUpDown className="opacity-50" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[200px] p-0">
+                    <Command>
+                      <CommandInput placeholder="Filtre..." className="h-9" />
+                      <CommandList>
+                        <CommandEmpty>
+                          Nenhuma categoria encontrada.
+                        </CommandEmpty>
+                        <CommandGroup>
+                          {taxonomia.map((item) => {
+                            return (
+                              <CommandItem
+                                key={item.id}
+                                value={item.id}
+                                onSelect={() => {
+                                  setValueTaxonomia(item.id);
+                                  setOpen(false);
+                                }}
+                              >
+                                {item.nome}
+                                <Check
+                                  className={cn(
+                                    "ml-auto",
+                                    valueTaxonomia === item.id
+                                      ? "opacity-100"
+                                      : "opacity-0"
+                                  )}
+                                />
+                              </CommandItem>
+                            );
+                          })}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
+              </div>
               <form.Field name="src_image">
                 {(field) => (
                   <div className="flex flex-col items-center justify-center max-sm:order-2 gap-2">
@@ -342,7 +333,7 @@ export default function Form({ dados, taxonomia }) {
                     <ImageHandle
                       srcImage={imagemUrl}
                       id={field.form.getFieldValue("id") + "-" + field.name}
-                      imgWidthClass="w-full max-sm:max-w-[100px] sm:max-w-[150px]"
+                      imgWidthClass="w-full max-w-[150px]"
                       boxShadow="shadow-md"
                     />
                     <Input
@@ -392,27 +383,38 @@ export default function Form({ dados, taxonomia }) {
           </div>
         </fieldset>
         <div className="w-full flex gap-5 justify-end items-center">
-          <button
-            type="submit"
-            className="lsg-botao-action--negativa-small"
-            onClick={() => {
-              form.reset();
-              setValueTaxonomia(form.state.values.taxonomia);
-            }}
-          >
-            Redefinir
-          </button>
-          <button
-            type="submit"
-            className="lsg-botao--login"
-            onClick={() => form.handleSubmit({ submitAction: "continue" })}
-          >
-            Salvar
-          </button>
+          {formChanged && (
+            <button
+              type="submit"
+              className="lsg-botao-action--negativa-small"
+              onClick={() => {
+                form.reset();
+                setValueTaxonomia(form.state.values.taxonomia);
+              }}
+            >
+              Redefinir
+            </button>
+          )}
+          {formChanged ? (
+            <button
+              type="submit"
+              className="lsg-botao--login"
+              onClick={() => form.handleSubmit({ submitAction: "continue" })}
+            >
+              {adicionar ? "Adicionar" : "Salvar"}
+            </button>
+          ) : (
+            <button
+              type="submit"
+              className="lsg-botao--desativado-verde"
+            >
+              {adicionar ? "Adicionar" : "Salvar"}
+            </button>
+          )}
         </div>
         <p className="w-full tipo-irrelevante flex flex-col gap-1 text-end">
-          <span>{"Criado em: " + dados.createdAt}</span>
-          <span>{dados.updatedAt && "Atualizado em: " + dados.updatedAt}</span>
+          <span>{dados?.createdAt && "Criado em: " + dados.createdAt}</span>
+          <span>{dados?.updatedAt && "Atualizado em: " + dados.updatedAt}</span>
         </p>
       </form>
     </div>

@@ -9,9 +9,9 @@ export default async function getTaxonomiaId(id, somenteNome = false) {
       where: {
         id,
       },
-      select:{
-        nome: true
-      }
+      select: {
+        nome: true,
+      },
     });
   } else {
     taxonomia = await prisma.taxonomia.findUnique({
@@ -19,9 +19,16 @@ export default async function getTaxonomiaId(id, somenteNome = false) {
         id,
       },
       include: {
-        parent: true,
-        children: true,
-        anunciantes: true,
+        parent: {
+          select: {
+            nome: true,
+          },
+        },
+        children: {
+          select: {
+            nome: true,
+          },
+        },
       },
     });
   }

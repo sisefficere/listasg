@@ -8,7 +8,7 @@ export async function generateMetadata({ params }) {
   const { slug } = await params;
   const slugInt = parseInt(slug);
 
-  const categoria = await prisma.categorias.findUnique({
+  const categoria = await prisma.taxonomia.findUnique({
     where: { id: slugInt },
     select: {
       nome: true,
@@ -24,13 +24,18 @@ export default async function Page({ params, searchParams }) {
   const paramsQuery = await searchParams;
   const { slug } = await params;
   const slugInt = parseInt(slug);
-  const categoria = await prisma.categorias.findUnique({
+  const categoria = await prisma.taxonomia.findUnique({
+    select:{
+      nome:true
+    },
     where: { id: slugInt },
   });
-  const subcategorias = await getSubcategorias(slugInt, Number(paramsQuery?.cursor), Boolean(paramsQuery?.voltar))
 
   const anunciantes = await prisma.anunciantes.findMany({
-    where: { categoria: slugInt },
+    where: { taxonomia: slugInt },
+    orderBy:{
+      slug: 'asc'
+    }
   });
 
   anunciantes.forEach((el) => {
@@ -55,7 +60,7 @@ export default async function Page({ params, searchParams }) {
         <h2 className="tipo-titulo2">Classificados em "{categoria.nome}"</h2>
       </div>
       <div className="flex flex-col items-center gap-5 w-full ">
-        {anunciantes.length != 0 ? (
+        {anunciantes.length != 0 && (
           anunciantes.map((el) => (
             <CardAnunciantes
               key={el.id}
@@ -75,20 +80,6 @@ export default async function Page({ params, searchParams }) {
               }}
             />
           ))
-        ) : (
-          <></>
-        )}
-        {subcategorias.length != 0 ? (
-            <Subcategorias subcategorias={subcategorias} />
-        ) : (
-          <></>
-        )}
-        {subcategorias.length == 0 && anunciantes.length == 0 ? (
-          <div className="flex flex-col items-center gap-[5px]">
-            <p>Não encontramos classificados nesta categoria :/</p>
-          </div>
-        ) : (
-          <></>
         )}
       </div>
         <a href="/" className="underline">

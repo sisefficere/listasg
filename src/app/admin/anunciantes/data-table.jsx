@@ -91,9 +91,8 @@ export function DataTable({ columns, data }) {
   return (
     <div className="w-full">
       <div className="flex sm:items-center max-sm:flex-col py-4 gap-2">
-        <Label>Pesquise:</Label>
         <Input
-          placeholder="Digite qualquer termo"
+          placeholder="Pesquise um anunciante"
           value={table.getColumn("nome_empresa")?.getFilterValue() ?? ""}
           onChange={(event) =>
             table.getColumn("nome_empresa")?.setFilterValue(event.target.value)

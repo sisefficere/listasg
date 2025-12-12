@@ -10,36 +10,90 @@ import { FieldApi } from "@tanstack/react-form";
 import { useStore } from "@tanstack/react-form";
 import { CldUploadWidget } from "next-cloudinary";
 import { useState } from "react";
+import { Button } from "@components/ui/button";
+import { Check, ChevronsUpDown } from "lucide-react";
+import { cn } from "@public/lib/utils";
+
 import upsertAnunciantes from "@actions/upsert-anunciantes";
 import upsertTaxonomia from "@actions/upsert-taxonomia";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@components/ui/popover";
 
-export default function Form({ dados }) {
-  /*
-        TO-DO
-        - Criar uma nova tabela com autorrelação chamada taxonomia
-        - Action para pegar todas as subcategorias e categorias (somente nome e ID)
-        - Field com dropdown para escolher o ID da categoria e subcategoria escolhida
-        - 
-    */
-  const form = useForm({
-    defaultValues: {
-      id: dados.id,
-      nome: dados.nome,
-      slug: dados.slug,
-      descricao: dados.descricao,
-      parent: dados.parent,
-      children: dados.children,
-      anunciantes: dados.anunciantes,
-    },
-    onSubmit: async ({ value }) => {
-      upsertTaxonomia(value.id, value);
+export default function Form({ dados, taxonomia, adicionar = false }) {
+  let form;
+  const [formChanged, setFormChanged] = useState(false);
 
-      alert("Cadastro salvo com sucesso");
-    },
-  });
+  if (adicionar) {
+    form = useForm({
+      defaultValues: {
+        id: dados.id,
+        nome: dados.nome,
+        slug: dados.slug,
+        descricao: dados.descricao,
+        parentId: dados.parentId,
+      },
+      onSubmit: async ({ value }) => {
+        upsertTaxonomia(value.id, value);
 
-  // reatividade
+        alert("Categoria salva com sucesso");
+      },
+      listeners: {
+        onChange: ({ formApi }) => {
+          setFormChanged(!formApi.state.isDefaultValue);
+        },
+      },
+    });
+  } else {
+    form = useForm({
+      defaultValues: {
+        id: dados.id,
+        nome: dados.nome,
+        slug: dados.slug,
+        descricao: dados.descricao,
+        parentId: dados.parentId,
+      },
+      onSubmit: async ({ value }) => {
+        upsertTaxonomia(value.id, value);
+        setFormChanged(false)
+        alert("Categoria salva com sucesso");
+      },
+      listeners: {
+        onChange: ({ formApi }) => {
+          setFormChanged(!formApi.state.isDefaultValue);
+        },
+      },
+    });
+  }
+
+  // É necessário um state para cada campo fora do padrão, nesse caso é um comboBox
+  const [valueCategoriaPai, setValueCategoriaPai] = useState(
+    form.state.values.parentId
+  );
+
+  if (valueCategoriaPai !== form.state.values.parentId) {
+    // é necessário tornar o resultado em null se for vazio, pois se passar pelo parseInt o retorno é NaN e este não é aceito no BD (logo, não salva as alterações)
+    form.state.values.parentId =
+      valueCategoriaPai === "" ? null : Number.parseInt(valueCategoriaPai);
+  }
+
   const nomeTaxonomia = useStore(form.store, (state) => state.values.nome);
+  const [open, setOpen] = useState(false);
+
+  form.state.values.slug = slugify(`${nomeTaxonomia}`, {
+    remove: /[*+~.()'"!:@]/g, // remove characters that match regex, defaults to `undefined`
+    lower: true, // convert to lower case, defaults to `false`
+  });
 
   return (
     <div className="flex flex-col items-center gap-2 w-full max-w-[900px]">
@@ -71,25 +125,6 @@ export default function Form({ dados }) {
                   </div>
                 )}
               </form.Field>
-              <form.Field name="slug">
-                {(field) => (
-                  <Input
-                    type="hidden"
-                    id={field.name}
-                    name={field.name}
-                    value={
-                      field.state.value
-                        ? field.state.value
-                        : slugify(`${nomeTaxonomia}`, {
-                            remove: /[*+~.()'"!:@]/g, // remove characters that match regex, defaults to `undefined`
-                            lower: true, // convert to lower case, defaults to `false`
-                          })
-                    }
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                  />
-                )}
-              </form.Field>
               <form.Field name="descricao">
                 {(field) => (
                   <div className="flex flex-col gap-2 flex-5/6 max-sm:order-1">
@@ -103,19 +138,78 @@ export default function Form({ dados }) {
                   </div>
                 )}
               </form.Field>
-              <form.Field name="parent">
-                {(field) => (
-                  <div className="flex flex-col gap-2 flex-1/5">
-                    <Label htmlFor={field.name}>Categoria Pai</Label>
-                    <Input
-                      type="number"
-                      value={field.state.value}
-                      onBlur={field.handleBlur}
-                      onChange={(e) => field.handleChange(e.target.value)}
-                    />
-                  </div>
-                )}
-              </form.Field>
+              <div className="flex flex-col gap-2">
+                <Label>Categoria Pai</Label>
+                <Popover open={open} onOpenChange={setOpen}>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      aria-expanded={open}
+                      className="max-sm:w-full sm:w-[200px] justify-between cursor-pointer"
+                    >
+                      {valueCategoriaPai
+                        ? taxonomia.find(
+                            (item) => item.id === valueCategoriaPai
+                          )?.nome
+                        : "Não definida"}
+                      <ChevronsUpDown className="opacity-50" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[200px] p-0">
+                    <Command>
+                      <CommandInput placeholder="Filtre..." className="h-9" />
+                      <CommandList>
+                        <CommandEmpty>
+                          Nenhuma categoria encontrada.
+                        </CommandEmpty>
+                        <CommandGroup>
+                          <CommandItem
+                            key="01"
+                            value=""
+                            onSelect={() => {
+                              setValueCategoriaPai("");
+                              setOpen(false);
+                            }}
+                          >
+                            Não definida
+                            <Check
+                              className={cn(
+                                "ml-auto",
+                                valueCategoriaPai === ""
+                                  ? "opacity-100"
+                                  : "opacity-0"
+                              )}
+                            />
+                          </CommandItem>
+                          {taxonomia.map((item) => {
+                            return (
+                              <CommandItem
+                                key={item.id}
+                                value={item.id}
+                                onSelect={() => {
+                                  setValueCategoriaPai(item.id);
+                                  setOpen(false);
+                                }}
+                              >
+                                {item.nome}
+                                <Check
+                                  className={cn(
+                                    "ml-auto",
+                                    valueCategoriaPai === item.id
+                                      ? "opacity-100"
+                                      : "opacity-0"
+                                  )}
+                                />
+                              </CommandItem>
+                            );
+                          })}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
+              </div>
               <form.Field name="children">
                 {(field) => (
                   <div className="flex flex-col gap-2 flex-1/5">
@@ -133,24 +227,35 @@ export default function Form({ dados }) {
           </div>
         </fieldset>
         <div className="w-full flex gap-5 justify-end items-center">
+          {/* É necessário validar também os campos fora do padrão como os combobox, a alteração deles não altera o state onChange do form */}
+          {(formChanged || valueCategoriaPai !== form.state.values.parentId) && (
+            <button
+              type="submit"
+              className="lsg-botao-action--negativa-small"
+              onClick={() => {
+                form.reset();
+                setFormChanged(false)
+                setValueCategoriaPai(form.state.values.parentId);
+              }}
+            >
+              Redefinir
+            </button>
+          )}
           <button
             type="submit"
-            className="lsg-botao-action--negativa-small"
-            onClick={() => form.reset()}
+            className={`${
+              (formChanged || valueCategoriaPai !== form.state.values.parentId) ? "lsg-botao--login" : "lsg-botao--desativado-verde"
+            } `}
+            onClick={() =>
+              (formChanged || valueCategoriaPai !== form.state.values.parentId) && form.handleSubmit({ submitAction: "continue" })
+            }
           >
-            Redefinir
-          </button>
-          <button
-            type="submit"
-            className="lsg-botao--login"
-            onClick={() => form.handleSubmit({ submitAction: "continue" })}
-          >
-            Salvar
+            {adicionar ? "Adicionar" : "Salvar"}
           </button>
         </div>
         <p className="w-full tipo-irrelevante flex flex-col gap-1 text-end">
-          <span>{"Criado em: " + dados.createdAt}</span>
-          <span>{"Atualizado em: " + dados.updatedAt}</span>
+          <span>{dados?.createdAt && "Criado em: " + dados.createdAt}</span>
+          <span>{dados?.updatedAt && "Atualizado em: " + dados.updatedAt}</span>
         </p>
       </form>
     </div>

@@ -17,13 +17,13 @@ export default async function upsertAnunciantes(id, dados) {
     facebook: dados.facebook,
     whatsapp: dados.whatsapp,
     website: dados.website,
-    taxonomia: null,
+    taxonomia: dados.taxonomia,
   };
 
+  const where = id ? {id} : {id: 99999}
+
   await prisma.anunciantes.upsert({
-    where: {
-      id,
-    },
+    where,
     update: dadosAnunciante,
     create: dadosAnunciante,
   });
