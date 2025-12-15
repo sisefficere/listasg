@@ -26,6 +26,7 @@ export default async function getTaxonomiaId(id, somenteNome = false) {
         },
         children: {
           select: {
+            id:true,
             nome: true,
           },
         },
