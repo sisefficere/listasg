@@ -9,10 +9,11 @@ export default async function upsertTaxonomia(id, dados) {
     parentId: Number.parseInt(dados.parentId)
   };
 
+  const where = id ? {id} : {id: 9999999}
+
+
   await prisma.taxonomia.upsert({
-    where: {
-      id,
-    },
+    where,
     update: dadosTaxonomia,
     create: dadosTaxonomia,
   });

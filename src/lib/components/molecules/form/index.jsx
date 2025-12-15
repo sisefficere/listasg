@@ -3,7 +3,7 @@
 import { Input } from "@components/ui/input";
 import { Label } from "@components/ui/label";
 import { Textarea } from "@components/ui/textarea";
-import {  useForm } from "@tanstack/react-form";
+import { useForm } from "@tanstack/react-form";
 import slugify from "slugify";
 import { useStore } from "@tanstack/react-form";
 import { CldUploadWidget } from "next-cloudinary";
@@ -37,24 +37,24 @@ export default function Form({ dados, taxonomia, adicionar = false }) {
   if (adicionar) {
     form = useForm({
       defaultValues: {
-        nome_empresa: null,
-        slug: null,
-        descricao: null,
-        endereco: null,
-        end_ref: null,
-        telefone: null,
-        src_image: null,
-        taxonomia: null,
-        email: null,
-        instagram: null,
-        facebook: null,
-        whatsapp: null,
-        website: null,
+        nome_empresa: "",
+        slug: "",
+        descricao: "",
+        endereco: "",
+        end_ref: "",
+        telefone: "",
+        src_image: "",
+        taxonomia: "",
+        email: "",
+        instagram: "",
+        facebook: "",
+        whatsapp: "",
+        website: "",
       },
       onSubmit: async ({ value }) => {
         upsertAnunciantes(null, value);
-        setFormChanged(false)
         alert("Novo anunciante criado!");
+        redirect("/admin/anunciantes");
       },
       listeners: {
         onChange: ({ formApi }) => {
@@ -84,6 +84,7 @@ export default function Form({ dados, taxonomia, adicionar = false }) {
         upsertAnunciantes(value.id, value);
 
         alert("Cadastro salvo com sucesso");
+        redirect("/admin/anunciantes");
       },
       listeners: {
         onChange: ({ formApi }) => {
@@ -102,20 +103,33 @@ export default function Form({ dados, taxonomia, adicionar = false }) {
   const [imageUploaded, setImageUploaded] = useState(false);
 
   const [open, setOpen] = useState(false);
-  const [valueTaxonomia, setValueTaxonomia] = useState(
-    form.state.values.taxonomia
-  );
 
-  if (valueTaxonomia !== form.state.values.taxonomia) {
-    form.state.values.taxonomia = Number.parseInt(valueTaxonomia);
+  // necessário state para campos como o combobox e imagem que não disparam o evento onChange do form
+  const [valueTaxonomia, setValueTaxonomia] = useState(dados?.taxonomia);
+  // necessário para definir o valor do campo parentId dado que comboBox não é um campo padrão do form
+  if (valueTaxonomia != dados?.taxonomia) {
+    form.state.values.taxonomia =
+      valueTaxonomia === "" ? valueTaxonomia : Number.parseInt(valueTaxonomia);
   }
+
+  // valida se ocorreu modificação nos campos que não mudam o onChange (imagem e categoria)
+  let mudouAlgo;
+  if (adicionar) {
+    mudouAlgo = formChanged || valueTaxonomia || imagemUrl;
+  } else {
+    mudouAlgo =
+      formChanged ||
+      valueTaxonomia != dados.taxonomia ||
+      imagemUrl != dados.src_image;
+  }
+
   form.state.values.slug = slugify(`${nomeEmpresa}`, {
     remove: /[*+~.()'"!:@]/g, // remove characters that match regex, defaults to `undefined`
     lower: true, // convert to lower case, defaults to `false`
   });
 
   return (
-    <div className="flex flex-col items-center gap-2 w-full max-w-[900px]">
+    <div className="flex flex-col items-center gap-2 w-full max-w-225">
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -129,7 +143,14 @@ export default function Form({ dados, taxonomia, adicionar = false }) {
               <form.Field name="nome_empresa">
                 {(field) => (
                   <div className="flex flex-col gap-2 w-full">
-                    <Label htmlFor={field.name}>Nome do anunciante</Label>
+                    <Label htmlFor={field.name}>
+                      <p>
+                        Nome do anunciante
+                        <span className="font-bold text-vermelho-2-principal">
+                          *
+                        </span>
+                      </p>
+                    </Label>
                     <Input
                       id={field.name}
                       name={field.name}
@@ -191,7 +212,14 @@ export default function Form({ dados, taxonomia, adicionar = false }) {
               <form.Field name="telefone">
                 {(field) => (
                   <div className="flex flex-col gap-2 flex-3/12">
-                    <Label htmlFor={field.name}>Telefone</Label>
+                    <Label htmlFor={field.name}>
+                      <p>
+                        Telefone 
+                        <span className="font-bold text-vermelho-2-principal">
+                          *
+                        </span>
+                      </p>
+                    </Label>
                     <Input
                       value={field.state.value}
                       placeholder="Ex.: 55 3232-2019"
@@ -323,7 +351,7 @@ export default function Form({ dados, taxonomia, adicionar = false }) {
                       <button
                         className={`text-xl font-black w-full text-end cursor-pointer`}
                         onClick={() => {
-                          setImagemUrl(field.state.value);
+                          setImagemUrl(dados?.src_image);
                           setImageUploaded(false);
                         }}
                       >
@@ -383,34 +411,32 @@ export default function Form({ dados, taxonomia, adicionar = false }) {
           </div>
         </fieldset>
         <div className="w-full flex gap-5 justify-end items-center">
-          {formChanged && (
+          {mudouAlgo && (
             <button
               type="submit"
               className="lsg-botao-action--negativa-small"
               onClick={() => {
                 form.reset();
-                setValueTaxonomia(form.state.values.taxonomia);
+                setFormChanged(false);
+                setValueTaxonomia(adicionar ? undefined : dados.taxonomia);
+                setImagemUrl(adicionar ? undefined : dados.src_image);
+                setImageUploaded(false);
               }}
             >
               Redefinir
             </button>
           )}
-          {formChanged ? (
-            <button
-              type="submit"
-              className="lsg-botao--login"
-              onClick={() => form.handleSubmit({ submitAction: "continue" })}
-            >
-              {adicionar ? "Adicionar" : "Salvar"}
-            </button>
-          ) : (
-            <button
-              type="submit"
-              className="lsg-botao--desativado-verde"
-            >
-              {adicionar ? "Adicionar" : "Salvar"}
-            </button>
-          )}
+          <button
+            type="submit"
+            className={`${
+              mudouAlgo ? "lsg-botao--login" : "lsg-botao--desativado-verde"
+            } `}
+            onClick={() =>
+              mudouAlgo && form.handleSubmit({ submitAction: "continue" })
+            }
+          >
+            {adicionar ? "Adicionar" : "Salvar"}
+          </button>
         </div>
         <p className="w-full tipo-irrelevante flex flex-col gap-1 text-end">
           <span>{dados?.createdAt && "Criado em: " + dados.createdAt}</span>

@@ -12,7 +12,7 @@ export default async function AnuncianteId({ params }) {
     const categorias = await getTaxonomia(null, true)
 
   return (
-    <div className="flex flex-col gap-5 items-center w-full max-w-[900px]">
+    <div className="flex flex-col gap-5 items-center w-full">
       <h3 className="tipo-titulo3">Edição de cadastro</h3>
       <Form dados={dadosAnunciante} taxonomia={categorias} />
     </div>

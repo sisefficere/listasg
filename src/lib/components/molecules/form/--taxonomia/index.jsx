@@ -13,6 +13,8 @@ import { useState } from "react";
 import { Button } from "@components/ui/button";
 import { Check, ChevronsUpDown, ArrowUpRight } from "lucide-react";
 import { cn } from "@public/lib/utils";
+import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 
 import upsertAnunciantes from "@actions/upsert-anunciantes";
 import upsertTaxonomia from "@actions/upsert-taxonomia";
@@ -40,21 +42,33 @@ export default function Form({ dados, taxonomia, adicionar = false }) {
   let form;
   const [formChanged, setFormChanged] = useState(false);
 
-  console.log(dados);
+  /*
+    Dois cenários:
+    - Edição
+    - Novo item
+
+    EDIÇÃO
+    O state valueCategoriaPai deve iniciar com os dados padrão
+    Existem valores padrão, ou seja, o comportamento das combobox (para exibir botão de redefinir e de salvar) devem considerar o valor padrão, se diferente do padrão, exibe os botões.
+
+    NOVO ITEM
+    Não existem valores padrão, ou seja, o comportamento das combobox (para exibir botão de redefinir e de salvar) devem considerar o valor vazio ou não, ou seja, false ou true.
+  */
 
   if (adicionar) {
     form = useForm({
       defaultValues: {
-        id: dados.id,
-        nome: dados.nome,
-        slug: dados.slug,
-        descricao: dados.descricao,
-        parentId: dados.parentId,
+        nome: "",
+        slug: "",
+        descricao: "",
+        parentId: "",
       },
       onSubmit: async ({ value }) => {
-        upsertTaxonomia(value.id, value);
+        upsertTaxonomia(null, value);
 
         alert("Categoria salva com sucesso");
+
+        redirect("/admin/taxonomia");
       },
       listeners: {
         onChange: ({ formApi }) => {
@@ -73,8 +87,8 @@ export default function Form({ dados, taxonomia, adicionar = false }) {
       },
       onSubmit: async ({ value }) => {
         upsertTaxonomia(value.id, value);
-        setFormChanged(false);
         alert("Categoria salva com sucesso");
+        redirect("/admin/taxonomia");
       },
       listeners: {
         onChange: ({ formApi }) => {
@@ -85,18 +99,27 @@ export default function Form({ dados, taxonomia, adicionar = false }) {
   }
 
   // É necessário um state para cada campo fora do padrão, nesse caso é um comboBox
-  const [valueCategoriaPai, setValueCategoriaPai] = useState(
-    form.state.values.parentId
-  );
+  const [valueCategoriaPai, setValueCategoriaPai] = useState(dados?.parentId);
 
-  if (valueCategoriaPai !== form.state.values.parentId) {
+  // necessário para definir o valor do campo parentId dado que comboBox não é um campo padrão do form
+  if (valueCategoriaPai != dados?.parentId) {
     // é necessário tornar o resultado em null se for vazio, pois se passar pelo parseInt o retorno é NaN e este não é aceito no BD (logo, não salva as alterações)
     form.state.values.parentId =
-      valueCategoriaPai === "" ? null : Number.parseInt(valueCategoriaPai);
+      valueCategoriaPai === ""
+        ? valueCategoriaPai
+        : Number.parseInt(valueCategoriaPai);
   }
 
   const nomeTaxonomia = useStore(form.store, (state) => state.values.nome);
   const [open, setOpen] = useState(false);
+
+  // valida se ocorreu modificação nos campos que não mudam o onChange (imagem e categoria)
+  let mudouAlgo;
+  if (adicionar) {
+    mudouAlgo = formChanged || valueCategoriaPai;
+  } else {
+    mudouAlgo = formChanged || valueCategoriaPai != dados.parentId;
+  }
 
   form.state.values.slug = slugify(`${nomeTaxonomia}`, {
     remove: /[*+~.()'"!:@]/g, // remove characters that match regex, defaults to `undefined`
@@ -104,9 +127,7 @@ export default function Form({ dados, taxonomia, adicionar = false }) {
   });
 
   return (
-    <div className="flex flex-col items-center gap-2 w-full max-w-[900px]">
-      {/* bloco para exibir o ID */}
-
+    <div className="flex flex-col items-center gap-2 w-full max-w-225">
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -193,7 +214,14 @@ export default function Form({ dados, taxonomia, adicionar = false }) {
                 <form.Field name="nome">
                   {(field) => (
                     <div className="flex flex-col gap-2 w-full flex-4/5">
-                      <Label htmlFor={field.name}>Nome da categoria</Label>
+                      <Label htmlFor={field.name}>
+                        <p>
+                          Nome da categoria
+                          <span className="font-bold text-vermelho-2-principal">
+                            *
+                          </span>
+                        </p>
+                      </Label>
                       <Input
                         id={field.name}
                         name={field.name}
@@ -221,7 +249,7 @@ export default function Form({ dados, taxonomia, adicionar = false }) {
                 )}
               </form.Field>
               <div className="flex flex-col gap-1.5 w-full">
-                {dados.children.length > 0 && (
+                {dados?.children && dados.children.length > 0 && (
                   <>
                     <Label>Lista de subcategorias:</Label>
                     <ul className="flex items-center flex-wrap gap-1">
@@ -234,7 +262,7 @@ export default function Form({ dados, taxonomia, adicionar = false }) {
                                 href={`/admin/taxonomia/${el.id}`}
                               >
                                 {el.nome}
-                                <ArrowUpRight/>
+                                <ArrowUpRight />
                               </Link>
                             </Button>
                           </li>
@@ -248,16 +276,15 @@ export default function Form({ dados, taxonomia, adicionar = false }) {
           </div>
         </fieldset>
         <div className="w-full flex gap-5 justify-end items-center">
-          {/* É necessário validar também os campos fora do padrão como os combobox, a alteração deles não altera o state onChange do form */}
-          {(formChanged ||
-            valueCategoriaPai !== form.state.values.parentId) && (
+          {/* É necessário validar também os campos fora do padrão como os combobox (por meio dos seus state), a alteração deles não altera o state onChange do form */}
+          {mudouAlgo && (
             <button
               type="submit"
               className="lsg-botao-action--negativa-small"
               onClick={() => {
                 form.reset();
                 setFormChanged(false);
-                setValueCategoriaPai(form.state.values.parentId);
+                setValueCategoriaPai(adicionar ? "" : dados.parentId);
               }}
             >
               Redefinir
@@ -266,14 +293,10 @@ export default function Form({ dados, taxonomia, adicionar = false }) {
           <button
             type="submit"
             className={`${
-              formChanged || valueCategoriaPai !== form.state.values.parentId
-                ? "lsg-botao--login"
-                : "lsg-botao--desativado-verde"
+              mudouAlgo ? "lsg-botao--login" : "lsg-botao--desativado-verde"
             } `}
             onClick={() =>
-              (formChanged ||
-                valueCategoriaPai !== form.state.values.parentId) &&
-              form.handleSubmit({ submitAction: "continue" })
+              mudouAlgo && form.handleSubmit({ submitAction: "continue" })
             }
           >
             {adicionar ? "Adicionar" : "Salvar"}

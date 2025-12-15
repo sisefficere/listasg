@@ -20,7 +20,7 @@ export default async function upsertAnunciantes(id, dados) {
     taxonomia: dados.taxonomia,
   };
 
-  const where = id ? {id} : {id: 99999}
+  const where = id ? {id} : {id: 9999999}
 
   await prisma.anunciantes.upsert({
     where,

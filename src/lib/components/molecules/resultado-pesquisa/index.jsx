@@ -31,25 +31,28 @@ export default async function ResultadoPesquisa({ query, currentPage }) {
 
   return (
     <>
-      {query != "" && anunciantes?.length != 0 ? (
+      {query != "" && (
         <div className="flex flex-col gap-5 h-full p-5 border-azul-2-principal rounded-[5px] border-2">
-          {anunciantes?.map((el) => (
-            <div className="flex flex-wrap items-center gap-[10px]">
-              <p className="">
-                <span className="font-bold">{el.nome_empresa}</span> {el.endereco ? `- ${el.endereco}` : ""}
-              </p>
-              <a
-                href={`/anunciante/${el.id}`}
-                key={el.id}
-                className="bg-vermelho-2-principal text-branco-4-claro-principal px-5 p-2 rounded-lg"
-              >
-                Ver mais
-              </a>
-            </div>
-          ))}
+          {anunciantes?.length != 0 ? (
+            anunciantes?.map((el) => (
+              <div className="flex flex-wrap items-center gap-[10px]">
+                <p className="">
+                  <span className="font-bold">{el.nome_empresa}</span>{" "}
+                  {el.endereco ? `- ${el.endereco}` : ""}
+                </p>
+                <a
+                  href={`/anunciante/${el.id}`}
+                  key={el.id}
+                  className="bg-vermelho-2-principal text-branco-4-claro-principal px-5 p-2 rounded-lg"
+                >
+                  Ver mais
+                </a>
+              </div>
+            ))
+          ) : (
+            <p className="text-sm">Sem resultados. :/</p>
+          )}
         </div>
-      ) : (
-        <></>
       )}
     </>
   );

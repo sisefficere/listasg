@@ -8,13 +8,16 @@ export default function Breadcrumb() {
 
   return (
     <nav className="flex items-center gap-x-2">
-      {pathParts.map((part, index) => {
+      {pathname != "/" && pathParts.map((part, index) => {
         const href = '/' + pathParts.slice(0, index + 1).join('/');
         return (
-          <span key={index} className="text-sm text-gray-600">
-            <a href={href} className="hover:underline">{part}</a>
-            {index < pathParts.length - 1 && <span className="mx-2">/</span>}
-          </span>
+          <div>
+            
+            <span key={index} className="text-sm text-gray-600">
+              <a href={href} className="hover:underline">{part}</a>
+              {index < pathParts.length - 1 && <span className="mx-2">/</span>}
+            </span>
+          </div>
         );
       })}
     </nav>
