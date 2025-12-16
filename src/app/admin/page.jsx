@@ -24,7 +24,7 @@ export default async function Admin() {
           size="lg"
           className="cursor-pointer w-full max-w-[150px]"
         >
-          <Link href="/admin/taxonomia">
+          <Link href="/admin/categorias">
             <ChartBarStacked /> Categorias
           </Link>
         </Button>
