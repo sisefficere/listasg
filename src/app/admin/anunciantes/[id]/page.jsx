@@ -13,7 +13,7 @@ export default async function AnuncianteId({ params }) {
 
   return (
     <div className="flex flex-col gap-5 items-center w-full">
-      <h3 className="tipo-titulo3">Edição de cadastro</h3>
+      <h3 className="tipo-titulo3 text-center">Anunciante "{dadosAnunciante.nome_empresa}"</h3>
       <Form dados={dadosAnunciante} taxonomia={categorias} />
     </div>
   );

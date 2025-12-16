@@ -127,7 +127,7 @@ export default function Form({ dados, taxonomia, adicionar = false }) {
   });
 
   return (
-    <div className="flex flex-col items-center gap-2 w-full max-w-225">
+    <div className="flex flex-col items-center gap-5 w-full max-w-225">
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -135,146 +135,133 @@ export default function Form({ dados, taxonomia, adicionar = false }) {
         }}
         className="w-full flex flex-col gap-7.5"
       >
-        <fieldset className="flex flex-col gap-5">
-          <div className="flex flex-col gap-3">
-            <div className="w-full flex flex-wrap gap-2.5">
-              <div className="flex gap-2.5 max-sm:flex-wrap w-full">
-                <div className="flex flex-col w-full gap-2 flex-1/5">
-                  <Label>Categoria Pai</Label>
-                  <Popover open={open} onOpenChange={setOpen}>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant="outline"
-                        role="combobox"
-                        aria-expanded={open}
-                        className="w-full justify-between cursor-pointer"
-                      >
-                        {valueCategoriaPai
-                          ? taxonomia.find(
-                              (item) => item.id === valueCategoriaPai
-                            )?.nome
-                          : "Não definida"}
-                        <ChevronsUpDown className="opacity-50" />
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-50 p-0">
-                      <Command>
-                        <CommandInput placeholder="Filtre..." className="h-9" />
-                        <CommandList>
-                          <CommandEmpty>
-                            Nenhuma categoria encontrada.
-                          </CommandEmpty>
-                          <CommandGroup>
-                            <CommandItem
-                              key="01"
-                              value=""
-                              onSelect={() => {
-                                setValueCategoriaPai("");
-                                setOpen(false);
-                              }}
-                            >
-                              Não definida
-                              <Check
-                                className={cn(
-                                  "ml-auto",
-                                  valueCategoriaPai === ""
-                                    ? "opacity-100"
-                                    : "opacity-0"
-                                )}
-                              />
-                            </CommandItem>
-                            {taxonomia.map((item) => {
-                              return (
-                                <CommandItem
-                                  key={item.id}
-                                  value={item.id}
-                                  onSelect={() => {
-                                    setValueCategoriaPai(item.id);
-                                    setOpen(false);
-                                  }}
-                                >
-                                  {item.nome}
-                                  <Check
-                                    className={cn(
-                                      "ml-auto",
-                                      valueCategoriaPai === item.id
-                                        ? "opacity-100"
-                                        : "opacity-0"
-                                    )}
-                                  />
-                                </CommandItem>
-                              );
-                            })}
-                          </CommandGroup>
-                        </CommandList>
-                      </Command>
-                    </PopoverContent>
-                  </Popover>
+        <div className="flex flex-col max-sm:gap-2">
+          <p className="w-full tipo-irrelevante flex flex-col gap-1 text-end">
+            <span>{dados?.createdAt && "Criada em: " + dados.createdAt}</span>
+            <span>
+              {dados?.updatedAt && "Atualizada em: " + dados.updatedAt}
+            </span>
+          </p>
+          <fieldset className="flex flex-col gap-5">
+            <div className="flex flex-col gap-3">
+              <div className="w-full flex flex-wrap gap-2.5">
+                <div className="flex gap-2.5 max-sm:flex-wrap w-full">
+                  <div className="flex flex-col w-full gap-2 flex-1/5">
+                    <Label>Categoria Pai</Label>
+                    <Popover open={open} onOpenChange={setOpen}>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          role="combobox"
+                          aria-expanded={open}
+                          className="w-full justify-between cursor-pointer"
+                        >
+                          {valueCategoriaPai
+                            ? taxonomia.find(
+                                (item) => item.id === valueCategoriaPai
+                              )?.nome
+                            : "Não definida"}
+                          <ChevronsUpDown className="opacity-50" />
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-50 p-0">
+                        <Command>
+                          <CommandInput
+                            placeholder="Filtre..."
+                            className="h-9"
+                          />
+                          <CommandList>
+                            <CommandEmpty>
+                              Nenhuma categoria encontrada.
+                            </CommandEmpty>
+                            <CommandGroup>
+                              <CommandItem
+                                key="01"
+                                value=""
+                                onSelect={() => {
+                                  setValueCategoriaPai("");
+                                  setOpen(false);
+                                }}
+                              >
+                                Não definida
+                                <Check
+                                  className={cn(
+                                    "ml-auto",
+                                    valueCategoriaPai === ""
+                                      ? "opacity-100"
+                                      : "opacity-0"
+                                  )}
+                                />
+                              </CommandItem>
+                              {taxonomia.map((item) => {
+                                return (
+                                  <CommandItem
+                                    key={item.id}
+                                    value={item.id}
+                                    onSelect={() => {
+                                      setValueCategoriaPai(item.id);
+                                      setOpen(false);
+                                    }}
+                                  >
+                                    {item.nome}
+                                    <Check
+                                      className={cn(
+                                        "ml-auto",
+                                        valueCategoriaPai === item.id
+                                          ? "opacity-100"
+                                          : "opacity-0"
+                                      )}
+                                    />
+                                  </CommandItem>
+                                );
+                              })}
+                            </CommandGroup>
+                          </CommandList>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                  <form.Field name="nome">
+                    {(field) => (
+                      <div className="flex flex-col gap-2 w-full flex-4/5">
+                        <Label htmlFor={field.name}>
+                          <p>
+                            Nome da categoria
+                            <span className="font-bold text-vermelho-2-principal">
+                              *
+                            </span>
+                          </p>
+                        </Label>
+                        <Input
+                          id={field.name}
+                          name={field.name}
+                          type="text"
+                          value={field.state.value}
+                          onBlur={field.handleBlur}
+                          placeholder="Digite o nome da categoria."
+                          onChange={(e) => field.handleChange(e.target.value)}
+                        />
+                      </div>
+                    )}
+                  </form.Field>
                 </div>
-                <form.Field name="nome">
+                <form.Field name="descricao">
                   {(field) => (
-                    <div className="flex flex-col gap-2 w-full flex-4/5">
-                      <Label htmlFor={field.name}>
-                        <p>
-                          Nome da categoria
-                          <span className="font-bold text-vermelho-2-principal">
-                            *
-                          </span>
-                        </p>
-                      </Label>
-                      <Input
-                        id={field.name}
-                        name={field.name}
-                        type="text"
+                    <div className="flex flex-col gap-2 flex-5/6">
+                      <Label htmlFor={field.name}>Descrição da categoria</Label>
+                      <Textarea
                         value={field.state.value}
                         onBlur={field.handleBlur}
-                        placeholder="Digite o nome da categoria."
                         onChange={(e) => field.handleChange(e.target.value)}
+                        placeholder="Descreva a categoria."
                       />
                     </div>
                   )}
                 </form.Field>
               </div>
-              <form.Field name="descricao">
-                {(field) => (
-                  <div className="flex flex-col gap-2 flex-5/6">
-                    <Label htmlFor={field.name}>Descrição da categoria</Label>
-                    <Textarea
-                      value={field.state.value}
-                      onBlur={field.handleBlur}
-                      onChange={(e) => field.handleChange(e.target.value)}
-                      placeholder="Descreva a categoria."
-                    />
-                  </div>
-                )}
-              </form.Field>
-              <div className="flex flex-col gap-1.5 w-full">
-                {dados?.children && dados.children.length > 0 && (
-                  <>
-                    <Label>Lista de subcategorias:</Label>
-                    <ul className="flex items-center flex-wrap gap-1">
-                      {dados.children.map((el) => {
-                        return (
-                          <li>
-                            <Button variant="outline" asChild size="sm">
-                              <Link
-                                key={el.id}
-                                href={`/admin/taxonomia/${el.id}`}
-                              >
-                                {el.nome}
-                                <ArrowUpRight />
-                              </Link>
-                            </Button>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </>
-                )}
-              </div>
             </div>
-          </div>
-        </fieldset>
+          </fieldset>
+        </div>
         <div className="w-full flex gap-5 justify-end items-center">
           {/* É necessário validar também os campos fora do padrão como os combobox (por meio dos seus state), a alteração deles não altera o state onChange do form */}
           {mudouAlgo && (
@@ -302,11 +289,59 @@ export default function Form({ dados, taxonomia, adicionar = false }) {
             {adicionar ? "Adicionar" : "Salvar"}
           </button>
         </div>
-        <p className="w-full tipo-irrelevante flex flex-col gap-1 text-end">
-          <span>{dados?.createdAt && "Criado em: " + dados.createdAt}</span>
-          <span>{dados?.updatedAt && "Atualizado em: " + dados.updatedAt}</span>
-        </p>
       </form>
+      <div className="flex flex-col gap-5 w-full">
+        <p className="tipo-enfase text-center">Itens relacionados</p>
+        <div className="flex flex-col gap-3 w-full">
+          <div className="flex gap-1.5 justify-center w-full flex-col">
+            <Label>Subcategorias:</Label>
+            {dados?.children && dados.children.length > 0 ? (
+              <ul className="flex items-center flex-wrap gap-1 pl-3">
+                {dados.children.map((el) => {
+                  return (
+                    <li>
+                      <Button variant="outline" asChild size="sm">
+                        <Link key={el.id} href={`/admin/categorias/${el.id}`}>
+                          {el.nome}
+                          <ArrowUpRight />
+                        </Link>
+                      </Button>
+                    </li>
+                  );
+                })}
+              </ul>
+            ) : (
+              <p className="text-sm pl-3">Não possui.</p>
+            )}
+          </div>
+          <div className="flex gap-1.5 w-full flex-col justify-center">
+            <Label>Anunciantes:</Label>
+            {dados?.anunciantes && dados.anunciantes?.length > 0 ? (
+              <ul className="flex items-center flex-wrap gap-x-2 pl-3">
+                {dados.anunciantes.map((el, index, arr) => {
+                  return (
+                    <>
+                      <li className="text-sm">
+                        <Link
+                          key={el.id}
+                          href={`/admin/anunciantes/${el.id}`}
+                          className="link"
+                          target="_blank"
+                        >
+                          {el.nome_empresa}
+                        </Link>
+                      </li>
+                      {index != arr.length - 1 && <span>|</span>}
+                    </>
+                  );
+                })}
+              </ul>
+            ) : (
+              <p className="text-sm pl-3">Não possui.</p>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

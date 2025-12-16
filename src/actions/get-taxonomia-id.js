@@ -26,8 +26,14 @@ export default async function getTaxonomiaId(id, somenteNome = false) {
         },
         children: {
           select: {
-            id:true,
+            id: true,
             nome: true,
+          },
+        },
+        anunciantes: {
+          select: {
+            id: true,
+            nome_empresa: true,
           },
         },
       },
