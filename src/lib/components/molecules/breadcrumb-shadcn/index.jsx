@@ -43,12 +43,11 @@ export default function BreadcrumbShadcn() {
                   return (
                     <>
                       <BreadcrumbItem>
-                      {index != arr.length - 1 ? (
+                        {index != arr.length - 1 ? (
                           <BreadcrumbLink href={href}>{part}</BreadcrumbLink>
-                        
-                      ):(
-                        <span>{part}</span>
-                      )}
+                        ) : (
+                          <span>{part}</span>
+                        )}
                       </BreadcrumbItem>
                       {index != arr.length - 1 && <BreadcrumbSeparator />}
                     </>

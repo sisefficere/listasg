@@ -3,7 +3,7 @@ import { BriefcaseBusiness } from "lucide-react";
 import { Button } from "@components/ui/button";
 import { ChartBarStacked } from "lucide-react";
 
-export default async function Admin() {
+export default async function Gestao() {
   return (
     <div className="container w-full flex flex-col items-center gap-10">
       <h2 className="tipo-titulo2">Gestão</h2>
@@ -14,7 +14,7 @@ export default async function Admin() {
           size="lg"
           className="cursor-pointer w-full max-w-[150px]"
         >
-          <Link href="/admin/anunciantes">
+          <Link href="/gestao/anunciantes">
             <BriefcaseBusiness /> Anunciantes
           </Link>
         </Button>
@@ -24,7 +24,7 @@ export default async function Admin() {
           size="lg"
           className="cursor-pointer w-full max-w-[150px]"
         >
-          <Link href="/admin/categorias">
+          <Link href="/gestao/categorias">
             <ChartBarStacked /> Categorias
           </Link>
         </Button>

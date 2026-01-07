@@ -74,7 +74,6 @@ export default function RootLayout({ children, search }) {
           <SpeedInsights />
           <div className="flex flex-col gap-5 w-full">
           <Header />
-          <BreadcrumbShadcn />
           </div>
           <div className="estrutura-padding flex flex-col items-center w-full gap-12.5">
             {children}

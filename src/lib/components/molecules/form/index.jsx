@@ -54,7 +54,7 @@ export default function Form({ dados, taxonomia, adicionar = false }) {
       onSubmit: async ({ value }) => {
         upsertAnunciantes(null, value);
         alert("Novo anunciante criado!");
-        redirect("/admin/anunciantes");
+        redirect("/gestao/anunciantes");
       },
       listeners: {
         onChange: ({ formApi }) => {
@@ -84,7 +84,7 @@ export default function Form({ dados, taxonomia, adicionar = false }) {
         upsertAnunciantes(value.id, value);
 
         alert("Cadastro salvo com sucesso");
-        redirect("/admin/anunciantes");
+        redirect("/gestao/anunciantes");
       },
       listeners: {
         onChange: ({ formApi }) => {

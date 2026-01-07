@@ -5,13 +5,11 @@ import Link from "next/link";
 
 export default function PainelButton() {
   const pathname = usePathname();
-
-  console.log(pathname)
   return (
     <>
       {!pathname.includes("admin") && (
         <Link
-          href="/admin"
+          href="/gestao"
           className="flex justify-center gap-2 items-center lsg-botao--feature"
         >
           <svg viewBox="0 0 24 24" className="fill-branco-1-escuro w-[20px]">

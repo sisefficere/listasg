@@ -9,7 +9,7 @@ async function logout() {
 async function login(formData) {
   try {
     await signIn("credentials", formData);
-    return redirect(`/admin`);
+    return redirect(`/gestao`);
   } catch (error) {
     return redirect(`/login?error=true`);
   }

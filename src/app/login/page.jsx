@@ -10,7 +10,7 @@ export const metadata = {
 export default async function Login() {
   const session = await getSession();
   if (session?.user) {
-    return redirect("/admin");
+    return redirect("/gestao");
   }
 
   return (

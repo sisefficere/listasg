@@ -68,7 +68,7 @@ export default function Form({ dados, taxonomia, adicionar = false }) {
 
         alert("Categoria salva com sucesso");
 
-        redirect("/admin/taxonomia");
+        redirect("/gestao/categorias");
       },
       listeners: {
         onChange: ({ formApi }) => {
@@ -88,7 +88,7 @@ export default function Form({ dados, taxonomia, adicionar = false }) {
       onSubmit: async ({ value }) => {
         upsertTaxonomia(value.id, value);
         alert("Categoria salva com sucesso");
-        redirect("/admin/taxonomia");
+        redirect("/gestao/categorias");
       },
       listeners: {
         onChange: ({ formApi }) => {

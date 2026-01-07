@@ -29,7 +29,7 @@ export default async function Taxonomia() {
       <h2 className="tipo-titulo2">Gestão de categorias</h2>
       <div className="flex flex-col gap-2 items-center">
         <Link
-          href="/admin/categorias/criar"
+          href="/gestao/categorias/criar"
           className="lsg-botao--login self-end"
         >
           Adicionar nova
