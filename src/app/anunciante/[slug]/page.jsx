@@ -35,6 +35,8 @@ export default async function Page({ params }) {
   anunciante.email = emails;
   anunciante.website = websites;
 
+  console.log(anunciante)
+
   return (
     <div className="flex flex-col items-center justify-center gap-[50px] w-full">
       <div className="flex flex-col w-full items-center">

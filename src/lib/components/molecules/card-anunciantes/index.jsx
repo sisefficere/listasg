@@ -194,7 +194,7 @@ export default function CardAnunciantes({
             </div>
             {(contatos.whatsapp?.length != 0 ||
             contatos.facebook?.length != 0 ||
-            contatos.instagram?.length) && (
+            contatos.instagram?.length !=0) && (
               <div className="flex flex-wrap gap-2 w-full">
                 {contatos.whatsapp.map((el, index) => (
                   <a
