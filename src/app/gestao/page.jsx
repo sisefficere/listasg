@@ -3,10 +3,14 @@ import { BriefcaseBusiness } from "lucide-react";
 import { Button } from "@components/ui/button";
 import { ChartBarStacked } from "lucide-react";
 
+export const metadata = {
+  title: `Área de gestão - ${process.env.TITULO}`,
+};
+
 export default async function Gestao() {
   return (
     <div className="container w-full flex flex-col items-center gap-10">
-      <h2 className="tipo-titulo2">Gestão</h2>
+      <h2 className="tipo-titulo2 max-sm:text-center">Gestão</h2>
       <div className="flex justify-center gap-10">
         <Button
           asChild

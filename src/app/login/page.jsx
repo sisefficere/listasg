@@ -4,7 +4,7 @@ import FormLogin from "@components/molecules/form-login";
 import { redirect } from "next/navigation";
 
 export const metadata = {
-  title: "Login - ListaSG",
+  title: `Login - ${process.env.TITULO}`,
 };
 
 export default async function Login() {

@@ -3,6 +3,10 @@ import { columns, payments } from "./columns";
 import { DataTable } from "./data-table";
 import getAnunciantes from "@actions/get-anunciantes";
 
+export const metadata = {
+  title: `Gestão de anunciantes - ${process.env.TITULO}`,
+};
+
 export default async function Anunciantes() {
   const select = {
     id: true,

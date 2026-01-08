@@ -1,8 +1,6 @@
-export async function generateMetadata({ params }) {
-  return {
-    title: `Anuncie - ${process.env.TITULO}`,
-  };
-}
+export const metadata = {
+  title: `Anuncie - ${process.env.TITULO}`,
+};
 
 export default function Contato() {
   return (

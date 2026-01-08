@@ -3,6 +3,10 @@ import getTaxonomia from "@actions/get-taxonomia";
 import FormTaxonomia from "@components/molecules/form/--taxonomia";
 import { auth } from "@utils/auth";
 
+export const metadata = {
+  title: `Criar categoria - ${process.env.TITULO}`,
+};
+
 export default async function CriarCategoria({}) {
   const categorias = await getTaxonomia(null, true);
 

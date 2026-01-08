@@ -3,6 +3,12 @@ import getTaxonomia from "@actions/get-taxonomia";
 import Form from "@components/molecules/form";
 import { auth } from "@utils/auth";
 
+
+export const metadata = {
+  title: `Criar anunciante - ${process.env.TITULO}`,
+};
+
+
 export default async function CriarAnunciante({}) {
   const categorias = await getTaxonomia(null, true);
 

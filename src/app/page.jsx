@@ -7,7 +7,7 @@ import Categorias from "@components/organisms/categorias/index.jsx";
 import getTaxonomiasOffset from "@actions/get-taxonomias-offset";
 
 export const metadata = {
-  title: "ListaSG Classificados",
+  title: `${process.env.TITULO}`,
   description: "Aqui você encontra o que precisa",
 };
 

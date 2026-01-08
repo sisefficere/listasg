@@ -4,10 +4,12 @@ import prisma from "@utils/prisma";
 export default async function getTaxonomiaId(id, somenteNome = false) {
   let taxonomia;
 
+  const idInt = parseInt(id)
+
   if (somenteNome) {
     taxonomia = await prisma.taxonomia.findUnique({
       where: {
-        id,
+        id: idInt,
       },
       select: {
         nome: true,
@@ -16,7 +18,7 @@ export default async function getTaxonomiaId(id, somenteNome = false) {
   } else {
     taxonomia = await prisma.taxonomia.findUnique({
       where: {
-        id,
+        id: idInt,
       },
       include: {
         parent: {

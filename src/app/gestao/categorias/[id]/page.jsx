@@ -1,8 +1,20 @@
+import getAnuncianteNomeId from "@actions/get-anunciante-nome";
 import getAnunciantesId from "@actions/get-anunciantes-id";
 import getTaxonomia from "@actions/get-taxonomia";
 import getTaxonomiaId from "@actions/get-taxonomia-id";
 import FormTaxonomia from "@components/molecules/form/--taxonomia";
 import { auth } from "@utils/auth";
+
+export async function generateMetadata({ params }) {
+  // read route params
+  const { id } = await params;
+
+  const categoria = await getTaxonomiaId(id, true)
+
+  return {
+    title: `Editar "${categoria.nome}" - ${process.env.TITULO}`,
+  };
+}
 
 export default async function TaxonomiaId({ params }) {
 

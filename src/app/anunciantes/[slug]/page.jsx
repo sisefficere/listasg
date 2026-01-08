@@ -1,17 +1,12 @@
+import getAnuncianteIdTudo from "@actions/get-anunciante-id-tudo";
+import getAnuncianteNomeId from "@actions/get-anunciante-nome";
 import CardAnunciantes from "@components/molecules/card-anunciantes";
-import prisma from "@utils/prisma";
 
 export async function generateMetadata({ params }) {
   // read route params
   const { slug } = await params;
-  const slugInt = parseInt(slug);
 
-  const anunciante = await prisma.anunciantes.findUnique({
-    where: { id: slugInt },
-    select: {
-      nome_empresa: true,
-    },
-  });
+  const anunciante = await getAnuncianteNomeId(slug);
 
   return {
     title: `${anunciante.nome_empresa} - ${process.env.TITULO}`,
@@ -20,10 +15,7 @@ export async function generateMetadata({ params }) {
 
 export default async function Page({ params }) {
   const { slug } = await params;
-  const slugInt = parseInt(slug);
-  const anunciante = await prisma.anunciantes.findUnique({
-    where: { id: slugInt },
-  });
+  const anunciante = await getAnuncianteIdTudo(slug)
 
   const telefones = anunciante.telefone ? anunciante.telefone.split(",") : [];
   const usuariosFacebook = anunciante.facebook
@@ -61,7 +53,7 @@ export default async function Page({ params }) {
             instagram: anunciante.instagram,
             whatsapp: anunciante.whatsapp,
             email: anunciante.email,
-            website: anunciante.website
+            website: anunciante.website,
           }}
         />
       </div>

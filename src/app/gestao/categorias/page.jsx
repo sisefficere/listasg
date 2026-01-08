@@ -1,8 +1,12 @@
 import getTaxonomia from "@actions/get-taxonomia";
 import { columns, payments } from "./columns";
 import { DataTable } from "./data-table";
-import getAnunciantes from "@actions/get-anunciantes";
 import Link from "next/link";
+
+export const metadata = {
+  title: `Gestão de categorias - ${process.env.TITULO}`,
+};
+
 
 export default async function Taxonomia() {
   const select = {

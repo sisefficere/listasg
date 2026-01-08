@@ -1,3 +1,7 @@
+export const metadata = {
+  title: `Política de Privacidade - ${process.env.TITULO}`,
+};
+
 export default async function Privacidade() {
   return (
     <div className="flex flex-col items-center justify-center gap-[50px] w-full">

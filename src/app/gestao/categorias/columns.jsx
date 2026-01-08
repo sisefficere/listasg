@@ -92,7 +92,7 @@ export const columns = [
       const idAnunciante = row.getValue("id");
       return (
         <div className="flex gap-2 px-5 justify-center items-center">
-          <Link href={`/admin/categorias/${idAnunciante}`}>
+          <Link href={`/gestao/categorias/${idAnunciante}`}>
             <Button size="sm" variant="secondary" className="cursor-pointer">
               <SquarePen /> Editar
             </Button>
