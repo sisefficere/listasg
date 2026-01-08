@@ -10,12 +10,16 @@ export default async function getTaxonomiaIdAnunciantes(id) {
         select: {
           id: true,
           nome_empresa: true,
+          slug: true
+        },
+        orderBy: {
+          slug: "asc",
         },
       },
     },
     where: {
       id: idInt,
-    }
+    },
   });
 
   return anunciantes;

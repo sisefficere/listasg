@@ -2,6 +2,8 @@
 import prisma from "@utils/prisma";
 
 export default async function upsertAnunciantes(id, dados) {
+
+  console.log(dados.src_image)
   const dadosAnunciante = {
     nome_empresa: dados.nome_empresa,
     slug: dados.slug,

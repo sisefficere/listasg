@@ -13,6 +13,8 @@ import upsertAnunciantes from "@actions/upsert-anunciantes";
 import * as React from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
 
+import { redirect } from "next/navigation";
+
 import { cn } from "@public/lib/utils";
 import { Button } from "@components/ui/button";
 import {
@@ -110,6 +112,11 @@ export default function Form({ dados, taxonomia, adicionar = false }) {
   if (valueTaxonomia != dados?.taxonomia) {
     form.state.values.taxonomia =
       valueTaxonomia === "" ? valueTaxonomia : Number.parseInt(valueTaxonomia);
+  }
+  // necessário para inserir o srcImage (não é campo padrão é o widget do cloudinary)
+  if (imagemUrl != dados?.src_image) {
+    form.state.values.src_image =
+      imagemUrl === "" ? dados?.src_image : imagemUrl;
   }
 
   // valida se ocorreu modificação nos campos que não mudam o onChange (imagem e categoria)
@@ -373,6 +380,7 @@ export default function Form({ dados, taxonomia, adicionar = false }) {
                     <CldUploadWidget
                       uploadPreset="pasta-anunciantes"
                       onSuccess={(results) => {
+                        console.log(results?.info.url)
                         setImagemUrl(results?.info.url);
                         setImageUploaded(true);
                       }}
