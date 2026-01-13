@@ -12,6 +12,7 @@ import ImageHandle from "../image-handle";
 import upsertAnunciantes from "@actions/upsert-anunciantes";
 import * as React from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
+import { Switch } from "@components/ui/switch";
 
 import { redirect } from "next/navigation";
 
@@ -52,6 +53,7 @@ export default function Form({ dados, taxonomia, adicionar = false }) {
         facebook: "",
         whatsapp: "",
         website: "",
+        status: true,
       },
       onSubmit: async ({ value }) => {
         upsertAnunciantes(null, value);
@@ -81,6 +83,7 @@ export default function Form({ dados, taxonomia, adicionar = false }) {
         facebook: dados.facebook,
         whatsapp: dados.whatsapp,
         website: dados.website,
+        status: dados.status,
       },
       onSubmit: async ({ value }) => {
         upsertAnunciantes(value.id, value);
@@ -101,33 +104,40 @@ export default function Form({ dados, taxonomia, adicionar = false }) {
     form.store,
     (state) => state.values.nome_empresa
   );
-  const [imagemUrl, setImagemUrl] = useState(dados?.src_image);
-  const [imageUploaded, setImageUploaded] = useState(false);
 
   const [open, setOpen] = useState(false);
+  const [imageUploaded, setImageUploaded] = useState(false);
 
-  // necessário state para campos como o combobox e imagem que não disparam o evento onChange do form
-  const [valueTaxonomia, setValueTaxonomia] = useState(dados?.taxonomia);
-  // necessário para definir o valor do campo parentId dado que comboBox não é um campo padrão do form
-  if (valueTaxonomia != dados?.taxonomia) {
-    form.state.values.taxonomia =
-      valueTaxonomia === "" ? valueTaxonomia : Number.parseInt(valueTaxonomia);
-  }
   // necessário para inserir o srcImage (não é campo padrão é o widget do cloudinary)
+  const [imagemUrl, setImagemUrl] = useState(dados?.src_image);
   if (imagemUrl != dados?.src_image) {
     form.state.values.src_image =
       imagemUrl === "" ? dados?.src_image : imagemUrl;
   }
 
-  // valida se ocorreu modificação nos campos que não mudam o onChange (imagem e categoria)
+  // necessário para definir o valor do campo status dado que switch não é um campo padrão do form
+  const [estadoAnuncio, setEstadoAnuncio] = useState(dados.status);
+  if (estadoAnuncio != dados.status) {
+    form.state.values.status = estadoAnuncio;
+  }
+
+  // necessário para definir o valor do campo parentId dado que comboBox não é um campo padrão do form
+  const [valueTaxonomia, setValueTaxonomia] = useState(dados?.taxonomia);
+  if (valueTaxonomia != dados?.taxonomia) {
+    form.state.values.taxonomia =
+      valueTaxonomia === "" ? valueTaxonomia : Number.parseInt(valueTaxonomia);
+  }
+
+  // valida se ocorreu modificação nos campos que não mudam o onChange (imagem, categoria e status)
   let mudouAlgo;
   if (adicionar) {
-    mudouAlgo = formChanged || valueTaxonomia || imagemUrl;
+    mudouAlgo = formChanged || valueTaxonomia || imagemUrl || estadoAnuncio;
   } else {
     mudouAlgo =
       formChanged ||
       valueTaxonomia != dados.taxonomia ||
-      imagemUrl != dados.src_image;
+      imagemUrl != dados.src_image ||
+      estadoAnuncio != dados.status;
   }
 
   form.state.values.slug = slugify(`${nomeEmpresa}`, {
@@ -146,31 +156,53 @@ export default function Form({ dados, taxonomia, adicionar = false }) {
       >
         <fieldset className="flex flex-col gap-[20px]">
           <div className="flex flex-col gap-[10px]">
-            <div className="w-full flex flex-wrap gap-[10px]">
-              <form.Field name="nome_empresa">
-                {(field) => (
-                  <div className="flex flex-col gap-2 w-full">
-                    <Label htmlFor={field.name}>
-                      <p>
-                        Nome do anunciante
-                        <span className="font-bold text-vermelho-2-principal">
-                          *
-                        </span>
-                      </p>
-                    </Label>
-                    <Input
+            <form.Field name="status">
+              {(field) => (
+                <div className="flex flex-col gap-2 w-full items-end justify-center">
+                  <div className="flex gap-2">
+                    <Label htmlFor={field.name}>Ativo?</Label>
+                    <Switch
                       id={field.name}
                       name={field.name}
-                      type="text"
-                      value={field.state.value}
-                      onBlur={field.handleBlur}
-                      placeholder="Digite o nome do anunciante."
+                      className="cursor-pointer"
+                      checked={estadoAnuncio}
+                      onCheckedChange={() =>
+                        estadoAnuncio
+                          ? setEstadoAnuncio(false)
+                          : setEstadoAnuncio(true)
+                      }
                       onChange={(e) => field.handleChange(e.target.value)}
                     />
                   </div>
-                )}
-              </form.Field>
-            </div>
+                  <p className="tipo-irrelevante text-end">
+                    Clique para alterar<br/>(verde = ativo; vermelho = inativo)
+                  </p>
+                </div>
+              )}
+            </form.Field>
+            <form.Field name="nome_empresa">
+              {(field) => (
+                <div className="flex flex-col gap-2 w-full">
+                  <Label htmlFor={field.name}>
+                    <p>
+                      Nome do anunciante
+                      <span className="font-bold text-vermelho-2-principal">
+                        *
+                      </span>
+                    </p>
+                  </Label>
+                  <Input
+                    id={field.name}
+                    name={field.name}
+                    type="text"
+                    value={field.state.value}
+                    onBlur={field.handleBlur}
+                    placeholder="Digite o nome do anunciante."
+                    onChange={(e) => field.handleChange(e.target.value)}
+                  />
+                </div>
+              )}
+            </form.Field>
             <div className="w-full flex gap-[10px] max-sm:flex-col">
               <form.Field name="endereco" className="">
                 {(field) => (
@@ -221,7 +253,7 @@ export default function Form({ dados, taxonomia, adicionar = false }) {
                   <div className="flex flex-col gap-2 flex-3/12">
                     <Label htmlFor={field.name}>
                       <p>
-                        Telefone 
+                        Telefone
                         <span className="font-bold text-vermelho-2-principal">
                           *
                         </span>
@@ -380,7 +412,6 @@ export default function Form({ dados, taxonomia, adicionar = false }) {
                     <CldUploadWidget
                       uploadPreset="pasta-anunciantes"
                       onSuccess={(results) => {
-                        console.log(results?.info.url)
                         setImagemUrl(results?.info.url);
                         setImageUploaded(true);
                       }}
@@ -429,6 +460,7 @@ export default function Form({ dados, taxonomia, adicionar = false }) {
                 setValueTaxonomia(adicionar ? undefined : dados.taxonomia);
                 setImagemUrl(adicionar ? undefined : dados.src_image);
                 setImageUploaded(false);
+                setEstadoAnuncio(adicionar ? undefined : dados.status);
               }}
             >
               Redefinir

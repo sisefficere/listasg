@@ -25,24 +25,10 @@ model anunciantes {
   whatsapp      String?
   website       String?
   end_ref       String?
-  categorias    categorias?    @relation(fields: [categoria], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ref_categoria")
-  subcategorias subcategorias? @relation(fields: [subcategoria], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ref_subcategoria")
+  status        Boolean?
   taxonomias    taxonomia?     @relation(fields: [taxonomia], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ref_taxonomia")
   createdAt     DateTime       @default(now())
   updatedAt     DateTime?      @updatedAt
-}
-
-model categorias {
-  id             Int             @id @default(autoincrement())
-  nome           String          @unique
-  slug           String?         @unique
-  descricao      String?
-  anunciantes    anunciantes[]
-  classificacao  Int?
-  classificacoes classificacoes? @relation(fields: [classificacao], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "classificacao")
-  subcategorias  subcategorias[]
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime?       @updatedAt
 }
 
 model taxonomia {
@@ -56,27 +42,6 @@ model taxonomia {
   parent         taxonomia?      @relation("Comment Children", fields: [parentId], references: [id]) // categoria pai
   children       taxonomia[]     @relation("Comment Children") // subcategorias
   anunciantes    anunciantes[]
-}
-
-model classificacoes {
-  id         Int          @id @default(autoincrement())
-  nome       String       @unique
-  slug       String?      @unique
-  createdAt  DateTime     @default(now())
-  updatedAt  DateTime?    @updatedAt
-  categorias categorias[]
-}
-
-model subcategorias {
-  id          Int           @id @default(autoincrement())
-  nome        String        @unique
-  slug        String?       @unique
-  categoria   Int?
-  descricao   String?
-  anunciantes anunciantes[]
-  categorias  categorias?   @relation(fields: [categoria], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "categoria")
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime?     @updatedAt
 }
 
 model usuario {
