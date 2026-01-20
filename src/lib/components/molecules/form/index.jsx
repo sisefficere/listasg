@@ -53,9 +53,10 @@ export default function Form({ dados, taxonomia, adicionar = false }) {
         facebook: "",
         whatsapp: "",
         website: "",
-        status: true,
+        ativo: true,
       },
       onSubmit: async ({ value }) => {
+        value.ativo = estadoAnuncio
         upsertAnunciantes(null, value);
         alert("Novo anunciante criado!");
         redirect("/gestao/anunciantes");
@@ -83,11 +84,11 @@ export default function Form({ dados, taxonomia, adicionar = false }) {
         facebook: dados.facebook,
         whatsapp: dados.whatsapp,
         website: dados.website,
-        status: dados.status,
+        ativo: dados.ativo === "" || dados.ativo === null ? false : dados.ativo,
       },
       onSubmit: async ({ value }) => {
+        value.ativo = estadoAnuncio   // necessário para definir o valor do campo dado que o mesmo não é um campo padrão do form, não recebe um input
         upsertAnunciantes(value.id, value);
-
         alert("Cadastro salvo com sucesso");
         redirect("/gestao/anunciantes");
       },
@@ -114,11 +115,10 @@ export default function Form({ dados, taxonomia, adicionar = false }) {
     form.state.values.src_image =
       imagemUrl === "" ? dados?.src_image : imagemUrl;
   }
-
   // necessário para definir o valor do campo status dado que switch não é um campo padrão do form
-  const [estadoAnuncio, setEstadoAnuncio] = useState(dados.status);
-  if (estadoAnuncio != dados.status) {
-    form.state.values.status = estadoAnuncio;
+  const [estadoAnuncio, setEstadoAnuncio] = useState(dados.ativo);
+  if (estadoAnuncio != dados.ativo) {
+    form.state.values.ativo = estadoAnuncio;
   }
 
   // necessário para definir o valor do campo parentId dado que comboBox não é um campo padrão do form
@@ -137,7 +137,7 @@ export default function Form({ dados, taxonomia, adicionar = false }) {
       formChanged ||
       valueTaxonomia != dados.taxonomia ||
       imagemUrl != dados.src_image ||
-      estadoAnuncio != dados.status;
+      estadoAnuncio != dados.ativo;
   }
 
   form.state.values.slug = slugify(`${nomeEmpresa}`, {
@@ -156,30 +156,30 @@ export default function Form({ dados, taxonomia, adicionar = false }) {
       >
         <fieldset className="flex flex-col gap-[20px]">
           <div className="flex flex-col gap-[10px]">
-            <form.Field name="status">
-              {(field) => (
+            <form.Field name="ativo"
+              children={(field) => (
                 <div className="flex flex-col gap-2 w-full items-end justify-center">
                   <div className="flex gap-2">
                     <Label htmlFor={field.name}>Ativo?</Label>
                     <Switch
                       id={field.name}
-                      name={field.name}
                       className="cursor-pointer"
                       checked={estadoAnuncio}
-                      onCheckedChange={() =>
+                      onCheckedChange={() => {
                         estadoAnuncio
                           ? setEstadoAnuncio(false)
-                          : setEstadoAnuncio(true)
-                      }
-                      onChange={(e) => field.handleChange(e.target.value)}
+                          : setEstadoAnuncio(true);
+                      }}
                     />
                   </div>
                   <p className="tipo-irrelevante text-end">
-                    Clique para alterar<br/>(verde = ativo; vermelho = inativo)
+                    Clique para alterar
+                    <br />
+                    (verde = ativo; vermelho = inativo)
                   </p>
                 </div>
               )}
-            </form.Field>
+            />
             <form.Field name="nome_empresa">
               {(field) => (
                 <div className="flex flex-col gap-2 w-full">
@@ -340,10 +340,12 @@ export default function Form({ dados, taxonomia, adicionar = false }) {
                       aria-expanded={open}
                       className="max-sm:w-full sm:w-[200px] justify-between cursor-pointer"
                     >
-                      {valueTaxonomia
-                        ? taxonomia.find((item) => item.id === valueTaxonomia)
-                            ?.nome
-                        : "Selecione uma categoria..."}
+                      <span className="w-[90%] overflow-clip">
+                        {valueTaxonomia
+                          ? taxonomia.find((item) => item.id === valueTaxonomia)
+                              ?.nome
+                          : "Selecione uma categoria..."}
+                      </span>
                       <ChevronsUpDown className="opacity-50" />
                     </Button>
                   </PopoverTrigger>
@@ -364,6 +366,7 @@ export default function Form({ dados, taxonomia, adicionar = false }) {
                                   setValueTaxonomia(item.id);
                                   setOpen(false);
                                 }}
+                                className="wrap-break-word"
                               >
                                 {item.nome}
                                 <Check
@@ -460,7 +463,7 @@ export default function Form({ dados, taxonomia, adicionar = false }) {
                 setValueTaxonomia(adicionar ? undefined : dados.taxonomia);
                 setImagemUrl(adicionar ? undefined : dados.src_image);
                 setImageUploaded(false);
-                setEstadoAnuncio(adicionar ? undefined : dados.status);
+                setEstadoAnuncio(adicionar ? undefined : dados.ativo);
               }}
             >
               Redefinir

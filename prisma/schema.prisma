@@ -25,7 +25,7 @@ model anunciantes {
   whatsapp      String?
   website       String?
   end_ref       String?
-  status        Boolean?
+  ativo        Boolean?
   taxonomias    taxonomia?     @relation(fields: [taxonomia], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ref_taxonomia")
   createdAt     DateTime       @default(now())
   updatedAt     DateTime?      @updatedAt
