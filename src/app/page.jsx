@@ -22,7 +22,7 @@ export default async function Home({ searchParams }) {
   const {taxonomia, totalCategorias} = await getTaxonomiasOffset(currentCatPage, catPerPage);
 
   return (
-    <div className="flex flex-col items-center justify-center gap-[25px]">
+    <div className="flex flex-col items-center justify-center gap-6.25">
       <div className="flex flex-col w-full items-center">
         <h1 className="tipo-titulo1">Bem vindo(a)!</h1>
       </div>

@@ -21,14 +21,14 @@ export default function CardAnunciantes({
   return (
     <div
       id={id}
-      className={`w-full max-w-[800px] items-center relative ${
+      className={`w-full max-w-[800px] items-center ${
         comBorda && "border-vermelho-3 p-5 rounded-[5px] border-2"
       } flex flex-wrap justify-center gap-10`}
     >
       <ImageHandle srcImage={srcImage} id={id}/>
       <div className="flex flex-col gap-5 w-full break-words max-w-[500px]">
         <div className="flex flex-col w-full">
-          {nome != "" && <h3 className="tipo-titulo3 break-words">{nome}</h3>}
+          {nome != "" && <h4 className="tipo-titulo4 break-words">{nome}</h4>}
           {descricao && <p className="break-words">{descricao}</p>}
         </div>
         <div className="flex flex-col gap-5">
@@ -101,7 +101,7 @@ export default function CardAnunciantes({
             </div>
           )}
           <div className="flex flex-col gap-[15px]">
-            <h4 className="tipo-titulo4">Contatos</h4>
+            <p className="tipo-enfase">Contatos</p>
             <div className="flex flex-wrap gap-3">
               {contatos.telefones?.length != 0 && (
                 <div className="flex flex-col gap-1 items-start">

@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
-export default function Paginacao({ perPage, totalItems }) {
+export default function Paginacao({ perPage, totalItems, pagina = "/" }) {
   const searchParams = useSearchParams();
   const paramsPage = new URLSearchParams(searchParams);
   const totalPages= Math.ceil(totalItems / perPage);
@@ -16,7 +16,7 @@ export default function Paginacao({ perPage, totalItems }) {
         <Link
           className="lsg-botao"
           href={{
-            pathname: "/",
+            pathname: pagina,
             query: {
               catPage: catPage - 1,
             },
@@ -46,7 +46,7 @@ export default function Paginacao({ perPage, totalItems }) {
         <Link
           className="lsg-botao"
           href={{
-            pathname: "/",
+            pathname: pagina,
             query: {
               
             },
@@ -62,7 +62,7 @@ export default function Paginacao({ perPage, totalItems }) {
         <Link
           className="lsg-botao"
           href={{
-            pathname: "/",
+            pathname: pagina,
             query: {
               catPage: catPage + 1,
             },

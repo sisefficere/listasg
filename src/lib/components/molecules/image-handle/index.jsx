@@ -40,12 +40,13 @@ export default function ImageHandle({ srcImage, id, imgWidthClass, boxShadow = n
       />
       <dialog
         id={idModal}
-        className={`md:top-[20px] flex w-full h-full justify-center items-center bg-[transparent] ${
+        className={`md:top-[20px] flex w-full h-full justify-center items-center bg-transparent ${
           zoomedImage ? "flex" : "hidden"
         }`}
       >
         <div
           className="absolute z-0 h-full w-full"
+          style={{backdropFilter: "blur(10px)"}}
           onClick={() => closeZoomedImage(idModal)}
         ></div>
         <div className="z-[1000] flex w-full max-w-[400px] items-center gap-5 h-full overflow-visible">

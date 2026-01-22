@@ -17,26 +17,6 @@ export default async function Page({ params }) {
   const { slug } = await params;
   const anunciante = await getAnuncianteIdTudo(slug)
 
-  const telefones = anunciante.telefone ? anunciante.telefone.split(",") : [];
-  const usuariosFacebook = anunciante.facebook
-    ? anunciante.facebook.split(",")
-    : [];
-  const usuariosWpp = anunciante.whatsapp ? anunciante.whatsapp.split(",") : [];
-  const usuariosInstagram = anunciante.instagram
-    ? anunciante.instagram.split(",")
-    : [];
-  const emails = anunciante.email ? anunciante.email.split(",") : [];
-  const websites = anunciante.website ? anunciante.website.split(",") : [];
-
-  anunciante.telefone = telefones;
-  anunciante.facebook = usuariosFacebook;
-  anunciante.whatsapp = usuariosWpp;
-  anunciante.instagram = usuariosInstagram;
-  anunciante.email = emails;
-  anunciante.website = websites;
-
-  console.log(anunciante)
-
   return (
     <div className="flex flex-col items-center justify-center gap-[50px] w-full">
       <div className="flex flex-col w-full items-center">
@@ -50,12 +30,12 @@ export default async function Page({ params }) {
           endRef={anunciante.end_ref}
           comBorda={false}
           contatos={{
-            telefones: anunciante.telefone,
-            facebook: anunciante.facebook,
-            instagram: anunciante.instagram,
-            whatsapp: anunciante.whatsapp,
-            email: anunciante.email,
-            website: anunciante.website,
+            telefones: anunciante.telefone ? anunciante.telefone.split(",") : [],
+              facebook: anunciante.facebook ? anunciante.facebook.split(",") : [],
+              instagram: anunciante.instagram ? anunciante.instagram.split(",") : [],
+              whatsapp: anunciante.whatsapp ? anunciante.whatsapp.split(",") : [],
+              email: anunciante.email ? anunciante.email.split(",") : [],
+              website: anunciante.website ? anunciante.website.split(",") : [],
           }}
         />
       </div>
