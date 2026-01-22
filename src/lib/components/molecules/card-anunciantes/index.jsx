@@ -1,4 +1,5 @@
 import ImageHandle from "@components/molecules/image-handle";
+import Link from "next/link";
 
 export default function CardAnunciantes({
   srcImage,
@@ -28,7 +29,7 @@ export default function CardAnunciantes({
       <ImageHandle srcImage={srcImage} id={id}/>
       <div className="flex flex-col gap-5 w-full break-words max-w-[500px]">
         <div className="flex flex-col w-full">
-          {nome != "" && <h4 className="tipo-titulo4 break-words">{nome}</h4>}
+          {nome != "" && <Link className="tipo-titulo4 break-words" href={`/anunciante/${id}`}>{nome}</Link>}
           {descricao && <p className="break-words">{descricao}</p>}
         </div>
         <div className="flex flex-col gap-5">

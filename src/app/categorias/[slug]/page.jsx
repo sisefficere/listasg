@@ -29,6 +29,7 @@ export default async function Page({ params }) {
       <ul className="max-md:flex max-md:flex-wrap md:grid md:grid-cols-3 justify-center gap-2.5 w-full">
         {categoria.anunciantes.map((el) => (
           <CardAnunciantes
+            id={el.id}
             nome={el.nome_empresa}
             srcImage={el.src_image}
             descricao={el.descricao}
